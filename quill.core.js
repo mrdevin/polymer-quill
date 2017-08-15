@@ -1,5 +1,5 @@
 /*!
- * Quill Editor v1.2.4
+ * Quill Editor v1.3.1
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
  * Copyright (c) 2013, salesforce.com
@@ -49,9 +49,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -79,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 140);
+/******/ 	return __webpack_require__(__webpack_require__.s = 110);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -89,18 +86,18 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var container_1 = __webpack_require__(21);
-var format_1 = __webpack_require__(22);
-var leaf_1 = __webpack_require__(23);
-var scroll_1 = __webpack_require__(63);
-var inline_1 = __webpack_require__(62);
-var block_1 = __webpack_require__(60);
-var embed_1 = __webpack_require__(61);
-var text_1 = __webpack_require__(64);
-var attributor_1 = __webpack_require__(13);
-var class_1 = __webpack_require__(31);
+var container_1 = __webpack_require__(17);
+var format_1 = __webpack_require__(18);
+var leaf_1 = __webpack_require__(19);
+var scroll_1 = __webpack_require__(45);
+var inline_1 = __webpack_require__(46);
+var block_1 = __webpack_require__(47);
+var embed_1 = __webpack_require__(48);
+var text_1 = __webpack_require__(49);
+var attributor_1 = __webpack_require__(12);
+var class_1 = __webpack_require__(32);
 var style_1 = __webpack_require__(33);
-var store_1 = __webpack_require__(32);
+var store_1 = __webpack_require__(31);
 var Registry = __webpack_require__(1);
 var Parchment = {
     Scope: Registry.Scope,
@@ -283,7 +280,7 @@ exports.register = register;
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(56);
+var diff = __webpack_require__(51);
 var equal = __webpack_require__(11);
 var extend = __webpack_require__(3);
 var op = __webpack_require__(20);
@@ -601,10 +598,9 @@ module.exports = Delta;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
+'use strict';
 
 var hasOwn = Object.prototype.hasOwnProperty;
 var toStr = Object.prototype.toString;
@@ -720,19 +716,15 @@ var _parchment = __webpack_require__(0);
 
 var _parchment2 = _interopRequireDefault(_parchment);
 
-var _break = __webpack_require__(17);
+var _break = __webpack_require__(15);
 
 var _break2 = _interopRequireDefault(_break);
 
-var _embed = __webpack_require__(7);
-
-var _embed2 = _interopRequireDefault(_embed);
-
-var _inline = __webpack_require__(8);
+var _inline = __webpack_require__(6);
 
 var _inline2 = _interopRequireDefault(_inline);
 
-var _text = __webpack_require__(12);
+var _text = __webpack_require__(7);
 
 var _text2 = _interopRequireDefault(_text);
 
@@ -746,8 +738,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var NEWLINE_LENGTH = 1;
 
-var BlockEmbed = function (_Embed) {
-  _inherits(BlockEmbed, _Embed);
+var BlockEmbed = function (_Parchment$Embed) {
+  _inherits(BlockEmbed, _Parchment$Embed);
 
   function BlockEmbed() {
     _classCallCheck(this, BlockEmbed);
@@ -793,7 +785,7 @@ var BlockEmbed = function (_Embed) {
   }]);
 
   return BlockEmbed;
-}(_embed2.default);
+}(_parchment2.default.Embed);
 
 BlockEmbed.scope = _parchment2.default.Scope.BLOCK_BLOT;
 // It is important for cursor behavior BlockEmbeds use tags that are block level elements
@@ -892,8 +884,8 @@ var Block = function (_Parchment$Block) {
     }
   }, {
     key: 'optimize',
-    value: function optimize() {
-      _get(Block.prototype.__proto__ || Object.getPrototypeOf(Block.prototype), 'optimize', this).call(this);
+    value: function optimize(context) {
+      _get(Block.prototype.__proto__ || Object.getPrototypeOf(Block.prototype), 'optimize', this).call(this, context);
       this.cache = {};
     }
   }, {
@@ -935,7 +927,7 @@ var Block = function (_Parchment$Block) {
 Block.blotName = 'block';
 Block.tagName = 'P';
 Block.defaultChild = 'break';
-Block.allowedChildren = [_inline2.default, _embed2.default, _text2.default];
+Block.allowedChildren = [_inline2.default, _parchment2.default.Embed, _text2.default];
 
 function bubbleFormats(blot) {
   var formats = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -964,78 +956,6 @@ exports.default = Block;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-var _eventemitter = __webpack_require__(55);
-
-var _eventemitter2 = _interopRequireDefault(_eventemitter);
-
-var _logger = __webpack_require__(10);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var debug = (0, _logger2.default)('quill:events');
-
-var Emitter = function (_EventEmitter) {
-  _inherits(Emitter, _EventEmitter);
-
-  function Emitter() {
-    _classCallCheck(this, Emitter);
-
-    var _this = _possibleConstructorReturn(this, (Emitter.__proto__ || Object.getPrototypeOf(Emitter)).call(this));
-
-    _this.on('error', debug.error);
-    return _this;
-  }
-
-  _createClass(Emitter, [{
-    key: 'emit',
-    value: function emit() {
-      debug.log.apply(debug, arguments);
-      _get(Emitter.prototype.__proto__ || Object.getPrototypeOf(Emitter.prototype), 'emit', this).apply(this, arguments);
-    }
-  }]);
-
-  return Emitter;
-}(_eventemitter2.default);
-
-Emitter.events = {
-  EDITOR_CHANGE: 'editor-change',
-  SCROLL_BEFORE_UPDATE: 'scroll-before-update',
-  SCROLL_OPTIMIZE: 'scroll-optimize',
-  SCROLL_UPDATE: 'scroll-update',
-  SELECTION_CHANGE: 'selection-change',
-  TEXT_CHANGE: 'text-change'
-};
-Emitter.sources = {
-  API: 'api',
-  SILENT: 'silent',
-  USER: 'user'
-};
-
-exports.default = Emitter;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 exports.default = exports.overload = exports.expandConfig = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1044,17 +964,17 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(43);
+__webpack_require__(50);
 
 var _quillDelta = __webpack_require__(2);
 
 var _quillDelta2 = _interopRequireDefault(_quillDelta);
 
-var _editor = __webpack_require__(14);
+var _editor = __webpack_require__(13);
 
 var _editor2 = _interopRequireDefault(_editor);
 
-var _emitter3 = __webpack_require__(5);
+var _emitter3 = __webpack_require__(8);
 
 var _emitter4 = _interopRequireDefault(_emitter3);
 
@@ -1066,7 +986,7 @@ var _parchment = __webpack_require__(0);
 
 var _parchment2 = _interopRequireDefault(_parchment);
 
-var _selection = __webpack_require__(15);
+var _selection = __webpack_require__(14);
 
 var _selection2 = _interopRequireDefault(_selection);
 
@@ -1078,7 +998,7 @@ var _logger = __webpack_require__(10);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _theme = __webpack_require__(29);
+var _theme = __webpack_require__(34);
 
 var _theme2 = _interopRequireDefault(_theme);
 
@@ -1164,11 +1084,11 @@ var Quill = function () {
     this.container.__quill = this;
     this.root = this.addContainer('ql-editor');
     this.root.classList.add('ql-blank');
+    this.root.setAttribute('data-gramm', false);
     this.scrollingContainer = this.options.scrollingContainer || this.root;
     this.emitter = new _emitter4.default();
     this.scroll = _parchment2.default.create(this.root, {
       emitter: this.emitter,
-      scrollingContainer: this.scrollingContainer,
       whitelist: this.options.formats
     });
     this.editor = new _editor2.default(this.scroll);
@@ -1255,7 +1175,7 @@ var Quill = function () {
       var scrollTop = this.scrollingContainer.scrollTop;
       this.selection.focus();
       this.scrollingContainer.scrollTop = scrollTop;
-      this.selection.scrollIntoView();
+      this.scrollIntoView();
     }
   }, {
     key: 'format',
@@ -1508,6 +1428,11 @@ var Quill = function () {
       }, source, index);
     }
   }, {
+    key: 'scrollIntoView',
+    value: function scrollIntoView() {
+      this.selection.scrollIntoView(this.scrollingContainer);
+    }
+  }, {
     key: 'setContents',
     value: function setContents(delta) {
       var _this10 = this;
@@ -1543,9 +1468,9 @@ var Quill = function () {
         source = _overload16[3];
 
         this.selection.setRange(new _selection.Range(index, length), source);
-      }
-      if (source !== _emitter4.default.sources.SILENT) {
-        this.selection.scrollIntoView();
+        if (source !== _emitter4.default.sources.SILENT) {
+          this.selection.scrollIntoView(this.scrollingContainer);
+        }
       }
     }
   }, {
@@ -1595,7 +1520,7 @@ Quill.DEFAULTS = {
 Quill.events = _emitter4.default.events;
 Quill.sources = _emitter4.default.sources;
 // eslint-disable-next-line no-undef
-Quill.version =  false ? 'dev' : "1.2.4";
+Quill.version =  false ? 'dev' : "1.3.1";
 
 Quill.imports = {
   'delta': _quillDelta2.default,
@@ -1727,7 +1652,7 @@ function shiftRange(range, index, length, source) {
       end = void 0;
   if (index instanceof _quillDelta2.default) {
     var _map = [range.index, range.index + range.length].map(function (pos) {
-      return index.transformPosition(pos, source === _emitter4.default.sources.USER);
+      return index.transformPosition(pos, source !== _emitter4.default.sources.USER);
     });
 
     var _map2 = _slicedToArray(_map, 2);
@@ -1736,7 +1661,7 @@ function shiftRange(range, index, length, source) {
     end = _map2[1];
   } else {
     var _map3 = [range.index, range.index + range.length].map(function (pos) {
-      if (pos < index || pos === index && source !== _emitter4.default.sources.USER) return pos;
+      if (pos < index || pos === index && source === _emitter4.default.sources.USER) return pos;
       if (length >= 0) {
         return pos + length;
       } else {
@@ -1757,44 +1682,7 @@ exports.overload = overload;
 exports.default = Quill;
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _parchment = __webpack_require__(0);
-
-var _parchment2 = _interopRequireDefault(_parchment);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Embed = function (_Parchment$Embed) {
-  _inherits(Embed, _Parchment$Embed);
-
-  function Embed() {
-    _classCallCheck(this, Embed);
-
-    return _possibleConstructorReturn(this, (Embed.__proto__ || Object.getPrototypeOf(Embed)).apply(this, arguments));
-  }
-
-  return Embed;
-}(_parchment2.default.Embed);
-
-exports.default = Embed;
-
-/***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1808,11 +1696,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
-var _embed = __webpack_require__(7);
-
-var _embed2 = _interopRequireDefault(_embed);
-
-var _text = __webpack_require__(12);
+var _text = __webpack_require__(7);
 
 var _text2 = _interopRequireDefault(_text);
 
@@ -1851,8 +1735,8 @@ var Inline = function (_Parchment$Inline) {
     }
   }, {
     key: 'optimize',
-    value: function optimize() {
-      _get(Inline.prototype.__proto__ || Object.getPrototypeOf(Inline.prototype), 'optimize', this).call(this);
+    value: function optimize(context) {
+      _get(Inline.prototype.__proto__ || Object.getPrototypeOf(Inline.prototype), 'optimize', this).call(this, context);
       if (this.parent instanceof Inline && Inline.compare(this.statics.blotName, this.parent.statics.blotName) > 0) {
         var parent = this.parent.isolate(this.offset(), this.length());
         this.moveChildren(parent);
@@ -1879,13 +1763,166 @@ var Inline = function (_Parchment$Inline) {
   return Inline;
 }(_parchment2.default.Inline);
 
-Inline.allowedChildren = [Inline, _embed2.default, _text2.default];
+Inline.allowedChildren = [Inline, _parchment2.default.Embed, _text2.default];
 // Lower index means deeper in the DOM tree, since not found (-1) is for embeds
 Inline.order = ['cursor', 'inline', // Must be lower
-'code', 'underline', 'strike', 'italic', 'bold', 'script', 'link' // Must be higher
+'underline', 'strike', 'italic', 'bold', 'script', 'link', 'code' // Must be higher
 ];
 
 exports.default = Inline;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _parchment = __webpack_require__(0);
+
+var _parchment2 = _interopRequireDefault(_parchment);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TextBlot = function (_Parchment$Text) {
+  _inherits(TextBlot, _Parchment$Text);
+
+  function TextBlot() {
+    _classCallCheck(this, TextBlot);
+
+    return _possibleConstructorReturn(this, (TextBlot.__proto__ || Object.getPrototypeOf(TextBlot)).apply(this, arguments));
+  }
+
+  return TextBlot;
+}(_parchment2.default.Text);
+
+exports.default = TextBlot;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _eventemitter = __webpack_require__(54);
+
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
+
+var _logger = __webpack_require__(10);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var debug = (0, _logger2.default)('quill:events');
+
+var EVENTS = ['selectionchange', 'mousedown', 'mouseup'];
+
+EVENTS.forEach(function (eventName) {
+  document.addEventListener(eventName, function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    [].slice.call(document.querySelectorAll('.ql-container')).forEach(function (node) {
+      // TODO use WeakMap
+      if (node.__quill && node.__quill.emitter) {
+        var _node$__quill$emitter;
+
+        (_node$__quill$emitter = node.__quill.emitter).handleDOM.apply(_node$__quill$emitter, args);
+      }
+    });
+  });
+});
+
+var Emitter = function (_EventEmitter) {
+  _inherits(Emitter, _EventEmitter);
+
+  function Emitter() {
+    _classCallCheck(this, Emitter);
+
+    var _this = _possibleConstructorReturn(this, (Emitter.__proto__ || Object.getPrototypeOf(Emitter)).call(this));
+
+    _this.listeners = {};
+    _this.on('error', debug.error);
+    return _this;
+  }
+
+  _createClass(Emitter, [{
+    key: 'emit',
+    value: function emit() {
+      debug.log.apply(debug, arguments);
+      _get(Emitter.prototype.__proto__ || Object.getPrototypeOf(Emitter.prototype), 'emit', this).apply(this, arguments);
+    }
+  }, {
+    key: 'handleDOM',
+    value: function handleDOM(event) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+
+      (this.listeners[event.type] || []).forEach(function (_ref) {
+        var node = _ref.node,
+            handler = _ref.handler;
+
+        if (event.target === node || node.contains(event.target)) {
+          handler.apply(undefined, [event].concat(args));
+        }
+      });
+    }
+  }, {
+    key: 'listenDOM',
+    value: function listenDOM(eventName, node, handler) {
+      if (!this.listeners[eventName]) {
+        this.listeners[eventName] = [];
+      }
+      this.listeners[eventName].push({ node: node, handler: handler });
+    }
+  }]);
+
+  return Emitter;
+}(_eventemitter2.default);
+
+Emitter.events = {
+  EDITOR_CHANGE: 'editor-change',
+  SCROLL_BEFORE_UPDATE: 'scroll-before-update',
+  SCROLL_OPTIMIZE: 'scroll-optimize',
+  SCROLL_UPDATE: 'scroll-update',
+  SELECTION_CHANGE: 'selection-change',
+  TEXT_CHANGE: 'text-change'
+};
+Emitter.sources = {
+  API: 'api',
+  SILENT: 'silent',
+  USER: 'user'
+};
+
+exports.default = Emitter;
 
 /***/ }),
 /* 9 */
@@ -1928,11 +1965,13 @@ var level = 'warn';
 
 function debug(method) {
   if (levels.indexOf(method) <= levels.indexOf(level)) {
+    var _console;
+
     for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
 
-    console[method].apply(console, args); // eslint-disable-line no-console
+    (_console = console)[method].apply(_console, args); // eslint-disable-line no-console
   }
 }
 
@@ -1954,7 +1993,7 @@ exports.default = namespace;
 /***/ (function(module, exports, __webpack_require__) {
 
 var pSlice = Array.prototype.slice;
-var objectKeys = __webpack_require__(54);
+var objectKeys = __webpack_require__(52);
 var isArguments = __webpack_require__(53);
 
 var deepEqual = module.exports = function (actual, expected, opts) {
@@ -2055,43 +2094,6 @@ function objEquiv(a, b, opts) {
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _parchment = __webpack_require__(0);
-
-var _parchment2 = _interopRequireDefault(_parchment);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TextBlot = function (_Parchment$Text) {
-  _inherits(TextBlot, _Parchment$Text);
-
-  function TextBlot() {
-    _classCallCheck(this, TextBlot);
-
-    return _possibleConstructorReturn(this, (TextBlot.__proto__ || Object.getPrototypeOf(TextBlot)).apply(this, arguments));
-  }
-
-  return TextBlot;
-}(_parchment2.default.Text);
-
-exports.default = TextBlot;
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
 Object.defineProperty(exports, "__esModule", { value: true });
 var Registry = __webpack_require__(1);
 var Attributor = (function () {
@@ -2141,7 +2143,7 @@ exports.default = Attributor;
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2173,7 +2175,7 @@ var _code = __webpack_require__(16);
 
 var _code2 = _interopRequireDefault(_code);
 
-var _cursor = __webpack_require__(25);
+var _cursor = __webpack_require__(23);
 
 var _cursor2 = _interopRequireDefault(_cursor);
 
@@ -2181,7 +2183,11 @@ var _block = __webpack_require__(4);
 
 var _block2 = _interopRequireDefault(_block);
 
-var _clone = __webpack_require__(19);
+var _break = __webpack_require__(15);
+
+var _break2 = _interopRequireDefault(_break);
+
+var _clone = __webpack_require__(21);
 
 var _clone2 = _interopRequireDefault(_clone);
 
@@ -2217,7 +2223,7 @@ var Editor = function () {
       var consumeNextNewline = false;
       this.scroll.update();
       var scrollLength = this.scroll.length();
-      this.scroll.batch = true;
+      this.scroll.batchStart();
       delta = normalizeDelta(delta);
       delta.reduce(function (index, op) {
         var length = op.retain || op.delete || op.insert.length || 1;
@@ -2267,8 +2273,7 @@ var Editor = function () {
         }
         return index + (op.retain || op.insert.length || 1);
       }, 0);
-      this.scroll.batch = false;
-      this.scroll.optimize();
+      this.scroll.batchEnd();
       return this.update(delta);
     }
   }, {
@@ -2396,8 +2401,10 @@ var Editor = function () {
     value: function isBlank() {
       if (this.scroll.children.length == 0) return true;
       if (this.scroll.children.length > 1) return false;
-      var child = this.scroll.children.head;
-      return child.length() <= 1 && Object.keys(child.formats()).length == 0;
+      var block = this.scroll.children.head;
+      if (block.statics.blotName !== _block2.default.blotName) return false;
+      if (block.children.length > 1) return false;
+      return block.children.head instanceof _break2.default;
     }
   }, {
     key: 'removeFormat',
@@ -2504,7 +2511,7 @@ function normalizeDelta(delta) {
 exports.default = Editor;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2523,7 +2530,11 @@ var _parchment = __webpack_require__(0);
 
 var _parchment2 = _interopRequireDefault(_parchment);
 
-var _clone = __webpack_require__(19);
+var _embed = __webpack_require__(24);
+
+var _embed2 = _interopRequireDefault(_embed);
+
+var _clone = __webpack_require__(21);
 
 var _clone2 = _interopRequireDefault(_clone);
 
@@ -2531,7 +2542,7 @@ var _deepEqual = __webpack_require__(11);
 
 var _deepEqual2 = _interopRequireDefault(_deepEqual);
 
-var _emitter3 = __webpack_require__(5);
+var _emitter3 = __webpack_require__(8);
 
 var _emitter4 = _interopRequireDefault(_emitter3);
 
@@ -2566,22 +2577,49 @@ var Selection = function () {
     this.scroll = scroll;
     this.composing = false;
     this.root = this.scroll.domNode;
-    this.rootNode = this.root.getRootNode();
     this.root.addEventListener('compositionstart', function () {
       _this.composing = true;
     });
     this.root.addEventListener('compositionend', function () {
       _this.composing = false;
+      if (_this.cursor.parent) {
+        var range = _this.cursor.restore();
+        if (!range) return;
+        setTimeout(function () {
+          _this.setNativeRange(range.startNode, range.startOffset, range.endNode, range.endOffset);
+        }, 1);
+      }
     });
     this.cursor = _parchment2.default.create('cursor', this);
     // savedRange is last non-null range
     this.lastRange = this.savedRange = new Range(0, 0);
-    ['keyup', 'mouseup', 'mouseleave', 'touchend', 'touchleave', 'focus', 'blur'].forEach(function (eventName) {
-      _this.root.addEventListener(eventName, function () {
-        // When range used to be a selection and user click within the selection,
-        // the range now being a cursor has not updated yet without setTimeout
-        setTimeout(_this.update.bind(_this, _emitter4.default.sources.USER), 100);
-      });
+    this.root.addEventListener('click', function (e) {
+      var blot = _parchment2.default.find(e.target, true);
+      var selectedNode = document.querySelector('.ql-embed-selected');
+      if (selectedNode) {
+        selectedNode.classList.remove('ql-embed-selected');
+      }
+      if (blot instanceof _parchment2.default.Embed) {
+        blot.domNode.classList.add('ql-embed-selected');
+        var range = new Range(blot.offset(scroll), blot.length());
+        _this.setRange(range, _emitter4.default.sources.USER);
+        e.stopPropagation();
+      }
+    });
+    var mouseCount = 0;
+    this.emitter.listenDOM('mousedown', document.body, function () {
+      mouseCount += 1;
+    });
+    this.emitter.listenDOM('mouseup', document.body, function () {
+      mouseCount -= 1;
+      if (mouseCount === 0) {
+        _this.update(_emitter4.default.sources.USER);
+      }
+    });
+    this.emitter.listenDOM('selectionchange', document, function () {
+      if (mouseCount === 0) {
+        setTimeout(_this.update.bind(_this, _emitter4.default.sources.USER), 1);
+      }
     });
     this.emitter.on(_emitter4.default.events.EDITOR_CHANGE, function (type, delta) {
       if (type === _emitter4.default.events.TEXT_CHANGE && delta.length() > 0) {
@@ -2600,10 +2638,61 @@ var Selection = function () {
         } catch (ignored) {}
       });
     });
+    this.emitter.on(_emitter4.default.events.SCROLL_OPTIMIZE, function (mutations, context) {
+      if (context.range) {
+        var _context$range = context.range,
+            startNode = _context$range.startNode,
+            startOffset = _context$range.startOffset,
+            endNode = _context$range.endNode,
+            endOffset = _context$range.endOffset;
+
+        _this.setNativeRange(startNode, startOffset, endNode, endOffset);
+      }
+    });
     this.update(_emitter4.default.sources.SILENT);
   }
 
   _createClass(Selection, [{
+    key: 'fixInlineEmbed',
+    value: function fixInlineEmbed(native) {
+      if (native == null) return;
+
+      var _map = [native.start, native.end].map(function (pos) {
+        var blot = _parchment2.default.find(pos.node, true);
+        if (blot instanceof _embed2.default) {
+          var node = void 0,
+              offset = void 0;
+          if (pos.node === blot.leftGuard && pos.offset === 1) {
+            var _blot$position = blot.position(blot.length());
+
+            var _blot$position2 = _slicedToArray(_blot$position, 2);
+
+            node = _blot$position2[0];
+            offset = _blot$position2[1];
+
+            return { node: node, offset: offset };
+          } else if (pos.node === blot.rightGuard && pos.offset === 0) {
+            var _blot$position3 = blot.position(0);
+
+            var _blot$position4 = _slicedToArray(_blot$position3, 2);
+
+            node = _blot$position4[0];
+            offset = _blot$position4[1];
+
+            return { node: node, offset: offset };
+          }
+        }
+        return pos;
+      }),
+          _map2 = _slicedToArray(_map, 2),
+          start = _map2[0],
+          end = _map2[1];
+
+      if (native.start !== start || native.end !== end) {
+        this.setNativeRange(start.node, start.offset, end.node, end.offset);
+      }
+    }
+  }, {
     key: 'focus',
     value: function focus() {
       if (this.hasFocus()) return;
@@ -2706,15 +2795,9 @@ var Selection = function () {
       }
     }
   }, {
-    key: 'getNativeSelection',
-    value: function getNativeSelection() {
-      // HACK: some browsers put getSelection() on the ShadowRoot and some don't so test for it on rootNode
-      return typeof this.rootNode.getSelection === 'function' ? this.rootNode.getSelection() : document.getSelection();
-    }
-  }, {
     key: 'getNativeRange',
     value: function getNativeRange() {
-      var selection = this.getNativeSelection();
+      var selection = document.getSelection();
       if (selection == null || selection.rangeCount <= 0) return null;
       var nativeRange = selection.getRangeAt(0);
       if (nativeRange == null) return null;
@@ -2733,8 +2816,7 @@ var Selection = function () {
   }, {
     key: 'hasFocus',
     value: function hasFocus() {
-      var activeElement = this.rootNode.activeElement || document.activeElement;
-      return !!(activeElement === this.root);
+      return document.activeElement === this.root;
     }
   }, {
     key: 'normalizedToRange',
@@ -2824,9 +2906,8 @@ var Selection = function () {
     }
   }, {
     key: 'scrollIntoView',
-    value: function scrollIntoView() {
-      var range = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.lastRange;
-
+    value: function scrollIntoView(scrollingContainer) {
+      var range = this.lastRange;
       if (range == null) return;
       var bounds = this.getBounds(range.index, range.length);
       if (bounds == null) return;
@@ -2845,12 +2926,11 @@ var Selection = function () {
         last = _scroll$line4[0];
       }
       if (first == null || last == null) return;
-      var scroller = this.scroll.scrollingContainer;
-      var scrollBounds = scroller.getBoundingClientRect();
+      var scrollBounds = scrollingContainer.getBoundingClientRect();
       if (bounds.top < scrollBounds.top) {
-        scroller.scrollTop -= scrollBounds.top - bounds.top;
+        scrollingContainer.scrollTop -= scrollBounds.top - bounds.top;
       } else if (bounds.bottom > scrollBounds.bottom) {
-        scroller.scrollTop += bounds.bottom - scrollBounds.bottom;
+        scrollingContainer.scrollTop += bounds.bottom - scrollBounds.bottom;
       }
     }
   }, {
@@ -2864,7 +2944,7 @@ var Selection = function () {
       if (startNode != null && (this.root.parentNode == null || startNode.parentNode == null || endNode.parentNode == null)) {
         return;
       }
-      var selection = this.getNativeSelection();
+      var selection = document.getSelection();
       if (selection == null) return;
       if (startNode != null) {
         if (!this.hasFocus()) this.root.focus();
@@ -2922,6 +3002,7 @@ var Selection = function () {
           lastRange = _getRange2[0],
           nativeRange = _getRange2[1];
 
+      this.fixInlineEmbed(nativeRange);
       this.lastRange = lastRange;
       if (this.lastRange != null) {
         this.savedRange = this.lastRange;
@@ -2965,6 +3046,76 @@ exports.Range = Range;
 exports.default = Selection;
 
 /***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _parchment = __webpack_require__(0);
+
+var _parchment2 = _interopRequireDefault(_parchment);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Break = function (_Parchment$Embed) {
+  _inherits(Break, _Parchment$Embed);
+
+  function Break() {
+    _classCallCheck(this, Break);
+
+    return _possibleConstructorReturn(this, (Break.__proto__ || Object.getPrototypeOf(Break)).apply(this, arguments));
+  }
+
+  _createClass(Break, [{
+    key: 'insertInto',
+    value: function insertInto(parent, ref) {
+      if (parent.children.length === 0) {
+        _get(Break.prototype.__proto__ || Object.getPrototypeOf(Break.prototype), 'insertInto', this).call(this, parent, ref);
+      } else {
+        this.remove();
+      }
+    }
+  }, {
+    key: 'length',
+    value: function length() {
+      return 0;
+    }
+  }, {
+    key: 'value',
+    value: function value() {
+      return '';
+    }
+  }], [{
+    key: 'value',
+    value: function value() {
+      return undefined;
+    }
+  }]);
+
+  return Break;
+}(_parchment2.default.Embed);
+
+Break.blotName = 'break';
+Break.tagName = 'BR';
+
+exports.default = Break;
+
+/***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2994,11 +3145,11 @@ var _block = __webpack_require__(4);
 
 var _block2 = _interopRequireDefault(_block);
 
-var _inline = __webpack_require__(8);
+var _inline = __webpack_require__(6);
 
 var _inline2 = _interopRequireDefault(_inline);
 
-var _text = __webpack_require__(12);
+var _text = __webpack_require__(7);
 
 var _text2 = _interopRequireDefault(_text);
 
@@ -3115,14 +3266,14 @@ var CodeBlock = function (_Block) {
     }
   }, {
     key: 'optimize',
-    value: function optimize() {
+    value: function optimize(context) {
       if (!this.domNode.textContent.endsWith('\n')) {
         this.appendChild(_parchment2.default.create('text', '\n'));
       }
-      _get(CodeBlock.prototype.__proto__ || Object.getPrototypeOf(CodeBlock.prototype), 'optimize', this).call(this);
+      _get(CodeBlock.prototype.__proto__ || Object.getPrototypeOf(CodeBlock.prototype), 'optimize', this).call(this, context);
       var next = this.next;
       if (next != null && next.prev === this && next.statics.blotName === this.statics.blotName && this.statics.formats(this.domNode) === next.statics.formats(next.domNode)) {
-        next.optimize();
+        next.optimize(context);
         next.moveChildren(this);
         next.remove();
       }
@@ -3172,69 +3323,244 @@ exports.default = CodeBlock;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-var _embed = __webpack_require__(7);
-
-var _embed2 = _interopRequireDefault(_embed);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Break = function (_Embed) {
-  _inherits(Break, _Embed);
-
-  function Break() {
-    _classCallCheck(this, Break);
-
-    return _possibleConstructorReturn(this, (Break.__proto__ || Object.getPrototypeOf(Break)).apply(this, arguments));
-  }
-
-  _createClass(Break, [{
-    key: 'insertInto',
-    value: function insertInto(parent, ref) {
-      if (parent.children.length === 0) {
-        _get(Break.prototype.__proto__ || Object.getPrototypeOf(Break.prototype), 'insertInto', this).call(this, parent, ref);
-      } else {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var linked_list_1 = __webpack_require__(44);
+var shadow_1 = __webpack_require__(30);
+var Registry = __webpack_require__(1);
+var ContainerBlot = (function (_super) {
+    __extends(ContainerBlot, _super);
+    function ContainerBlot() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ContainerBlot.prototype.appendChild = function (other) {
+        this.insertBefore(other);
+    };
+    ContainerBlot.prototype.attach = function () {
+        var _this = this;
+        _super.prototype.attach.call(this);
+        this.children = new linked_list_1.default();
+        // Need to be reversed for if DOM nodes already in order
+        [].slice.call(this.domNode.childNodes).reverse().forEach(function (node) {
+            try {
+                var child = makeBlot(node);
+                _this.insertBefore(child, _this.children.head);
+            }
+            catch (err) {
+                if (err instanceof Registry.ParchmentError)
+                    return;
+                else
+                    throw err;
+            }
+        });
+    };
+    ContainerBlot.prototype.deleteAt = function (index, length) {
+        if (index === 0 && length === this.length()) {
+            return this.remove();
+        }
+        this.children.forEachAt(index, length, function (child, offset, length) {
+            child.deleteAt(offset, length);
+        });
+    };
+    ContainerBlot.prototype.descendant = function (criteria, index) {
+        var _a = this.children.find(index), child = _a[0], offset = _a[1];
+        if ((criteria.blotName == null && criteria(child)) ||
+            (criteria.blotName != null && child instanceof criteria)) {
+            return [child, offset];
+        }
+        else if (child instanceof ContainerBlot) {
+            return child.descendant(criteria, offset);
+        }
+        else {
+            return [null, -1];
+        }
+    };
+    ContainerBlot.prototype.descendants = function (criteria, index, length) {
+        if (index === void 0) { index = 0; }
+        if (length === void 0) { length = Number.MAX_VALUE; }
+        var descendants = [], lengthLeft = length;
+        this.children.forEachAt(index, length, function (child, index, length) {
+            if ((criteria.blotName == null && criteria(child)) ||
+                (criteria.blotName != null && child instanceof criteria)) {
+                descendants.push(child);
+            }
+            if (child instanceof ContainerBlot) {
+                descendants = descendants.concat(child.descendants(criteria, index, lengthLeft));
+            }
+            lengthLeft -= length;
+        });
+        return descendants;
+    };
+    ContainerBlot.prototype.detach = function () {
+        this.children.forEach(function (child) {
+            child.detach();
+        });
+        _super.prototype.detach.call(this);
+    };
+    ContainerBlot.prototype.formatAt = function (index, length, name, value) {
+        this.children.forEachAt(index, length, function (child, offset, length) {
+            child.formatAt(offset, length, name, value);
+        });
+    };
+    ContainerBlot.prototype.insertAt = function (index, value, def) {
+        var _a = this.children.find(index), child = _a[0], offset = _a[1];
+        if (child) {
+            child.insertAt(offset, value, def);
+        }
+        else {
+            var blot = (def == null) ? Registry.create('text', value) : Registry.create(value, def);
+            this.appendChild(blot);
+        }
+    };
+    ContainerBlot.prototype.insertBefore = function (childBlot, refBlot) {
+        if (this.statics.allowedChildren != null && !this.statics.allowedChildren.some(function (child) {
+            return childBlot instanceof child;
+        })) {
+            throw new Registry.ParchmentError("Cannot insert " + childBlot.statics.blotName + " into " + this.statics.blotName);
+        }
+        childBlot.insertInto(this, refBlot);
+    };
+    ContainerBlot.prototype.length = function () {
+        return this.children.reduce(function (memo, child) {
+            return memo + child.length();
+        }, 0);
+    };
+    ContainerBlot.prototype.moveChildren = function (targetParent, refNode) {
+        this.children.forEach(function (child) {
+            targetParent.insertBefore(child, refNode);
+        });
+    };
+    ContainerBlot.prototype.optimize = function (context) {
+        _super.prototype.optimize.call(this, context);
+        if (this.children.length === 0) {
+            if (this.statics.defaultChild != null) {
+                var child = Registry.create(this.statics.defaultChild);
+                this.appendChild(child);
+                child.optimize(context);
+            }
+            else {
+                this.remove();
+            }
+        }
+    };
+    ContainerBlot.prototype.path = function (index, inclusive) {
+        if (inclusive === void 0) { inclusive = false; }
+        var _a = this.children.find(index, inclusive), child = _a[0], offset = _a[1];
+        var position = [[this, index]];
+        if (child instanceof ContainerBlot) {
+            return position.concat(child.path(offset, inclusive));
+        }
+        else if (child != null) {
+            position.push([child, offset]);
+        }
+        return position;
+    };
+    ContainerBlot.prototype.removeChild = function (child) {
+        this.children.remove(child);
+    };
+    ContainerBlot.prototype.replace = function (target) {
+        if (target instanceof ContainerBlot) {
+            target.moveChildren(this);
+        }
+        _super.prototype.replace.call(this, target);
+    };
+    ContainerBlot.prototype.split = function (index, force) {
+        if (force === void 0) { force = false; }
+        if (!force) {
+            if (index === 0)
+                return this;
+            if (index === this.length())
+                return this.next;
+        }
+        var after = this.clone();
+        this.parent.insertBefore(after, this.next);
+        this.children.forEachAt(index, this.length(), function (child, offset, length) {
+            child = child.split(offset, force);
+            after.appendChild(child);
+        });
+        return after;
+    };
+    ContainerBlot.prototype.unwrap = function () {
+        this.moveChildren(this.parent, this.next);
         this.remove();
-      }
+    };
+    ContainerBlot.prototype.update = function (mutations, context) {
+        var _this = this;
+        var addedNodes = [], removedNodes = [];
+        mutations.forEach(function (mutation) {
+            if (mutation.target === _this.domNode && mutation.type === 'childList') {
+                addedNodes.push.apply(addedNodes, mutation.addedNodes);
+                removedNodes.push.apply(removedNodes, mutation.removedNodes);
+            }
+        });
+        removedNodes.forEach(function (node) {
+            // Check node has actually been removed
+            // One exception is Chrome does not immediately remove IFRAMEs
+            // from DOM but MutationRecord is correct in its reported removal
+            if (node.parentNode != null && node.tagName !== 'IFRAME' &&
+                (document.body.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
+                return;
+            }
+            var blot = Registry.find(node);
+            if (blot == null)
+                return;
+            if (blot.domNode.parentNode == null || blot.domNode.parentNode === _this.domNode) {
+                blot.detach();
+            }
+        });
+        addedNodes.filter(function (node) {
+            return node.parentNode == _this.domNode;
+        }).sort(function (a, b) {
+            if (a === b)
+                return 0;
+            if (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) {
+                return 1;
+            }
+            return -1;
+        }).forEach(function (node) {
+            var refBlot = null;
+            if (node.nextSibling != null) {
+                refBlot = Registry.find(node.nextSibling);
+            }
+            var blot = makeBlot(node);
+            if (blot.next != refBlot || blot.next == null) {
+                if (blot.parent != null) {
+                    blot.parent.removeChild(_this);
+                }
+                _this.insertBefore(blot, refBlot);
+            }
+        });
+    };
+    return ContainerBlot;
+}(shadow_1.default));
+function makeBlot(node) {
+    var blot = Registry.find(node);
+    if (blot == null) {
+        try {
+            blot = Registry.create(node);
+        }
+        catch (e) {
+            blot = Registry.create(Registry.Scope.INLINE);
+            [].slice.call(node.childNodes).forEach(function (child) {
+                blot.domNode.appendChild(child);
+            });
+            node.parentNode.replaceChild(blot.domNode, node);
+            blot.attach();
+        }
     }
-  }, {
-    key: 'length',
-    value: function length() {
-      return 0;
-    }
-  }, {
-    key: 'value',
-    value: function value() {
-      return '';
-    }
-  }], [{
-    key: 'value',
-    value: function value() {
-      return undefined;
-    }
-  }]);
+    return blot;
+}
+exports.default = ContainerBlot;
 
-  return Break;
-}(_embed2.default);
-
-Break.blotName = 'break';
-Break.tagName = 'BR';
-
-exports.default = Break;
 
 /***/ }),
 /* 18 */
@@ -3242,231 +3568,284 @@ exports.default = Break;
 
 "use strict";
 
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-var _parchment = __webpack_require__(0);
-
-var _parchment2 = _interopRequireDefault(_parchment);
-
-var _emitter = __webpack_require__(5);
-
-var _emitter2 = _interopRequireDefault(_emitter);
-
-var _block = __webpack_require__(4);
-
-var _block2 = _interopRequireDefault(_block);
-
-var _break = __webpack_require__(17);
-
-var _break2 = _interopRequireDefault(_break);
-
-var _container = __webpack_require__(24);
-
-var _container2 = _interopRequireDefault(_container);
-
-var _code = __webpack_require__(16);
-
-var _code2 = _interopRequireDefault(_code);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function isLine(blot) {
-  return blot instanceof _block2.default || blot instanceof _block.BlockEmbed;
-}
-
-var Scroll = function (_Parchment$Scroll) {
-  _inherits(Scroll, _Parchment$Scroll);
-
-  function Scroll(domNode, config) {
-    _classCallCheck(this, Scroll);
-
-    var _this = _possibleConstructorReturn(this, (Scroll.__proto__ || Object.getPrototypeOf(Scroll)).call(this, domNode));
-
-    _this.emitter = config.emitter;
-    _this.scrollingContainer = config.scrollingContainer;
-    if (Array.isArray(config.whitelist)) {
-      _this.whitelist = config.whitelist.reduce(function (whitelist, format) {
-        whitelist[format] = true;
-        return whitelist;
-      }, {});
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var attributor_1 = __webpack_require__(12);
+var store_1 = __webpack_require__(31);
+var container_1 = __webpack_require__(17);
+var Registry = __webpack_require__(1);
+var FormatBlot = (function (_super) {
+    __extends(FormatBlot, _super);
+    function FormatBlot() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-    // Some reason fixes composition issues with character languages in Windows/Chrome, Safari
-    _this.domNode.addEventListener('DOMNodeInserted', function () {});
-    _this.optimize();
-    _this.enable();
-    return _this;
-  }
-
-  _createClass(Scroll, [{
-    key: 'deleteAt',
-    value: function deleteAt(index, length) {
-      var _line = this.line(index),
-          _line2 = _slicedToArray(_line, 2),
-          first = _line2[0],
-          offset = _line2[1];
-
-      var _line3 = this.line(index + length),
-          _line4 = _slicedToArray(_line3, 1),
-          last = _line4[0];
-
-      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'deleteAt', this).call(this, index, length);
-      if (last != null && first !== last && offset > 0 && !(first instanceof _block.BlockEmbed) && !(last instanceof _block.BlockEmbed)) {
-        if (last instanceof _code2.default) {
-          last.deleteAt(last.length() - 1, 1);
+    FormatBlot.formats = function (domNode) {
+        if (typeof this.tagName === 'string') {
+            return true;
         }
-        var ref = last.children.head instanceof _break2.default ? null : last.children.head;
-        first.moveChildren(last, ref);
-        first.remove();
-      }
-      this.optimize();
-    }
-  }, {
-    key: 'enable',
-    value: function enable() {
-      var enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-      this.domNode.setAttribute('contenteditable', enabled);
-    }
-  }, {
-    key: 'formatAt',
-    value: function formatAt(index, length, format, value) {
-      if (this.whitelist != null && !this.whitelist[format]) return;
-      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'formatAt', this).call(this, index, length, format, value);
-      this.optimize();
-    }
-  }, {
-    key: 'insertAt',
-    value: function insertAt(index, value, def) {
-      if (def != null && this.whitelist != null && !this.whitelist[value]) return;
-      if (index >= this.length()) {
-        if (def == null || _parchment2.default.query(value, _parchment2.default.Scope.BLOCK) == null) {
-          var blot = _parchment2.default.create(this.statics.defaultChild);
-          this.appendChild(blot);
-          if (def == null && value.endsWith('\n')) {
-            value = value.slice(0, -1);
-          }
-          blot.insertAt(0, value, def);
-        } else {
-          var embed = _parchment2.default.create(value, def);
-          this.appendChild(embed);
+        else if (Array.isArray(this.tagName)) {
+            return domNode.tagName.toLowerCase();
         }
-      } else {
-        _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'insertAt', this).call(this, index, value, def);
-      }
-      this.optimize();
-    }
-  }, {
-    key: 'insertBefore',
-    value: function insertBefore(blot, ref) {
-      if (blot.statics.scope === _parchment2.default.Scope.INLINE_BLOT) {
-        var wrapper = _parchment2.default.create(this.statics.defaultChild);
-        wrapper.appendChild(blot);
-        blot = wrapper;
-      }
-      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'insertBefore', this).call(this, blot, ref);
-    }
-  }, {
-    key: 'leaf',
-    value: function leaf(index) {
-      return this.path(index).pop() || [null, -1];
-    }
-  }, {
-    key: 'line',
-    value: function line(index) {
-      if (index === this.length()) {
-        return this.line(index - 1);
-      }
-      return this.descendant(isLine, index);
-    }
-  }, {
-    key: 'lines',
-    value: function lines() {
-      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Number.MAX_VALUE;
+        return undefined;
+    };
+    FormatBlot.prototype.attach = function () {
+        _super.prototype.attach.call(this);
+        this.attributes = new store_1.default(this.domNode);
+    };
+    FormatBlot.prototype.format = function (name, value) {
+        var format = Registry.query(name);
+        if (format instanceof attributor_1.default) {
+            this.attributes.attribute(format, value);
+        }
+        else if (value) {
+            if (format != null && (name !== this.statics.blotName || this.formats()[name] !== value)) {
+                this.replaceWith(name, value);
+            }
+        }
+    };
+    FormatBlot.prototype.formats = function () {
+        var formats = this.attributes.values();
+        var format = this.statics.formats(this.domNode);
+        if (format != null) {
+            formats[this.statics.blotName] = format;
+        }
+        return formats;
+    };
+    FormatBlot.prototype.replaceWith = function (name, value) {
+        var replacement = _super.prototype.replaceWith.call(this, name, value);
+        this.attributes.copy(replacement);
+        return replacement;
+    };
+    FormatBlot.prototype.update = function (mutations, context) {
+        var _this = this;
+        _super.prototype.update.call(this, mutations, context);
+        if (mutations.some(function (mutation) {
+            return mutation.target === _this.domNode && mutation.type === 'attributes';
+        })) {
+            this.attributes.build();
+        }
+    };
+    FormatBlot.prototype.wrap = function (name, value) {
+        var wrapper = _super.prototype.wrap.call(this, name, value);
+        if (wrapper instanceof FormatBlot && wrapper.statics.scope === this.statics.scope) {
+            this.attributes.move(wrapper);
+        }
+        return wrapper;
+    };
+    return FormatBlot;
+}(container_1.default));
+exports.default = FormatBlot;
 
-      var getLines = function getLines(blot, index, length) {
-        var lines = [],
-            lengthLeft = length;
-        blot.children.forEachAt(index, length, function (child, index, length) {
-          if (isLine(child)) {
-            lines.push(child);
-          } else if (child instanceof _parchment2.default.Container) {
-            lines = lines.concat(getLines(child, index, lengthLeft));
-          }
-          lengthLeft -= length;
-        });
-        return lines;
-      };
-      return getLines(this, index, length);
-    }
-  }, {
-    key: 'optimize',
-    value: function optimize() {
-      var mutations = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-      if (this.batch === true) return;
-      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'optimize', this).call(this, mutations);
-      if (mutations.length > 0) {
-        this.emitter.emit(_emitter2.default.events.SCROLL_OPTIMIZE, mutations);
-      }
-    }
-  }, {
-    key: 'path',
-    value: function path(index) {
-      return _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'path', this).call(this, index).slice(1); // Exclude self
-    }
-  }, {
-    key: 'update',
-    value: function update(mutations) {
-      if (this.batch === true) return;
-      var source = _emitter2.default.sources.USER;
-      if (typeof mutations === 'string') {
-        source = mutations;
-      }
-      if (!Array.isArray(mutations)) {
-        mutations = this.observer.takeRecords();
-      }
-      if (mutations.length > 0) {
-        this.emitter.emit(_emitter2.default.events.SCROLL_BEFORE_UPDATE, source, mutations);
-      }
-      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'update', this).call(this, mutations.concat([])); // pass copy
-      if (mutations.length > 0) {
-        this.emitter.emit(_emitter2.default.events.SCROLL_UPDATE, source, mutations);
-      }
-    }
-  }]);
-
-  return Scroll;
-}(_parchment2.default.Scroll);
-
-Scroll.blotName = 'scroll';
-Scroll.className = 'ql-editor';
-Scroll.tagName = 'DIV';
-Scroll.defaultChild = 'block';
-Scroll.allowedChildren = [_block2.default, _block.BlockEmbed, _container2.default];
-
-exports.default = Scroll;
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {var clone = (function() {
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var shadow_1 = __webpack_require__(30);
+var Registry = __webpack_require__(1);
+var LeafBlot = (function (_super) {
+    __extends(LeafBlot, _super);
+    function LeafBlot() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    LeafBlot.value = function (domNode) {
+        return true;
+    };
+    LeafBlot.prototype.index = function (node, offset) {
+        if (this.domNode === node ||
+            this.domNode.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_CONTAINED_BY) {
+            return Math.min(offset, 1);
+        }
+        return -1;
+    };
+    LeafBlot.prototype.position = function (index, inclusive) {
+        var offset = [].indexOf.call(this.parent.domNode.childNodes, this.domNode);
+        if (index > 0)
+            offset += 1;
+        return [this.parent.domNode, offset];
+    };
+    LeafBlot.prototype.value = function () {
+        return _a = {}, _a[this.statics.blotName] = this.statics.value(this.domNode) || true, _a;
+        var _a;
+    };
+    LeafBlot.scope = Registry.Scope.INLINE_BLOT;
+    return LeafBlot;
+}(shadow_1.default));
+exports.default = LeafBlot;
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var equal = __webpack_require__(11);
+var extend = __webpack_require__(3);
+
+
+var lib = {
+  attributes: {
+    compose: function (a, b, keepNull) {
+      if (typeof a !== 'object') a = {};
+      if (typeof b !== 'object') b = {};
+      var attributes = extend(true, {}, b);
+      if (!keepNull) {
+        attributes = Object.keys(attributes).reduce(function (copy, key) {
+          if (attributes[key] != null) {
+            copy[key] = attributes[key];
+          }
+          return copy;
+        }, {});
+      }
+      for (var key in a) {
+        if (a[key] !== undefined && b[key] === undefined) {
+          attributes[key] = a[key];
+        }
+      }
+      return Object.keys(attributes).length > 0 ? attributes : undefined;
+    },
+
+    diff: function(a, b) {
+      if (typeof a !== 'object') a = {};
+      if (typeof b !== 'object') b = {};
+      var attributes = Object.keys(a).concat(Object.keys(b)).reduce(function (attributes, key) {
+        if (!equal(a[key], b[key])) {
+          attributes[key] = b[key] === undefined ? null : b[key];
+        }
+        return attributes;
+      }, {});
+      return Object.keys(attributes).length > 0 ? attributes : undefined;
+    },
+
+    transform: function (a, b, priority) {
+      if (typeof a !== 'object') return b;
+      if (typeof b !== 'object') return undefined;
+      if (!priority) return b;  // b simply overwrites us without priority
+      var attributes = Object.keys(b).reduce(function (attributes, key) {
+        if (a[key] === undefined) attributes[key] = b[key];  // null is a valid value
+        return attributes;
+      }, {});
+      return Object.keys(attributes).length > 0 ? attributes : undefined;
+    }
+  },
+
+  iterator: function (ops) {
+    return new Iterator(ops);
+  },
+
+  length: function (op) {
+    if (typeof op['delete'] === 'number') {
+      return op['delete'];
+    } else if (typeof op.retain === 'number') {
+      return op.retain;
+    } else {
+      return typeof op.insert === 'string' ? op.insert.length : 1;
+    }
+  }
+};
+
+
+function Iterator(ops) {
+  this.ops = ops;
+  this.index = 0;
+  this.offset = 0;
+};
+
+Iterator.prototype.hasNext = function () {
+  return this.peekLength() < Infinity;
+};
+
+Iterator.prototype.next = function (length) {
+  if (!length) length = Infinity;
+  var nextOp = this.ops[this.index];
+  if (nextOp) {
+    var offset = this.offset;
+    var opLength = lib.length(nextOp)
+    if (length >= opLength - offset) {
+      length = opLength - offset;
+      this.index += 1;
+      this.offset = 0;
+    } else {
+      this.offset += length;
+    }
+    if (typeof nextOp['delete'] === 'number') {
+      return { 'delete': length };
+    } else {
+      var retOp = {};
+      if (nextOp.attributes) {
+        retOp.attributes = nextOp.attributes;
+      }
+      if (typeof nextOp.retain === 'number') {
+        retOp.retain = length;
+      } else if (typeof nextOp.insert === 'string') {
+        retOp.insert = nextOp.insert.substr(offset, length);
+      } else {
+        // offset should === 0, length should === 1
+        retOp.insert = nextOp.insert;
+      }
+      return retOp;
+    }
+  } else {
+    return { retain: Infinity };
+  }
+};
+
+Iterator.prototype.peek = function () {
+  return this.ops[this.index];
+};
+
+Iterator.prototype.peekLength = function () {
+  if (this.ops[this.index]) {
+    // Should never return 0 if our index is being managed correctly
+    return lib.length(this.ops[this.index]) - this.offset;
+  } else {
+    return Infinity;
+  }
+};
+
+Iterator.prototype.peekType = function () {
+  if (this.ops[this.index]) {
+    if (typeof this.ops[this.index]['delete'] === 'number') {
+      return 'delete';
+    } else if (typeof this.ops[this.index].retain === 'number') {
+      return 'retain';
+    } else {
+      return 'insert';
+    }
+  }
+  return 'retain';
+};
+
+
+module.exports = lib;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+var clone = (function() {
 'use strict';
 
 function _instanceof(obj, type) {
@@ -3718,532 +4097,9 @@ if (typeof module === 'object' && module.exports) {
   module.exports = clone;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(52).Buffer))
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var equal = __webpack_require__(11);
-var extend = __webpack_require__(3);
-
-
-var lib = {
-  attributes: {
-    compose: function (a, b, keepNull) {
-      if (typeof a !== 'object') a = {};
-      if (typeof b !== 'object') b = {};
-      var attributes = extend(true, {}, b);
-      if (!keepNull) {
-        attributes = Object.keys(attributes).reduce(function (copy, key) {
-          if (attributes[key] != null) {
-            copy[key] = attributes[key];
-          }
-          return copy;
-        }, {});
-      }
-      for (var key in a) {
-        if (a[key] !== undefined && b[key] === undefined) {
-          attributes[key] = a[key];
-        }
-      }
-      return Object.keys(attributes).length > 0 ? attributes : undefined;
-    },
-
-    diff: function(a, b) {
-      if (typeof a !== 'object') a = {};
-      if (typeof b !== 'object') b = {};
-      var attributes = Object.keys(a).concat(Object.keys(b)).reduce(function (attributes, key) {
-        if (!equal(a[key], b[key])) {
-          attributes[key] = b[key] === undefined ? null : b[key];
-        }
-        return attributes;
-      }, {});
-      return Object.keys(attributes).length > 0 ? attributes : undefined;
-    },
-
-    transform: function (a, b, priority) {
-      if (typeof a !== 'object') return b;
-      if (typeof b !== 'object') return undefined;
-      if (!priority) return b;  // b simply overwrites us without priority
-      var attributes = Object.keys(b).reduce(function (attributes, key) {
-        if (a[key] === undefined) attributes[key] = b[key];  // null is a valid value
-        return attributes;
-      }, {});
-      return Object.keys(attributes).length > 0 ? attributes : undefined;
-    }
-  },
-
-  iterator: function (ops) {
-    return new Iterator(ops);
-  },
-
-  length: function (op) {
-    if (typeof op['delete'] === 'number') {
-      return op['delete'];
-    } else if (typeof op.retain === 'number') {
-      return op.retain;
-    } else {
-      return typeof op.insert === 'string' ? op.insert.length : 1;
-    }
-  }
-};
-
-
-function Iterator(ops) {
-  this.ops = ops;
-  this.index = 0;
-  this.offset = 0;
-};
-
-Iterator.prototype.hasNext = function () {
-  return this.peekLength() < Infinity;
-};
-
-Iterator.prototype.next = function (length) {
-  if (!length) length = Infinity;
-  var nextOp = this.ops[this.index];
-  if (nextOp) {
-    var offset = this.offset;
-    var opLength = lib.length(nextOp)
-    if (length >= opLength - offset) {
-      length = opLength - offset;
-      this.index += 1;
-      this.offset = 0;
-    } else {
-      this.offset += length;
-    }
-    if (typeof nextOp['delete'] === 'number') {
-      return { 'delete': length };
-    } else {
-      var retOp = {};
-      if (nextOp.attributes) {
-        retOp.attributes = nextOp.attributes;
-      }
-      if (typeof nextOp.retain === 'number') {
-        retOp.retain = length;
-      } else if (typeof nextOp.insert === 'string') {
-        retOp.insert = nextOp.insert.substr(offset, length);
-      } else {
-        // offset should === 0, length should === 1
-        retOp.insert = nextOp.insert;
-      }
-      return retOp;
-    }
-  } else {
-    return { retain: Infinity };
-  }
-};
-
-Iterator.prototype.peek = function () {
-  return this.ops[this.index];
-};
-
-Iterator.prototype.peekLength = function () {
-  if (this.ops[this.index]) {
-    // Should never return 0 if our index is being managed correctly
-    return lib.length(this.ops[this.index]) - this.offset;
-  } else {
-    return Infinity;
-  }
-};
-
-Iterator.prototype.peekType = function () {
-  if (this.ops[this.index]) {
-    if (typeof this.ops[this.index]['delete'] === 'number') {
-      return 'delete';
-    } else if (typeof this.ops[this.index].retain === 'number') {
-      return 'retain';
-    } else {
-      return 'insert';
-    }
-  }
-  return 'retain';
-};
-
-
-module.exports = lib;
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var linked_list_1 = __webpack_require__(65);
-var shadow_1 = __webpack_require__(34);
-var Registry = __webpack_require__(1);
-var ContainerBlot = (function (_super) {
-    __extends(ContainerBlot, _super);
-    function ContainerBlot() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ContainerBlot.prototype.appendChild = function (other) {
-        this.insertBefore(other);
-    };
-    ContainerBlot.prototype.attach = function () {
-        var _this = this;
-        _super.prototype.attach.call(this);
-        this.children = new linked_list_1.default();
-        // Need to be reversed for if DOM nodes already in order
-        [].slice.call(this.domNode.childNodes).reverse().forEach(function (node) {
-            try {
-                var child = makeBlot(node);
-                _this.insertBefore(child, _this.children.head);
-            }
-            catch (err) {
-                if (err instanceof Registry.ParchmentError)
-                    return;
-                else
-                    throw err;
-            }
-        });
-    };
-    ContainerBlot.prototype.deleteAt = function (index, length) {
-        if (index === 0 && length === this.length()) {
-            return this.remove();
-        }
-        this.children.forEachAt(index, length, function (child, offset, length) {
-            child.deleteAt(offset, length);
-        });
-    };
-    ContainerBlot.prototype.descendant = function (criteria, index) {
-        var _a = this.children.find(index), child = _a[0], offset = _a[1];
-        if ((criteria.blotName == null && criteria(child)) ||
-            (criteria.blotName != null && child instanceof criteria)) {
-            return [child, offset];
-        }
-        else if (child instanceof ContainerBlot) {
-            return child.descendant(criteria, offset);
-        }
-        else {
-            return [null, -1];
-        }
-    };
-    ContainerBlot.prototype.descendants = function (criteria, index, length) {
-        if (index === void 0) { index = 0; }
-        if (length === void 0) { length = Number.MAX_VALUE; }
-        var descendants = [], lengthLeft = length;
-        this.children.forEachAt(index, length, function (child, index, length) {
-            if ((criteria.blotName == null && criteria(child)) ||
-                (criteria.blotName != null && child instanceof criteria)) {
-                descendants.push(child);
-            }
-            if (child instanceof ContainerBlot) {
-                descendants = descendants.concat(child.descendants(criteria, index, lengthLeft));
-            }
-            lengthLeft -= length;
-        });
-        return descendants;
-    };
-    ContainerBlot.prototype.detach = function () {
-        this.children.forEach(function (child) {
-            child.detach();
-        });
-        _super.prototype.detach.call(this);
-    };
-    ContainerBlot.prototype.formatAt = function (index, length, name, value) {
-        this.children.forEachAt(index, length, function (child, offset, length) {
-            child.formatAt(offset, length, name, value);
-        });
-    };
-    ContainerBlot.prototype.insertAt = function (index, value, def) {
-        var _a = this.children.find(index), child = _a[0], offset = _a[1];
-        if (child) {
-            child.insertAt(offset, value, def);
-        }
-        else {
-            var blot = (def == null) ? Registry.create('text', value) : Registry.create(value, def);
-            this.appendChild(blot);
-        }
-    };
-    ContainerBlot.prototype.insertBefore = function (childBlot, refBlot) {
-        if (this.statics.allowedChildren != null && !this.statics.allowedChildren.some(function (child) {
-            return childBlot instanceof child;
-        })) {
-            throw new Registry.ParchmentError("Cannot insert " + childBlot.statics.blotName + " into " + this.statics.blotName);
-        }
-        childBlot.insertInto(this, refBlot);
-    };
-    ContainerBlot.prototype.length = function () {
-        return this.children.reduce(function (memo, child) {
-            return memo + child.length();
-        }, 0);
-    };
-    ContainerBlot.prototype.moveChildren = function (targetParent, refNode) {
-        this.children.forEach(function (child) {
-            targetParent.insertBefore(child, refNode);
-        });
-    };
-    ContainerBlot.prototype.optimize = function () {
-        _super.prototype.optimize.call(this);
-        if (this.children.length === 0) {
-            if (this.statics.defaultChild != null) {
-                var child = Registry.create(this.statics.defaultChild);
-                this.appendChild(child);
-                child.optimize();
-            }
-            else {
-                this.remove();
-            }
-        }
-    };
-    ContainerBlot.prototype.path = function (index, inclusive) {
-        if (inclusive === void 0) { inclusive = false; }
-        var _a = this.children.find(index, inclusive), child = _a[0], offset = _a[1];
-        var position = [[this, index]];
-        if (child instanceof ContainerBlot) {
-            return position.concat(child.path(offset, inclusive));
-        }
-        else if (child != null) {
-            position.push([child, offset]);
-        }
-        return position;
-    };
-    ContainerBlot.prototype.removeChild = function (child) {
-        this.children.remove(child);
-    };
-    ContainerBlot.prototype.replace = function (target) {
-        if (target instanceof ContainerBlot) {
-            target.moveChildren(this);
-        }
-        _super.prototype.replace.call(this, target);
-    };
-    ContainerBlot.prototype.split = function (index, force) {
-        if (force === void 0) { force = false; }
-        if (!force) {
-            if (index === 0)
-                return this;
-            if (index === this.length())
-                return this.next;
-        }
-        var after = this.clone();
-        this.parent.insertBefore(after, this.next);
-        this.children.forEachAt(index, this.length(), function (child, offset, length) {
-            child = child.split(offset, force);
-            after.appendChild(child);
-        });
-        return after;
-    };
-    ContainerBlot.prototype.unwrap = function () {
-        this.moveChildren(this.parent, this.next);
-        this.remove();
-    };
-    ContainerBlot.prototype.update = function (mutations) {
-        var _this = this;
-        var addedNodes = [], removedNodes = [];
-        mutations.forEach(function (mutation) {
-            if (mutation.target === _this.domNode && mutation.type === 'childList') {
-                addedNodes.push.apply(addedNodes, mutation.addedNodes);
-                removedNodes.push.apply(removedNodes, mutation.removedNodes);
-            }
-        });
-        removedNodes.forEach(function (node) {
-            // Check node has actually been removed
-            // One exception is Chrome does not immediately remove IFRAMEs
-            // from DOM but MutationRecord is correct in its reported removal
-            if (node.parentNode != null && node.tagName !== 'IFRAME' &&
-                (document.body.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
-                return;
-            }
-            var blot = Registry.find(node);
-            if (blot == null)
-                return;
-            if (blot.domNode.parentNode == null || blot.domNode.parentNode === _this.domNode) {
-                blot.detach();
-            }
-        });
-        addedNodes.filter(function (node) {
-            return node.parentNode == _this.domNode;
-        }).sort(function (a, b) {
-            if (a === b)
-                return 0;
-            if (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) {
-                return 1;
-            }
-            return -1;
-        }).forEach(function (node) {
-            var refBlot = null;
-            if (node.nextSibling != null) {
-                refBlot = Registry.find(node.nextSibling);
-            }
-            var blot = makeBlot(node);
-            if (blot.next != refBlot || blot.next == null) {
-                if (blot.parent != null) {
-                    blot.parent.removeChild(_this);
-                }
-                _this.insertBefore(blot, refBlot);
-            }
-        });
-    };
-    return ContainerBlot;
-}(shadow_1.default));
-function makeBlot(node) {
-    var blot = Registry.find(node);
-    if (blot == null) {
-        try {
-            blot = Registry.create(node);
-        }
-        catch (e) {
-            blot = Registry.create(Registry.Scope.INLINE);
-            [].slice.call(node.childNodes).forEach(function (child) {
-                blot.domNode.appendChild(child);
-            });
-            node.parentNode.replaceChild(blot.domNode, node);
-            blot.attach();
-        }
-    }
-    return blot;
-}
-exports.default = ContainerBlot;
-
 
 /***/ }),
 /* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var attributor_1 = __webpack_require__(13);
-var store_1 = __webpack_require__(32);
-var container_1 = __webpack_require__(21);
-var Registry = __webpack_require__(1);
-var FormatBlot = (function (_super) {
-    __extends(FormatBlot, _super);
-    function FormatBlot() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    FormatBlot.formats = function (domNode) {
-        if (typeof this.tagName === 'string') {
-            return true;
-        }
-        else if (Array.isArray(this.tagName)) {
-            return domNode.tagName.toLowerCase();
-        }
-        return undefined;
-    };
-    FormatBlot.prototype.attach = function () {
-        _super.prototype.attach.call(this);
-        this.attributes = new store_1.default(this.domNode);
-    };
-    FormatBlot.prototype.format = function (name, value) {
-        var format = Registry.query(name);
-        if (format instanceof attributor_1.default) {
-            this.attributes.attribute(format, value);
-        }
-        else if (value) {
-            if (format != null && (name !== this.statics.blotName || this.formats()[name] !== value)) {
-                this.replaceWith(name, value);
-            }
-        }
-    };
-    FormatBlot.prototype.formats = function () {
-        var formats = this.attributes.values();
-        var format = this.statics.formats(this.domNode);
-        if (format != null) {
-            formats[this.statics.blotName] = format;
-        }
-        return formats;
-    };
-    FormatBlot.prototype.replaceWith = function (name, value) {
-        var replacement = _super.prototype.replaceWith.call(this, name, value);
-        this.attributes.copy(replacement);
-        return replacement;
-    };
-    FormatBlot.prototype.update = function (mutations) {
-        var _this = this;
-        _super.prototype.update.call(this, mutations);
-        if (mutations.some(function (mutation) {
-            return mutation.target === _this.domNode && mutation.type === 'attributes';
-        })) {
-            this.attributes.build();
-        }
-    };
-    FormatBlot.prototype.wrap = function (name, value) {
-        var wrapper = _super.prototype.wrap.call(this, name, value);
-        if (wrapper instanceof FormatBlot && wrapper.statics.scope === this.statics.scope) {
-            this.attributes.move(wrapper);
-        }
-        return wrapper;
-    };
-    return FormatBlot;
-}(container_1.default));
-exports.default = FormatBlot;
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var shadow_1 = __webpack_require__(34);
-var Registry = __webpack_require__(1);
-var LeafBlot = (function (_super) {
-    __extends(LeafBlot, _super);
-    function LeafBlot() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    LeafBlot.value = function (domNode) {
-        return true;
-    };
-    LeafBlot.prototype.index = function (node, offset) {
-        if (node !== this.domNode)
-            return -1;
-        return Math.min(offset, 1);
-    };
-    LeafBlot.prototype.position = function (index, inclusive) {
-        var offset = [].indexOf.call(this.parent.domNode.childNodes, this.domNode);
-        if (index > 0)
-            offset += 1;
-        return [this.parent.domNode, offset];
-    };
-    LeafBlot.prototype.value = function () {
-        return _a = {}, _a[this.statics.blotName] = this.statics.value(this.domNode) || true, _a;
-        var _a;
-    };
-    return LeafBlot;
-}(shadow_1.default));
-LeafBlot.scope = Registry.Scope.INLINE_BLOT;
-exports.default = LeafBlot;
-
-
-/***/ }),
-/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4253,13 +4109,35 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 var _parchment = __webpack_require__(0);
 
 var _parchment2 = _interopRequireDefault(_parchment);
 
+var _emitter = __webpack_require__(8);
+
+var _emitter2 = _interopRequireDefault(_emitter);
+
 var _block = __webpack_require__(4);
 
 var _block2 = _interopRequireDefault(_block);
+
+var _break = __webpack_require__(15);
+
+var _break2 = _interopRequireDefault(_break);
+
+var _container = __webpack_require__(25);
+
+var _container2 = _interopRequireDefault(_container);
+
+var _code = __webpack_require__(16);
+
+var _code2 = _interopRequireDefault(_code);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4269,24 +4147,196 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Container = function (_Parchment$Container) {
-  _inherits(Container, _Parchment$Container);
+function isLine(blot) {
+  return blot instanceof _block2.default || blot instanceof _block.BlockEmbed;
+}
 
-  function Container() {
-    _classCallCheck(this, Container);
+var Scroll = function (_Parchment$Scroll) {
+  _inherits(Scroll, _Parchment$Scroll);
 
-    return _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).apply(this, arguments));
+  function Scroll(domNode, config) {
+    _classCallCheck(this, Scroll);
+
+    var _this = _possibleConstructorReturn(this, (Scroll.__proto__ || Object.getPrototypeOf(Scroll)).call(this, domNode));
+
+    _this.emitter = config.emitter;
+    if (Array.isArray(config.whitelist)) {
+      _this.whitelist = config.whitelist.reduce(function (whitelist, format) {
+        whitelist[format] = true;
+        return whitelist;
+      }, {});
+    }
+    // Some reason fixes composition issues with character languages in Windows/Chrome, Safari
+    _this.domNode.addEventListener('DOMNodeInserted', function () {});
+    _this.optimize();
+    _this.enable();
+    return _this;
   }
 
-  return Container;
-}(_parchment2.default.Container);
+  _createClass(Scroll, [{
+    key: 'batchStart',
+    value: function batchStart() {
+      this.batch = true;
+    }
+  }, {
+    key: 'batchEnd',
+    value: function batchEnd() {
+      this.batch = false;
+      this.optimize();
+    }
+  }, {
+    key: 'deleteAt',
+    value: function deleteAt(index, length) {
+      var _line = this.line(index),
+          _line2 = _slicedToArray(_line, 2),
+          first = _line2[0],
+          offset = _line2[1];
 
-Container.allowedChildren = [_block2.default, _block.BlockEmbed, Container];
+      var _line3 = this.line(index + length),
+          _line4 = _slicedToArray(_line3, 1),
+          last = _line4[0];
 
-exports.default = Container;
+      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'deleteAt', this).call(this, index, length);
+      if (last != null && first !== last && offset > 0 && !(first instanceof _block.BlockEmbed) && !(last instanceof _block.BlockEmbed)) {
+        if (last instanceof _code2.default) {
+          last.deleteAt(last.length() - 1, 1);
+        }
+        var ref = last.children.head instanceof _break2.default ? null : last.children.head;
+        first.moveChildren(last, ref);
+        first.remove();
+      }
+      this.optimize();
+    }
+  }, {
+    key: 'enable',
+    value: function enable() {
+      var enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+      this.domNode.setAttribute('contenteditable', enabled);
+    }
+  }, {
+    key: 'formatAt',
+    value: function formatAt(index, length, format, value) {
+      if (this.whitelist != null && !this.whitelist[format]) return;
+      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'formatAt', this).call(this, index, length, format, value);
+      this.optimize();
+    }
+  }, {
+    key: 'insertAt',
+    value: function insertAt(index, value, def) {
+      if (def != null && this.whitelist != null && !this.whitelist[value]) return;
+      if (index >= this.length()) {
+        if (def == null || _parchment2.default.query(value, _parchment2.default.Scope.BLOCK) == null) {
+          var blot = _parchment2.default.create(this.statics.defaultChild);
+          this.appendChild(blot);
+          if (def == null && value.endsWith('\n')) {
+            value = value.slice(0, -1);
+          }
+          blot.insertAt(0, value, def);
+        } else {
+          var embed = _parchment2.default.create(value, def);
+          this.appendChild(embed);
+        }
+      } else {
+        _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'insertAt', this).call(this, index, value, def);
+      }
+      this.optimize();
+    }
+  }, {
+    key: 'insertBefore',
+    value: function insertBefore(blot, ref) {
+      if (blot.statics.scope === _parchment2.default.Scope.INLINE_BLOT) {
+        var wrapper = _parchment2.default.create(this.statics.defaultChild);
+        wrapper.appendChild(blot);
+        blot = wrapper;
+      }
+      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'insertBefore', this).call(this, blot, ref);
+    }
+  }, {
+    key: 'leaf',
+    value: function leaf(index) {
+      return this.path(index).pop() || [null, -1];
+    }
+  }, {
+    key: 'line',
+    value: function line(index) {
+      if (index === this.length()) {
+        return this.line(index - 1);
+      }
+      return this.descendant(isLine, index);
+    }
+  }, {
+    key: 'lines',
+    value: function lines() {
+      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Number.MAX_VALUE;
+
+      var getLines = function getLines(blot, index, length) {
+        var lines = [],
+            lengthLeft = length;
+        blot.children.forEachAt(index, length, function (child, index, length) {
+          if (isLine(child)) {
+            lines.push(child);
+          } else if (child instanceof _parchment2.default.Container) {
+            lines = lines.concat(getLines(child, index, lengthLeft));
+          }
+          lengthLeft -= length;
+        });
+        return lines;
+      };
+      return getLines(this, index, length);
+    }
+  }, {
+    key: 'optimize',
+    value: function optimize() {
+      var mutations = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      if (this.batch === true) return;
+      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'optimize', this).call(this, mutations, context);
+      if (mutations.length > 0) {
+        this.emitter.emit(_emitter2.default.events.SCROLL_OPTIMIZE, mutations, context);
+      }
+    }
+  }, {
+    key: 'path',
+    value: function path(index) {
+      return _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'path', this).call(this, index).slice(1); // Exclude self
+    }
+  }, {
+    key: 'update',
+    value: function update(mutations) {
+      if (this.batch === true) return;
+      var source = _emitter2.default.sources.USER;
+      if (typeof mutations === 'string') {
+        source = mutations;
+      }
+      if (!Array.isArray(mutations)) {
+        mutations = this.observer.takeRecords();
+      }
+      if (mutations.length > 0) {
+        this.emitter.emit(_emitter2.default.events.SCROLL_BEFORE_UPDATE, source, mutations);
+      }
+      _get(Scroll.prototype.__proto__ || Object.getPrototypeOf(Scroll.prototype), 'update', this).call(this, mutations.concat([])); // pass copy
+      if (mutations.length > 0) {
+        this.emitter.emit(_emitter2.default.events.SCROLL_UPDATE, source, mutations);
+      }
+    }
+  }]);
+
+  return Scroll;
+}(_parchment2.default.Scroll);
+
+Scroll.blotName = 'scroll';
+Scroll.className = 'ql-editor';
+Scroll.tagName = 'DIV';
+Scroll.defaultChild = 'block';
+Scroll.allowedChildren = [_block2.default, _block.BlockEmbed, _container2.default];
+
+exports.default = Scroll;
 
 /***/ }),
-/* 25 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4306,17 +4356,9 @@ var _parchment = __webpack_require__(0);
 
 var _parchment2 = _interopRequireDefault(_parchment);
 
-var _embed = __webpack_require__(7);
-
-var _embed2 = _interopRequireDefault(_embed);
-
-var _text = __webpack_require__(12);
+var _text = __webpack_require__(7);
 
 var _text2 = _interopRequireDefault(_text);
-
-var _emitter = __webpack_require__(5);
-
-var _emitter2 = _interopRequireDefault(_emitter);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4326,8 +4368,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Cursor = function (_Embed) {
-  _inherits(Cursor, _Embed);
+var Cursor = function (_Parchment$Embed) {
+  _inherits(Cursor, _Parchment$Embed);
 
   _createClass(Cursor, null, [{
     key: 'value',
@@ -4398,10 +4440,7 @@ var Cursor = function (_Embed) {
   }, {
     key: 'restore',
     value: function restore() {
-      var _this2 = this;
-
-      if (this.selection.composing) return;
-      if (this.parent == null) return;
+      if (this.selection.composing || this.parent == null) return;
       var textNode = this.textNode;
       var range = this.selection.getNativeRange();
       var restoreText = void 0,
@@ -4431,8 +4470,7 @@ var Cursor = function (_Embed) {
         }
       }
       this.remove();
-      if (start == null) return;
-      this.selection.emitter.once(_emitter2.default.events.SCROLL_OPTIMIZE, function () {
+      if (start != null) {
         var _map = [start, end].map(function (offset) {
           return Math.max(0, Math.min(restoreText.data.length, offset - 1));
         });
@@ -4442,19 +4480,25 @@ var Cursor = function (_Embed) {
         start = _map2[0];
         end = _map2[1];
 
-        _this2.selection.setNativeRange(restoreText, start, restoreText, end);
-      });
+        return {
+          startNode: restoreText,
+          startOffset: start,
+          endNode: restoreText,
+          endOffset: end
+        };
+      }
     }
   }, {
     key: 'update',
-    value: function update(mutations) {
-      var _this3 = this;
+    value: function update(mutations, context) {
+      var _this2 = this;
 
-      mutations.forEach(function (mutation) {
-        if (mutation.type === 'characterData' && mutation.target === _this3.textNode) {
-          _this3.restore();
-        }
-      });
+      if (mutations.some(function (mutation) {
+        return mutation.type === 'characterData' && mutation.target === _this2.textNode;
+      })) {
+        var range = this.restore();
+        if (range) context.range = range;
+      }
     }
   }, {
     key: 'value',
@@ -4464,7 +4508,7 @@ var Cursor = function (_Embed) {
   }]);
 
   return Cursor;
-}(_embed2.default);
+}(_parchment2.default.Embed);
 
 Cursor.blotName = 'cursor';
 Cursor.className = 'ql-cursor';
@@ -4473,6 +4517,170 @@ Cursor.CONTENTS = '\uFEFF'; // Zero width no break space
 
 
 exports.default = Cursor;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _parchment = __webpack_require__(0);
+
+var _parchment2 = _interopRequireDefault(_parchment);
+
+var _text = __webpack_require__(7);
+
+var _text2 = _interopRequireDefault(_text);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GUARD_TEXT = '\uFEFF';
+
+var Embed = function (_Parchment$Embed) {
+  _inherits(Embed, _Parchment$Embed);
+
+  function Embed(node) {
+    _classCallCheck(this, Embed);
+
+    var _this = _possibleConstructorReturn(this, (Embed.__proto__ || Object.getPrototypeOf(Embed)).call(this, node));
+
+    var wrapper = document.createElement('span');
+    wrapper.setAttribute('contenteditable', false);
+    [].slice.call(_this.domNode.childNodes).forEach(function (childNode) {
+      wrapper.appendChild(childNode);
+    });
+    _this.leftGuard = document.createTextNode(GUARD_TEXT);
+    _this.rightGuard = document.createTextNode(GUARD_TEXT);
+    _this.domNode.appendChild(_this.leftGuard);
+    _this.domNode.appendChild(wrapper);
+    _this.domNode.appendChild(_this.rightGuard);
+    return _this;
+  }
+
+  _createClass(Embed, [{
+    key: 'index',
+    value: function index(node, offset) {
+      if (node === this.leftGuard) return 0;
+      if (node === this.rightGuard) return 1;
+      return _get(Embed.prototype.__proto__ || Object.getPrototypeOf(Embed.prototype), 'index', this).call(this, node, offset);
+    }
+  }, {
+    key: 'restore',
+    value: function restore(node) {
+      var range = void 0,
+          textNode = void 0;
+      var text = node.data.split(GUARD_TEXT).join('');
+      if (node === this.leftGuard) {
+        if (this.prev instanceof _text2.default) {
+          var prevLength = this.prev.length();
+          this.prev.insertAt(prevLength, text);
+          range = {
+            startNode: this.prev.domNode,
+            startOffset: prevLength + text.length
+          };
+        } else {
+          textNode = document.createTextNode(text);
+          this.parent.insertBefore(_parchment2.default.create(textNode), this);
+          range = {
+            startNode: textNode,
+            startOffset: text.length
+          };
+        }
+      } else if (node === this.rightGuard) {
+        if (this.next instanceof _text2.default) {
+          this.next.insertAt(0, text);
+          range = {
+            startNode: this.next.domNode,
+            startOffset: text.length
+          };
+        } else {
+          textNode = document.createTextNode(text);
+          this.parent.insertBefore(_parchment2.default.create(textNode), this.next);
+          range = {
+            startNode: textNode,
+            startOffset: text.length
+          };
+        }
+      }
+      node.data = GUARD_TEXT;
+      return range;
+    }
+  }, {
+    key: 'update',
+    value: function update(mutations, context) {
+      var _this2 = this;
+
+      mutations.forEach(function (mutation) {
+        if (mutation.type === 'characterData' && (mutation.target === _this2.leftGuard || mutation.target === _this2.rightGuard)) {
+          var range = _this2.restore(mutation.target);
+          if (range) context.range = range;
+        }
+      });
+    }
+  }]);
+
+  return Embed;
+}(_parchment2.default.Embed);
+
+exports.default = Embed;
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _parchment = __webpack_require__(0);
+
+var _parchment2 = _interopRequireDefault(_parchment);
+
+var _block = __webpack_require__(4);
+
+var _block2 = _interopRequireDefault(_block);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Container = function (_Parchment$Container) {
+  _inherits(Container, _Parchment$Container);
+
+  function Container() {
+    _classCallCheck(this, Container);
+
+    return _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).apply(this, arguments));
+  }
+
+  return Container;
+}(_parchment2.default.Container);
+
+Container.allowedChildren = [_block2.default, _block.BlockEmbed, Container];
+
+exports.default = Container;
 
 /***/ }),
 /* 26 */
@@ -4546,6 +4754,431 @@ exports.ColorStyle = ColorStyle;
 "use strict";
 
 
+var _parchment = __webpack_require__(0);
+
+var _parchment2 = _interopRequireDefault(_parchment);
+
+var _quill = __webpack_require__(5);
+
+var _quill2 = _interopRequireDefault(_quill);
+
+var _block = __webpack_require__(4);
+
+var _block2 = _interopRequireDefault(_block);
+
+var _break = __webpack_require__(15);
+
+var _break2 = _interopRequireDefault(_break);
+
+var _container = __webpack_require__(25);
+
+var _container2 = _interopRequireDefault(_container);
+
+var _cursor = __webpack_require__(23);
+
+var _cursor2 = _interopRequireDefault(_cursor);
+
+var _embed = __webpack_require__(24);
+
+var _embed2 = _interopRequireDefault(_embed);
+
+var _inline = __webpack_require__(6);
+
+var _inline2 = _interopRequireDefault(_inline);
+
+var _scroll = __webpack_require__(22);
+
+var _scroll2 = _interopRequireDefault(_scroll);
+
+var _text = __webpack_require__(7);
+
+var _text2 = _interopRequireDefault(_text);
+
+var _clipboard = __webpack_require__(55);
+
+var _clipboard2 = _interopRequireDefault(_clipboard);
+
+var _history = __webpack_require__(42);
+
+var _history2 = _interopRequireDefault(_history);
+
+var _keyboard = __webpack_require__(35);
+
+var _keyboard2 = _interopRequireDefault(_keyboard);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_quill2.default.register({
+  'blots/block': _block2.default,
+  'blots/block/embed': _block.BlockEmbed,
+  'blots/break': _break2.default,
+  'blots/container': _container2.default,
+  'blots/cursor': _cursor2.default,
+  'blots/embed': _embed2.default,
+  'blots/inline': _inline2.default,
+  'blots/scroll': _scroll2.default,
+  'blots/text': _text2.default,
+
+  'modules/clipboard': _clipboard2.default,
+  'modules/history': _history2.default,
+  'modules/keyboard': _keyboard2.default
+});
+
+_parchment2.default.register(_block2.default, _break2.default, _cursor2.default, _inline2.default, _scroll2.default, _text2.default);
+
+module.exports = _quill2.default;
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Registry = __webpack_require__(1);
+var ShadowBlot = (function () {
+    function ShadowBlot(domNode) {
+        this.domNode = domNode;
+        this.attach();
+    }
+    Object.defineProperty(ShadowBlot.prototype, "statics", {
+        // Hack for accessing inherited static methods
+        get: function () {
+            return this.constructor;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ShadowBlot.create = function (value) {
+        if (this.tagName == null) {
+            throw new Registry.ParchmentError('Blot definition missing tagName');
+        }
+        var node;
+        if (Array.isArray(this.tagName)) {
+            if (typeof value === 'string') {
+                value = value.toUpperCase();
+                if (parseInt(value).toString() === value) {
+                    value = parseInt(value);
+                }
+            }
+            if (typeof value === 'number') {
+                node = document.createElement(this.tagName[value - 1]);
+            }
+            else if (this.tagName.indexOf(value) > -1) {
+                node = document.createElement(value);
+            }
+            else {
+                node = document.createElement(this.tagName[0]);
+            }
+        }
+        else {
+            node = document.createElement(this.tagName);
+        }
+        if (this.className) {
+            node.classList.add(this.className);
+        }
+        return node;
+    };
+    ShadowBlot.prototype.attach = function () {
+        this.domNode[Registry.DATA_KEY] = { blot: this };
+    };
+    ShadowBlot.prototype.clone = function () {
+        var domNode = this.domNode.cloneNode(false);
+        return Registry.create(domNode);
+    };
+    ShadowBlot.prototype.detach = function () {
+        if (this.parent != null)
+            this.parent.removeChild(this);
+        delete this.domNode[Registry.DATA_KEY];
+    };
+    ShadowBlot.prototype.deleteAt = function (index, length) {
+        var blot = this.isolate(index, length);
+        blot.remove();
+    };
+    ShadowBlot.prototype.formatAt = function (index, length, name, value) {
+        var blot = this.isolate(index, length);
+        if (Registry.query(name, Registry.Scope.BLOT) != null && value) {
+            blot.wrap(name, value);
+        }
+        else if (Registry.query(name, Registry.Scope.ATTRIBUTE) != null) {
+            var parent = Registry.create(this.statics.scope);
+            blot.wrap(parent);
+            parent.format(name, value);
+        }
+    };
+    ShadowBlot.prototype.insertAt = function (index, value, def) {
+        var blot = (def == null) ? Registry.create('text', value) : Registry.create(value, def);
+        var ref = this.split(index);
+        this.parent.insertBefore(blot, ref);
+    };
+    ShadowBlot.prototype.insertInto = function (parentBlot, refBlot) {
+        if (this.parent != null) {
+            this.parent.children.remove(this);
+        }
+        parentBlot.children.insertBefore(this, refBlot);
+        if (refBlot != null) {
+            var refDomNode = refBlot.domNode;
+        }
+        if (this.next == null || this.domNode.nextSibling != refDomNode) {
+            parentBlot.domNode.insertBefore(this.domNode, (typeof refDomNode !== 'undefined') ? refDomNode : null);
+        }
+        this.parent = parentBlot;
+    };
+    ShadowBlot.prototype.isolate = function (index, length) {
+        var target = this.split(index);
+        target.split(length);
+        return target;
+    };
+    ShadowBlot.prototype.length = function () {
+        return 1;
+    };
+    ;
+    ShadowBlot.prototype.offset = function (root) {
+        if (root === void 0) { root = this.parent; }
+        if (this.parent == null || this == root)
+            return 0;
+        return this.parent.children.offset(this) + this.parent.offset(root);
+    };
+    ShadowBlot.prototype.optimize = function (context) {
+        // TODO clean up once we use WeakMap
+        if (this.domNode[Registry.DATA_KEY] != null) {
+            delete this.domNode[Registry.DATA_KEY].mutations;
+        }
+    };
+    ShadowBlot.prototype.remove = function () {
+        if (this.domNode.parentNode != null) {
+            this.domNode.parentNode.removeChild(this.domNode);
+        }
+        this.detach();
+    };
+    ShadowBlot.prototype.replace = function (target) {
+        if (target.parent == null)
+            return;
+        target.parent.insertBefore(this, target.next);
+        target.remove();
+    };
+    ShadowBlot.prototype.replaceWith = function (name, value) {
+        var replacement = typeof name === 'string' ? Registry.create(name, value) : name;
+        replacement.replace(this);
+        return replacement;
+    };
+    ShadowBlot.prototype.split = function (index, force) {
+        return index === 0 ? this : this.next;
+    };
+    ShadowBlot.prototype.update = function (mutations, context) {
+        // Nothing to do by default
+    };
+    ShadowBlot.prototype.wrap = function (name, value) {
+        var wrapper = typeof name === 'string' ? Registry.create(name, value) : name;
+        if (this.parent != null) {
+            this.parent.insertBefore(wrapper, this.next);
+        }
+        wrapper.appendChild(this);
+        return wrapper;
+    };
+    ShadowBlot.blotName = 'abstract';
+    return ShadowBlot;
+}());
+exports.default = ShadowBlot;
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var attributor_1 = __webpack_require__(12);
+var class_1 = __webpack_require__(32);
+var style_1 = __webpack_require__(33);
+var Registry = __webpack_require__(1);
+var AttributorStore = (function () {
+    function AttributorStore(domNode) {
+        this.attributes = {};
+        this.domNode = domNode;
+        this.build();
+    }
+    AttributorStore.prototype.attribute = function (attribute, value) {
+        if (value) {
+            if (attribute.add(this.domNode, value)) {
+                if (attribute.value(this.domNode) != null) {
+                    this.attributes[attribute.attrName] = attribute;
+                }
+                else {
+                    delete this.attributes[attribute.attrName];
+                }
+            }
+        }
+        else {
+            attribute.remove(this.domNode);
+            delete this.attributes[attribute.attrName];
+        }
+    };
+    AttributorStore.prototype.build = function () {
+        var _this = this;
+        this.attributes = {};
+        var attributes = attributor_1.default.keys(this.domNode);
+        var classes = class_1.default.keys(this.domNode);
+        var styles = style_1.default.keys(this.domNode);
+        attributes.concat(classes).concat(styles).forEach(function (name) {
+            var attr = Registry.query(name, Registry.Scope.ATTRIBUTE);
+            if (attr instanceof attributor_1.default) {
+                _this.attributes[attr.attrName] = attr;
+            }
+        });
+    };
+    AttributorStore.prototype.copy = function (target) {
+        var _this = this;
+        Object.keys(this.attributes).forEach(function (key) {
+            var value = _this.attributes[key].value(_this.domNode);
+            target.format(key, value);
+        });
+    };
+    AttributorStore.prototype.move = function (target) {
+        var _this = this;
+        this.copy(target);
+        Object.keys(this.attributes).forEach(function (key) {
+            _this.attributes[key].remove(_this.domNode);
+        });
+        this.attributes = {};
+    };
+    AttributorStore.prototype.values = function () {
+        var _this = this;
+        return Object.keys(this.attributes).reduce(function (attributes, name) {
+            attributes[name] = _this.attributes[name].value(_this.domNode);
+            return attributes;
+        }, {});
+    };
+    return AttributorStore;
+}());
+exports.default = AttributorStore;
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var attributor_1 = __webpack_require__(12);
+function match(node, prefix) {
+    var className = node.getAttribute('class') || '';
+    return className.split(/\s+/).filter(function (name) {
+        return name.indexOf(prefix + "-") === 0;
+    });
+}
+var ClassAttributor = (function (_super) {
+    __extends(ClassAttributor, _super);
+    function ClassAttributor() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ClassAttributor.keys = function (node) {
+        return (node.getAttribute('class') || '').split(/\s+/).map(function (name) {
+            return name.split('-').slice(0, -1).join('-');
+        });
+    };
+    ClassAttributor.prototype.add = function (node, value) {
+        if (!this.canAdd(node, value))
+            return false;
+        this.remove(node);
+        node.classList.add(this.keyName + "-" + value);
+        return true;
+    };
+    ClassAttributor.prototype.remove = function (node) {
+        var matches = match(node, this.keyName);
+        matches.forEach(function (name) {
+            node.classList.remove(name);
+        });
+        if (node.classList.length === 0) {
+            node.removeAttribute('class');
+        }
+    };
+    ClassAttributor.prototype.value = function (node) {
+        var result = match(node, this.keyName)[0] || '';
+        var value = result.slice(this.keyName.length + 1); // +1 for hyphen
+        return this.canAdd(node, value) ? value : '';
+    };
+    return ClassAttributor;
+}(attributor_1.default));
+exports.default = ClassAttributor;
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var attributor_1 = __webpack_require__(12);
+function camelize(name) {
+    var parts = name.split('-');
+    var rest = parts.slice(1).map(function (part) {
+        return part[0].toUpperCase() + part.slice(1);
+    }).join('');
+    return parts[0] + rest;
+}
+var StyleAttributor = (function (_super) {
+    __extends(StyleAttributor, _super);
+    function StyleAttributor() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    StyleAttributor.keys = function (node) {
+        return (node.getAttribute('style') || '').split(';').map(function (value) {
+            var arr = value.split(':');
+            return arr[0].trim();
+        });
+    };
+    StyleAttributor.prototype.add = function (node, value) {
+        if (!this.canAdd(node, value))
+            return false;
+        node.style[camelize(this.keyName)] = value;
+        return true;
+    };
+    StyleAttributor.prototype.remove = function (node) {
+        node.style[camelize(this.keyName)] = '';
+        if (!node.getAttribute('style')) {
+            node.removeAttribute('style');
+        }
+    };
+    StyleAttributor.prototype.value = function (node) {
+        var value = node.style[camelize(this.keyName)];
+        return this.canAdd(node, value) ? value : '';
+    };
+    return StyleAttributor;
+}(attributor_1.default));
+exports.default = StyleAttributor;
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -4596,7 +5229,7 @@ Theme.themes = {
 exports.default = Theme;
 
 /***/ }),
-/* 30 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4613,7 +5246,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _clone = __webpack_require__(19);
+var _clone = __webpack_require__(21);
 
 var _clone2 = _interopRequireDefault(_clone);
 
@@ -4625,6 +5258,10 @@ var _extend = __webpack_require__(3);
 
 var _extend2 = _interopRequireDefault(_extend);
 
+var _quillDelta = __webpack_require__(2);
+
+var _quillDelta2 = _interopRequireDefault(_quillDelta);
+
 var _op = __webpack_require__(20);
 
 var _op2 = _interopRequireDefault(_op);
@@ -4633,7 +5270,7 @@ var _parchment = __webpack_require__(0);
 
 var _parchment2 = _interopRequireDefault(_parchment);
 
-var _quill = __webpack_require__(6);
+var _quill = __webpack_require__(5);
 
 var _quill2 = _interopRequireDefault(_quill);
 
@@ -4680,6 +5317,9 @@ var Keyboard = function (_Module) {
 
     _this.bindings = {};
     Object.keys(_this.options.bindings).forEach(function (name) {
+      if (name === 'list autofill' && quill.scroll.whitelist != null && !quill.scroll.whitelist['list']) {
+        return;
+      }
       if (_this.options.bindings[name]) {
         _this.addBinding(_this.options.bindings[name]);
       }
@@ -4839,13 +5479,11 @@ Keyboard.DEFAULTS = {
       metaKey: null,
       ctrlKey: null,
       altKey: null,
-      format: ['blockquote', 'indent', 'list'],
+      format: ['indent', 'list'],
       offset: 0,
       handler: function handler(range, context) {
         if (context.format.indent != null) {
           this.quill.format('indent', '-1', _quill2.default.sources.USER);
-        } else if (context.format.blockquote != null) {
-          this.quill.format('blockquote', false, _quill2.default.sources.USER);
         } else if (context.format.list != null) {
           this.quill.format('list', false, _quill2.default.sources.USER);
         }
@@ -4864,11 +5502,11 @@ Keyboard.DEFAULTS = {
     },
     'tab': {
       key: Keyboard.keys.TAB,
-      handler: function handler(range, context) {
-        if (!context.collapsed) {
-          this.quill.scroll.deleteAt(range.index, range.length);
-        }
-        this.quill.insertText(range.index, '\t', _quill2.default.sources.USER);
+      handler: function handler(range) {
+        this.quill.history.cutoff();
+        var delta = new _quillDelta2.default().retain(range.index).delete(range.length).insert('\t');
+        this.quill.updateContents(delta, _quill2.default.sources.USER);
+        this.quill.history.cutoff();
         this.quill.setSelection(range.index + 1, _quill2.default.sources.SILENT);
       }
     },
@@ -4889,16 +5527,15 @@ Keyboard.DEFAULTS = {
       collapsed: true,
       format: { list: 'checked' },
       handler: function handler(range) {
-        this.quill.scroll.insertAt(range.index, '\n');
+        var _quill$getLine3 = this.quill.getLine(range.index),
+            _quill$getLine4 = _slicedToArray(_quill$getLine3, 2),
+            line = _quill$getLine4[0],
+            offset = _quill$getLine4[1];
 
-        var _quill$getLine3 = this.quill.getLine(range.index + 1),
-            _quill$getLine4 = _slicedToArray(_quill$getLine3, 1),
-            line = _quill$getLine4[0];
-
-        line.format('list', 'unchecked');
-        this.quill.update(_quill2.default.sources.USER);
+        var delta = new _quillDelta2.default().retain(range.index).insert('\n', { list: 'checked' }).retain(line.length() - offset - 1).retain(1, { list: 'unchecked' });
+        this.quill.updateContents(delta, _quill2.default.sources.USER);
         this.quill.setSelection(range.index + 1, _quill2.default.sources.SILENT);
-        this.quill.selection.scrollIntoView();
+        this.quill.scrollIntoView();
       }
     },
     'header enter': {
@@ -4906,11 +5543,16 @@ Keyboard.DEFAULTS = {
       collapsed: true,
       format: ['header'],
       suffix: /^$/,
-      handler: function handler(range) {
-        this.quill.scroll.insertAt(range.index, '\n');
-        this.quill.formatText(range.index + 1, 1, 'header', false, _quill2.default.sources.USER);
+      handler: function handler(range, context) {
+        var _quill$getLine5 = this.quill.getLine(range.index),
+            _quill$getLine6 = _slicedToArray(_quill$getLine5, 2),
+            line = _quill$getLine6[0],
+            offset = _quill$getLine6[1];
+
+        var delta = new _quillDelta2.default().retain(range.index).insert('\n', context.format).retain(line.length() - offset - 1).retain(1, { header: null });
+        this.quill.updateContents(delta, _quill2.default.sources.USER);
         this.quill.setSelection(range.index + 1, _quill2.default.sources.SILENT);
-        this.quill.selection.scrollIntoView();
+        this.quill.scrollIntoView();
       }
     },
     'list autofill': {
@@ -4919,7 +5561,6 @@ Keyboard.DEFAULTS = {
       format: { list: false },
       prefix: /^\s*?(1\.|-|\[ ?\]|\[x\])$/,
       handler: function handler(range, context) {
-        if (this.quill.scroll.whitelist != null && !this.quill.scroll.whitelist['list']) return true;
         var length = context.prefix.length;
         var value = void 0;
         switch (context.prefix.trim()) {
@@ -4935,8 +5576,17 @@ Keyboard.DEFAULTS = {
           default:
             value = 'ordered';
         }
-        this.quill.scroll.deleteAt(range.index - length, length);
-        this.quill.formatLine(range.index - length, 1, 'list', value, _quill2.default.sources.USER);
+        this.quill.insertText(range.index, ' ', _quill2.default.sources.USER);
+        this.quill.history.cutoff();
+
+        var _quill$getLine7 = this.quill.getLine(range.index + 1),
+            _quill$getLine8 = _slicedToArray(_quill$getLine7, 2),
+            line = _quill$getLine8[0],
+            offset = _quill$getLine8[1];
+
+        var delta = new _quillDelta2.default().retain(range.index + 1 - offset).delete(length + 1).retain(line.length() - 1 - offset).retain(1, { list: value });
+        this.quill.updateContents(delta, _quill2.default.sources.USER);
+        this.quill.history.cutoff();
         this.quill.setSelection(range.index - length, _quill2.default.sources.SILENT);
       }
     },
@@ -4957,15 +5607,15 @@ Keyboard.DEFAULTS = {
 function handleBackspace(range, context) {
   if (range.index === 0 || this.quill.getLength() <= 1) return;
 
-  var _quill$getLine5 = this.quill.getLine(range.index),
-      _quill$getLine6 = _slicedToArray(_quill$getLine5, 1),
-      line = _quill$getLine6[0];
+  var _quill$getLine9 = this.quill.getLine(range.index),
+      _quill$getLine10 = _slicedToArray(_quill$getLine9, 1),
+      line = _quill$getLine10[0];
 
   var formats = {};
   if (context.offset === 0) {
-    var _quill$getLine7 = this.quill.getLine(range.index - 1),
-        _quill$getLine8 = _slicedToArray(_quill$getLine7, 1),
-        prev = _quill$getLine8[0];
+    var _quill$getLine11 = this.quill.getLine(range.index - 1),
+        _quill$getLine12 = _slicedToArray(_quill$getLine11, 1),
+        prev = _quill$getLine12[0];
 
     if (prev != null && prev.length() > 1) {
       var curFormats = line.formats();
@@ -4979,7 +5629,7 @@ function handleBackspace(range, context) {
   if (Object.keys(formats).length > 0) {
     this.quill.formatLine(range.index - length, length, formats, _quill2.default.sources.USER);
   }
-  this.quill.selection.scrollIntoView();
+  this.quill.focus();
 }
 
 function handleDelete(range, context) {
@@ -4989,14 +5639,14 @@ function handleDelete(range, context) {
   var formats = {},
       nextLength = 0;
 
-  var _quill$getLine9 = this.quill.getLine(range.index),
-      _quill$getLine10 = _slicedToArray(_quill$getLine9, 1),
-      line = _quill$getLine10[0];
+  var _quill$getLine13 = this.quill.getLine(range.index),
+      _quill$getLine14 = _slicedToArray(_quill$getLine13, 1),
+      line = _quill$getLine14[0];
 
   if (context.offset >= line.length() - 1) {
-    var _quill$getLine11 = this.quill.getLine(range.index + 1),
-        _quill$getLine12 = _slicedToArray(_quill$getLine11, 1),
-        next = _quill$getLine12[0];
+    var _quill$getLine15 = this.quill.getLine(range.index + 1),
+        _quill$getLine16 = _slicedToArray(_quill$getLine15, 1),
+        next = _quill$getLine16[0];
 
     if (next) {
       var curFormats = line.formats();
@@ -5012,9 +5662,19 @@ function handleDelete(range, context) {
 }
 
 function handleDeleteRange(range) {
+  var lines = this.quill.getLines(range);
+  var formats = {};
+  if (lines.length > 1) {
+    var firstFormats = lines[0].formats();
+    var lastFormats = lines[lines.length - 1].formats();
+    formats = _op2.default.attributes.diff(lastFormats, firstFormats) || {};
+  }
   this.quill.deleteText(range, _quill2.default.sources.USER);
+  if (Object.keys(formats).length > 0) {
+    this.quill.formatLine(range.index, 1, formats, _quill2.default.sources.USER);
+  }
   this.quill.setSelection(range.index, _quill2.default.sources.SILENT);
-  this.quill.selection.scrollIntoView();
+  this.quill.focus();
 }
 
 function handleEnter(range, context) {
@@ -5033,7 +5693,7 @@ function handleEnter(range, context) {
   // Earlier scroll.deleteAt might have messed up our selection,
   // so insertText's built in selection preservation is not reliable
   this.quill.setSelection(range.index + 1, _quill2.default.sources.SILENT);
-  this.quill.selection.scrollIntoView();
+  this.quill.focus();
   Object.keys(context.format).forEach(function (name) {
     if (lineFormats[name] != null) return;
     if (Array.isArray(context.format[name])) return;
@@ -5124,432 +5784,6 @@ function normalize(binding) {
 
 exports.default = Keyboard;
 exports.SHORTKEY = SHORTKEY;
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var attributor_1 = __webpack_require__(13);
-function match(node, prefix) {
-    var className = node.getAttribute('class') || '';
-    return className.split(/\s+/).filter(function (name) {
-        return name.indexOf(prefix + "-") === 0;
-    });
-}
-var ClassAttributor = (function (_super) {
-    __extends(ClassAttributor, _super);
-    function ClassAttributor() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ClassAttributor.keys = function (node) {
-        return (node.getAttribute('class') || '').split(/\s+/).map(function (name) {
-            return name.split('-').slice(0, -1).join('-');
-        });
-    };
-    ClassAttributor.prototype.add = function (node, value) {
-        if (!this.canAdd(node, value))
-            return false;
-        this.remove(node);
-        node.classList.add(this.keyName + "-" + value);
-        return true;
-    };
-    ClassAttributor.prototype.remove = function (node) {
-        var matches = match(node, this.keyName);
-        matches.forEach(function (name) {
-            node.classList.remove(name);
-        });
-        if (node.classList.length === 0) {
-            node.removeAttribute('class');
-        }
-    };
-    ClassAttributor.prototype.value = function (node) {
-        var result = match(node, this.keyName)[0] || '';
-        var value = result.slice(this.keyName.length + 1); // +1 for hyphen
-        return this.canAdd(node, value) ? value : '';
-    };
-    return ClassAttributor;
-}(attributor_1.default));
-exports.default = ClassAttributor;
-
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var attributor_1 = __webpack_require__(13);
-var class_1 = __webpack_require__(31);
-var style_1 = __webpack_require__(33);
-var Registry = __webpack_require__(1);
-var AttributorStore = (function () {
-    function AttributorStore(domNode) {
-        this.attributes = {};
-        this.domNode = domNode;
-        this.build();
-    }
-    AttributorStore.prototype.attribute = function (attribute, value) {
-        if (value) {
-            if (attribute.add(this.domNode, value)) {
-                if (attribute.value(this.domNode) != null) {
-                    this.attributes[attribute.attrName] = attribute;
-                }
-                else {
-                    delete this.attributes[attribute.attrName];
-                }
-            }
-        }
-        else {
-            attribute.remove(this.domNode);
-            delete this.attributes[attribute.attrName];
-        }
-    };
-    AttributorStore.prototype.build = function () {
-        var _this = this;
-        this.attributes = {};
-        var attributes = attributor_1.default.keys(this.domNode);
-        var classes = class_1.default.keys(this.domNode);
-        var styles = style_1.default.keys(this.domNode);
-        attributes.concat(classes).concat(styles).forEach(function (name) {
-            var attr = Registry.query(name, Registry.Scope.ATTRIBUTE);
-            if (attr instanceof attributor_1.default) {
-                _this.attributes[attr.attrName] = attr;
-            }
-        });
-    };
-    AttributorStore.prototype.copy = function (target) {
-        var _this = this;
-        Object.keys(this.attributes).forEach(function (key) {
-            var value = _this.attributes[key].value(_this.domNode);
-            target.format(key, value);
-        });
-    };
-    AttributorStore.prototype.move = function (target) {
-        var _this = this;
-        this.copy(target);
-        Object.keys(this.attributes).forEach(function (key) {
-            _this.attributes[key].remove(_this.domNode);
-        });
-        this.attributes = {};
-    };
-    AttributorStore.prototype.values = function () {
-        var _this = this;
-        return Object.keys(this.attributes).reduce(function (attributes, name) {
-            attributes[name] = _this.attributes[name].value(_this.domNode);
-            return attributes;
-        }, {});
-    };
-    return AttributorStore;
-}());
-exports.default = AttributorStore;
-
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var attributor_1 = __webpack_require__(13);
-function camelize(name) {
-    var parts = name.split('-');
-    var rest = parts.slice(1).map(function (part) {
-        return part[0].toUpperCase() + part.slice(1);
-    }).join('');
-    return parts[0] + rest;
-}
-var StyleAttributor = (function (_super) {
-    __extends(StyleAttributor, _super);
-    function StyleAttributor() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    StyleAttributor.keys = function (node) {
-        return (node.getAttribute('style') || '').split(';').map(function (value) {
-            var arr = value.split(':');
-            return arr[0].trim();
-        });
-    };
-    StyleAttributor.prototype.add = function (node, value) {
-        if (!this.canAdd(node, value))
-            return false;
-        node.style[camelize(this.keyName)] = value;
-        return true;
-    };
-    StyleAttributor.prototype.remove = function (node) {
-        node.style[camelize(this.keyName)] = '';
-        if (!node.getAttribute('style')) {
-            node.removeAttribute('style');
-        }
-    };
-    StyleAttributor.prototype.value = function (node) {
-        var value = node.style[camelize(this.keyName)];
-        return this.canAdd(node, value) ? value : '';
-    };
-    return StyleAttributor;
-}(attributor_1.default));
-exports.default = StyleAttributor;
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Registry = __webpack_require__(1);
-var ShadowBlot = (function () {
-    function ShadowBlot(domNode) {
-        this.domNode = domNode;
-        this.attach();
-    }
-    Object.defineProperty(ShadowBlot.prototype, "statics", {
-        // Hack for accessing inherited static methods
-        get: function () {
-            return this.constructor;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ShadowBlot.create = function (value) {
-        if (this.tagName == null) {
-            throw new Registry.ParchmentError('Blot definition missing tagName');
-        }
-        var node;
-        if (Array.isArray(this.tagName)) {
-            if (typeof value === 'string') {
-                value = value.toUpperCase();
-                if (parseInt(value).toString() === value) {
-                    value = parseInt(value);
-                }
-            }
-            if (typeof value === 'number') {
-                node = document.createElement(this.tagName[value - 1]);
-            }
-            else if (this.tagName.indexOf(value) > -1) {
-                node = document.createElement(value);
-            }
-            else {
-                node = document.createElement(this.tagName[0]);
-            }
-        }
-        else {
-            node = document.createElement(this.tagName);
-        }
-        if (this.className) {
-            node.classList.add(this.className);
-        }
-        return node;
-    };
-    ShadowBlot.prototype.attach = function () {
-        this.domNode[Registry.DATA_KEY] = { blot: this };
-    };
-    ShadowBlot.prototype.clone = function () {
-        var domNode = this.domNode.cloneNode();
-        return Registry.create(domNode);
-    };
-    ShadowBlot.prototype.detach = function () {
-        if (this.parent != null)
-            this.parent.removeChild(this);
-        delete this.domNode[Registry.DATA_KEY];
-    };
-    ShadowBlot.prototype.deleteAt = function (index, length) {
-        var blot = this.isolate(index, length);
-        blot.remove();
-    };
-    ShadowBlot.prototype.formatAt = function (index, length, name, value) {
-        var blot = this.isolate(index, length);
-        if (Registry.query(name, Registry.Scope.BLOT) != null && value) {
-            blot.wrap(name, value);
-        }
-        else if (Registry.query(name, Registry.Scope.ATTRIBUTE) != null) {
-            var parent = Registry.create(this.statics.scope);
-            blot.wrap(parent);
-            parent.format(name, value);
-        }
-    };
-    ShadowBlot.prototype.insertAt = function (index, value, def) {
-        var blot = (def == null) ? Registry.create('text', value) : Registry.create(value, def);
-        var ref = this.split(index);
-        this.parent.insertBefore(blot, ref);
-    };
-    ShadowBlot.prototype.insertInto = function (parentBlot, refBlot) {
-        if (this.parent != null) {
-            this.parent.children.remove(this);
-        }
-        parentBlot.children.insertBefore(this, refBlot);
-        if (refBlot != null) {
-            var refDomNode = refBlot.domNode;
-        }
-        if (this.next == null || this.domNode.nextSibling != refDomNode) {
-            parentBlot.domNode.insertBefore(this.domNode, (typeof refDomNode !== 'undefined') ? refDomNode : null);
-        }
-        this.parent = parentBlot;
-    };
-    ShadowBlot.prototype.isolate = function (index, length) {
-        var target = this.split(index);
-        target.split(length);
-        return target;
-    };
-    ShadowBlot.prototype.length = function () {
-        return 1;
-    };
-    ;
-    ShadowBlot.prototype.offset = function (root) {
-        if (root === void 0) { root = this.parent; }
-        if (this.parent == null || this == root)
-            return 0;
-        return this.parent.children.offset(this) + this.parent.offset(root);
-    };
-    ShadowBlot.prototype.optimize = function () {
-        // TODO clean up once we use WeakMap
-        if (this.domNode[Registry.DATA_KEY] != null) {
-            delete this.domNode[Registry.DATA_KEY].mutations;
-        }
-    };
-    ShadowBlot.prototype.remove = function () {
-        if (this.domNode.parentNode != null) {
-            this.domNode.parentNode.removeChild(this.domNode);
-        }
-        this.detach();
-    };
-    ShadowBlot.prototype.replace = function (target) {
-        if (target.parent == null)
-            return;
-        target.parent.insertBefore(this, target.next);
-        target.remove();
-    };
-    ShadowBlot.prototype.replaceWith = function (name, value) {
-        var replacement = typeof name === 'string' ? Registry.create(name, value) : name;
-        replacement.replace(this);
-        return replacement;
-    };
-    ShadowBlot.prototype.split = function (index, force) {
-        return index === 0 ? this : this.next;
-    };
-    ShadowBlot.prototype.update = function (mutations) {
-        if (mutations === void 0) { mutations = []; }
-        // Nothing to do by default
-    };
-    ShadowBlot.prototype.wrap = function (name, value) {
-        var wrapper = typeof name === 'string' ? Registry.create(name, value) : name;
-        if (this.parent != null) {
-            this.parent.insertBefore(wrapper, this.next);
-        }
-        wrapper.appendChild(this);
-        return wrapper;
-    };
-    return ShadowBlot;
-}());
-ShadowBlot.blotName = 'abstract';
-exports.default = ShadowBlot;
-
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _parchment = __webpack_require__(0);
-
-var _parchment2 = _interopRequireDefault(_parchment);
-
-var _quill = __webpack_require__(6);
-
-var _quill2 = _interopRequireDefault(_quill);
-
-var _block = __webpack_require__(4);
-
-var _block2 = _interopRequireDefault(_block);
-
-var _break = __webpack_require__(17);
-
-var _break2 = _interopRequireDefault(_break);
-
-var _container = __webpack_require__(24);
-
-var _container2 = _interopRequireDefault(_container);
-
-var _cursor = __webpack_require__(25);
-
-var _cursor2 = _interopRequireDefault(_cursor);
-
-var _embed = __webpack_require__(7);
-
-var _embed2 = _interopRequireDefault(_embed);
-
-var _inline = __webpack_require__(8);
-
-var _inline2 = _interopRequireDefault(_inline);
-
-var _scroll = __webpack_require__(18);
-
-var _scroll2 = _interopRequireDefault(_scroll);
-
-var _text = __webpack_require__(12);
-
-var _text2 = _interopRequireDefault(_text);
-
-var _clipboard = __webpack_require__(45);
-
-var _clipboard2 = _interopRequireDefault(_clipboard);
-
-var _history = __webpack_require__(42);
-
-var _history2 = _interopRequireDefault(_history);
-
-var _keyboard = __webpack_require__(30);
-
-var _keyboard2 = _interopRequireDefault(_keyboard);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_quill2.default.register({
-  'blots/block': _block2.default,
-  'blots/block/embed': _block.BlockEmbed,
-  'blots/break': _break2.default,
-  'blots/container': _container2.default,
-  'blots/cursor': _cursor2.default,
-  'blots/embed': _embed2.default,
-  'blots/inline': _inline2.default,
-  'blots/scroll': _scroll2.default,
-  'blots/text': _text2.default,
-
-  'modules/clipboard': _clipboard2.default,
-  'modules/history': _history2.default,
-  'modules/keyboard': _keyboard2.default
-});
-
-_parchment2.default.register(_block2.default, _break2.default, _cursor2.default, _inline2.default, _scroll2.default, _text2.default);
-
-module.exports = _quill2.default;
 
 /***/ }),
 /* 36 */
@@ -5751,7 +5985,7 @@ var _parchment = __webpack_require__(0);
 
 var _parchment2 = _interopRequireDefault(_parchment);
 
-var _quill = __webpack_require__(6);
+var _quill = __webpack_require__(5);
 
 var _quill2 = _interopRequireDefault(_quill);
 
@@ -5805,13 +6039,17 @@ var History = function (_Module) {
       this.ignoreChange = false;
       var index = getLastChangeIndex(delta[source]);
       this.quill.setSelection(index);
-      this.quill.selection.scrollIntoView();
       this.stack[dest].push(delta);
     }
   }, {
     key: 'clear',
     value: function clear() {
       this.stack = { undo: [], redo: [] };
+    }
+  }, {
+    key: 'cutoff',
+    value: function cutoff() {
+      this.lastRecorded = 0;
     }
   }, {
     key: 'record',
@@ -5898,7 +6136,620 @@ exports.default = History;
 exports.getLastChangeIndex = getLastChangeIndex;
 
 /***/ }),
-/* 43 */
+/* 43 */,
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var LinkedList = (function () {
+    function LinkedList() {
+        this.head = this.tail = undefined;
+        this.length = 0;
+    }
+    LinkedList.prototype.append = function () {
+        var nodes = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            nodes[_i] = arguments[_i];
+        }
+        this.insertBefore(nodes[0], undefined);
+        if (nodes.length > 1) {
+            this.append.apply(this, nodes.slice(1));
+        }
+    };
+    LinkedList.prototype.contains = function (node) {
+        var cur, next = this.iterator();
+        while (cur = next()) {
+            if (cur === node)
+                return true;
+        }
+        return false;
+    };
+    LinkedList.prototype.insertBefore = function (node, refNode) {
+        node.next = refNode;
+        if (refNode != null) {
+            node.prev = refNode.prev;
+            if (refNode.prev != null) {
+                refNode.prev.next = node;
+            }
+            refNode.prev = node;
+            if (refNode === this.head) {
+                this.head = node;
+            }
+        }
+        else if (this.tail != null) {
+            this.tail.next = node;
+            node.prev = this.tail;
+            this.tail = node;
+        }
+        else {
+            node.prev = undefined;
+            this.head = this.tail = node;
+        }
+        this.length += 1;
+    };
+    LinkedList.prototype.offset = function (target) {
+        var index = 0, cur = this.head;
+        while (cur != null) {
+            if (cur === target)
+                return index;
+            index += cur.length();
+            cur = cur.next;
+        }
+        return -1;
+    };
+    LinkedList.prototype.remove = function (node) {
+        if (!this.contains(node))
+            return;
+        if (node.prev != null)
+            node.prev.next = node.next;
+        if (node.next != null)
+            node.next.prev = node.prev;
+        if (node === this.head)
+            this.head = node.next;
+        if (node === this.tail)
+            this.tail = node.prev;
+        this.length -= 1;
+    };
+    LinkedList.prototype.iterator = function (curNode) {
+        if (curNode === void 0) { curNode = this.head; }
+        // TODO use yield when we can
+        return function () {
+            var ret = curNode;
+            if (curNode != null)
+                curNode = curNode.next;
+            return ret;
+        };
+    };
+    LinkedList.prototype.find = function (index, inclusive) {
+        if (inclusive === void 0) { inclusive = false; }
+        var cur, next = this.iterator();
+        while (cur = next()) {
+            var length = cur.length();
+            if (index < length || (inclusive && index === length && (cur.next == null || cur.next.length() !== 0))) {
+                return [cur, index];
+            }
+            index -= length;
+        }
+        return [null, 0];
+    };
+    LinkedList.prototype.forEach = function (callback) {
+        var cur, next = this.iterator();
+        while (cur = next()) {
+            callback(cur);
+        }
+    };
+    LinkedList.prototype.forEachAt = function (index, length, callback) {
+        if (length <= 0)
+            return;
+        var _a = this.find(index), startNode = _a[0], offset = _a[1];
+        var cur, curIndex = index - offset, next = this.iterator(startNode);
+        while ((cur = next()) && curIndex < index + length) {
+            var curLength = cur.length();
+            if (index > curIndex) {
+                callback(cur, index - curIndex, Math.min(length, curIndex + curLength - index));
+            }
+            else {
+                callback(cur, 0, Math.min(curLength, index + length - curIndex));
+            }
+            curIndex += curLength;
+        }
+    };
+    LinkedList.prototype.map = function (callback) {
+        return this.reduce(function (memo, cur) {
+            memo.push(callback(cur));
+            return memo;
+        }, []);
+    };
+    LinkedList.prototype.reduce = function (callback, memo) {
+        var cur, next = this.iterator();
+        while (cur = next()) {
+            memo = callback(memo, cur);
+        }
+        return memo;
+    };
+    return LinkedList;
+}());
+exports.default = LinkedList;
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var container_1 = __webpack_require__(17);
+var Registry = __webpack_require__(1);
+var OBSERVER_CONFIG = {
+    attributes: true,
+    characterData: true,
+    characterDataOldValue: true,
+    childList: true,
+    subtree: true
+};
+var MAX_OPTIMIZE_ITERATIONS = 100;
+var ScrollBlot = (function (_super) {
+    __extends(ScrollBlot, _super);
+    function ScrollBlot(node) {
+        var _this = _super.call(this, node) || this;
+        _this.parent = null;
+        _this.observer = new MutationObserver(function (mutations) {
+            _this.update(mutations);
+        });
+        _this.observer.observe(_this.domNode, OBSERVER_CONFIG);
+        return _this;
+    }
+    ScrollBlot.prototype.detach = function () {
+        _super.prototype.detach.call(this);
+        this.observer.disconnect();
+    };
+    ScrollBlot.prototype.deleteAt = function (index, length) {
+        this.update();
+        if (index === 0 && length === this.length()) {
+            this.children.forEach(function (child) {
+                child.remove();
+            });
+        }
+        else {
+            _super.prototype.deleteAt.call(this, index, length);
+        }
+    };
+    ScrollBlot.prototype.formatAt = function (index, length, name, value) {
+        this.update();
+        _super.prototype.formatAt.call(this, index, length, name, value);
+    };
+    ScrollBlot.prototype.insertAt = function (index, value, def) {
+        this.update();
+        _super.prototype.insertAt.call(this, index, value, def);
+    };
+    ScrollBlot.prototype.optimize = function (mutations, context) {
+        var _this = this;
+        if (mutations === void 0) { mutations = []; }
+        if (context === void 0) { context = {}; }
+        _super.prototype.optimize.call(this, context);
+        // We must modify mutations directly, cannot make copy and then modify
+        var records = [].slice.call(this.observer.takeRecords());
+        // Array.push currently seems to be implemented by a non-tail recursive function
+        // so we cannot just mutations.push.apply(mutations, this.observer.takeRecords());
+        while (records.length > 0)
+            mutations.push(records.pop());
+        // TODO use WeakMap
+        var mark = function (blot, markParent) {
+            if (markParent === void 0) { markParent = true; }
+            if (blot == null || blot === _this)
+                return;
+            if (blot.domNode.parentNode == null)
+                return;
+            if (blot.domNode[Registry.DATA_KEY].mutations == null) {
+                blot.domNode[Registry.DATA_KEY].mutations = [];
+            }
+            if (markParent)
+                mark(blot.parent);
+        };
+        var optimize = function (blot) {
+            if (blot.domNode[Registry.DATA_KEY] == null || blot.domNode[Registry.DATA_KEY].mutations == null) {
+                return;
+            }
+            if (blot instanceof container_1.default) {
+                blot.children.forEach(optimize);
+            }
+            blot.optimize(context);
+        };
+        var remaining = mutations;
+        for (var i = 0; remaining.length > 0; i += 1) {
+            if (i >= MAX_OPTIMIZE_ITERATIONS) {
+                throw new Error('[Parchment] Maximum optimize iterations reached');
+            }
+            remaining.forEach(function (mutation) {
+                var blot = Registry.find(mutation.target, true);
+                if (blot == null)
+                    return;
+                if (blot.domNode === mutation.target) {
+                    if (mutation.type === 'childList') {
+                        mark(Registry.find(mutation.previousSibling, false));
+                        [].forEach.call(mutation.addedNodes, function (node) {
+                            var child = Registry.find(node, false);
+                            mark(child, false);
+                            if (child instanceof container_1.default) {
+                                child.children.forEach(function (grandChild) {
+                                    mark(grandChild, false);
+                                });
+                            }
+                        });
+                    }
+                    else if (mutation.type === 'attributes') {
+                        mark(blot.prev);
+                    }
+                }
+                mark(blot);
+            });
+            this.children.forEach(optimize);
+            remaining = [].slice.call(this.observer.takeRecords());
+            records = remaining.slice();
+            while (records.length > 0)
+                mutations.push(records.pop());
+        }
+    };
+    ScrollBlot.prototype.update = function (mutations, context) {
+        var _this = this;
+        if (context === void 0) { context = {}; }
+        mutations = mutations || this.observer.takeRecords();
+        // TODO use WeakMap
+        mutations.map(function (mutation) {
+            var blot = Registry.find(mutation.target, true);
+            if (blot == null)
+                return;
+            if (blot.domNode[Registry.DATA_KEY].mutations == null) {
+                blot.domNode[Registry.DATA_KEY].mutations = [mutation];
+                return blot;
+            }
+            else {
+                blot.domNode[Registry.DATA_KEY].mutations.push(mutation);
+                return null;
+            }
+        }).forEach(function (blot) {
+            if (blot == null || blot === _this || blot.domNode[Registry.DATA_KEY] == null)
+                return;
+            blot.update(blot.domNode[Registry.DATA_KEY].mutations || [], context);
+        });
+        if (this.domNode[Registry.DATA_KEY].mutations != null) {
+            _super.prototype.update.call(this, this.domNode[Registry.DATA_KEY].mutations, context);
+        }
+        this.optimize(mutations, context);
+    };
+    ScrollBlot.blotName = 'scroll';
+    ScrollBlot.defaultChild = 'block';
+    ScrollBlot.scope = Registry.Scope.BLOCK_BLOT;
+    ScrollBlot.tagName = 'DIV';
+    return ScrollBlot;
+}(container_1.default));
+exports.default = ScrollBlot;
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var format_1 = __webpack_require__(18);
+var Registry = __webpack_require__(1);
+// Shallow object comparison
+function isEqual(obj1, obj2) {
+    if (Object.keys(obj1).length !== Object.keys(obj2).length)
+        return false;
+    for (var prop in obj1) {
+        if (obj1[prop] !== obj2[prop])
+            return false;
+    }
+    return true;
+}
+var InlineBlot = (function (_super) {
+    __extends(InlineBlot, _super);
+    function InlineBlot() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    InlineBlot.formats = function (domNode) {
+        if (domNode.tagName === InlineBlot.tagName)
+            return undefined;
+        return _super.formats.call(this, domNode);
+    };
+    InlineBlot.prototype.format = function (name, value) {
+        var _this = this;
+        if (name === this.statics.blotName && !value) {
+            this.children.forEach(function (child) {
+                if (!(child instanceof format_1.default)) {
+                    child = child.wrap(InlineBlot.blotName, true);
+                }
+                _this.attributes.copy(child);
+            });
+            this.unwrap();
+        }
+        else {
+            _super.prototype.format.call(this, name, value);
+        }
+    };
+    InlineBlot.prototype.formatAt = function (index, length, name, value) {
+        if (this.formats()[name] != null || Registry.query(name, Registry.Scope.ATTRIBUTE)) {
+            var blot = this.isolate(index, length);
+            blot.format(name, value);
+        }
+        else {
+            _super.prototype.formatAt.call(this, index, length, name, value);
+        }
+    };
+    InlineBlot.prototype.optimize = function (context) {
+        _super.prototype.optimize.call(this, context);
+        var formats = this.formats();
+        if (Object.keys(formats).length === 0) {
+            return this.unwrap(); // unformatted span
+        }
+        var next = this.next;
+        if (next instanceof InlineBlot && next.prev === this && isEqual(formats, next.formats())) {
+            next.moveChildren(this);
+            next.remove();
+        }
+    };
+    InlineBlot.blotName = 'inline';
+    InlineBlot.scope = Registry.Scope.INLINE_BLOT;
+    InlineBlot.tagName = 'SPAN';
+    return InlineBlot;
+}(format_1.default));
+exports.default = InlineBlot;
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var format_1 = __webpack_require__(18);
+var Registry = __webpack_require__(1);
+var BlockBlot = (function (_super) {
+    __extends(BlockBlot, _super);
+    function BlockBlot() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    BlockBlot.formats = function (domNode) {
+        var tagName = Registry.query(BlockBlot.blotName).tagName;
+        if (domNode.tagName === tagName)
+            return undefined;
+        return _super.formats.call(this, domNode);
+    };
+    BlockBlot.prototype.format = function (name, value) {
+        if (Registry.query(name, Registry.Scope.BLOCK) == null) {
+            return;
+        }
+        else if (name === this.statics.blotName && !value) {
+            this.replaceWith(BlockBlot.blotName);
+        }
+        else {
+            _super.prototype.format.call(this, name, value);
+        }
+    };
+    BlockBlot.prototype.formatAt = function (index, length, name, value) {
+        if (Registry.query(name, Registry.Scope.BLOCK) != null) {
+            this.format(name, value);
+        }
+        else {
+            _super.prototype.formatAt.call(this, index, length, name, value);
+        }
+    };
+    BlockBlot.prototype.insertAt = function (index, value, def) {
+        if (def == null || Registry.query(value, Registry.Scope.INLINE) != null) {
+            // Insert text or inline
+            _super.prototype.insertAt.call(this, index, value, def);
+        }
+        else {
+            var after = this.split(index);
+            var blot = Registry.create(value, def);
+            after.parent.insertBefore(blot, after);
+        }
+    };
+    BlockBlot.prototype.update = function (mutations, context) {
+        if (navigator.userAgent.match(/Trident/)) {
+            this.attach();
+        }
+        else {
+            _super.prototype.update.call(this, mutations, context);
+        }
+    };
+    BlockBlot.blotName = 'block';
+    BlockBlot.scope = Registry.Scope.BLOCK_BLOT;
+    BlockBlot.tagName = 'P';
+    return BlockBlot;
+}(format_1.default));
+exports.default = BlockBlot;
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var leaf_1 = __webpack_require__(19);
+var EmbedBlot = (function (_super) {
+    __extends(EmbedBlot, _super);
+    function EmbedBlot() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    EmbedBlot.formats = function (domNode) {
+        return undefined;
+    };
+    EmbedBlot.prototype.format = function (name, value) {
+        // super.formatAt wraps, which is what we want in general,
+        // but this allows subclasses to overwrite for formats
+        // that just apply to particular embeds
+        _super.prototype.formatAt.call(this, 0, this.length(), name, value);
+    };
+    EmbedBlot.prototype.formatAt = function (index, length, name, value) {
+        if (index === 0 && length === this.length()) {
+            this.format(name, value);
+        }
+        else {
+            _super.prototype.formatAt.call(this, index, length, name, value);
+        }
+    };
+    EmbedBlot.prototype.formats = function () {
+        return this.statics.formats(this.domNode);
+    };
+    return EmbedBlot;
+}(leaf_1.default));
+exports.default = EmbedBlot;
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var leaf_1 = __webpack_require__(19);
+var Registry = __webpack_require__(1);
+var TextBlot = (function (_super) {
+    __extends(TextBlot, _super);
+    function TextBlot(node) {
+        var _this = _super.call(this, node) || this;
+        _this.text = _this.statics.value(_this.domNode);
+        return _this;
+    }
+    TextBlot.create = function (value) {
+        return document.createTextNode(value);
+    };
+    TextBlot.value = function (domNode) {
+        var text = domNode.data;
+        if (text["normalize"])
+            text = text["normalize"]();
+        return text;
+    };
+    TextBlot.prototype.deleteAt = function (index, length) {
+        this.domNode.data = this.text = this.text.slice(0, index) + this.text.slice(index + length);
+    };
+    TextBlot.prototype.index = function (node, offset) {
+        if (this.domNode === node) {
+            return offset;
+        }
+        return -1;
+    };
+    TextBlot.prototype.insertAt = function (index, value, def) {
+        if (def == null) {
+            this.text = this.text.slice(0, index) + value + this.text.slice(index);
+            this.domNode.data = this.text;
+        }
+        else {
+            _super.prototype.insertAt.call(this, index, value, def);
+        }
+    };
+    TextBlot.prototype.length = function () {
+        return this.text.length;
+    };
+    TextBlot.prototype.optimize = function (context) {
+        _super.prototype.optimize.call(this, context);
+        this.text = this.statics.value(this.domNode);
+        if (this.text.length === 0) {
+            this.remove();
+        }
+        else if (this.next instanceof TextBlot && this.next.prev === this) {
+            this.insertAt(this.length(), this.next.value());
+            this.next.remove();
+        }
+    };
+    TextBlot.prototype.position = function (index, inclusive) {
+        if (inclusive === void 0) { inclusive = false; }
+        return [this.domNode, index];
+    };
+    TextBlot.prototype.split = function (index, force) {
+        if (force === void 0) { force = false; }
+        if (!force) {
+            if (index === 0)
+                return this;
+            if (index === this.length())
+                return this.next;
+        }
+        var after = Registry.create(this.domNode.splitText(index));
+        this.parent.insertBefore(after, this.next);
+        this.text = this.statics.value(this.domNode);
+        return after;
+    };
+    TextBlot.prototype.update = function (mutations, context) {
+        var _this = this;
+        if (mutations.some(function (mutation) {
+            return mutation.type === 'characterData' && mutation.target === _this.domNode;
+        })) {
+            this.text = this.statics.value(this.domNode);
+        }
+    };
+    TextBlot.prototype.value = function () {
+        return this.text;
+    };
+    TextBlot.blotName = 'text';
+    TextBlot.scope = Registry.Scope.INLINE_BLOT;
+    return TextBlot;
+}(leaf_1.default));
+exports.default = TextBlot;
+
+
+/***/ }),
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5914,21 +6765,6 @@ if (elem.classList.contains('test-class')) {
     } else {
       return _toggle.call(this, token);
     }
-  };
-}
-
-if (!Node.prototype.getRootNode) {
-  Node.prototype.getRootNode = function (options) {
-    options = Object.assign({ composed: false }, options);
-    var rootNode = document;
-    if (options.composed === false && typeof HTMLElement.prototype.attachShadow === 'function') {
-      var currentNode = this.root.parentNode;
-      while (!(currentNode === document || currentNode instanceof ShadowRoot)) {
-        currentNode = currentNode.parentNode;
-      }
-      rootNode = currentNode;
-    }
-    return rootNode;
   };
 }
 
@@ -5984,2696 +6820,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /***/ }),
-/* 44 */,
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.matchText = exports.matchSpacing = exports.matchNewline = exports.matchBlot = exports.matchAttributor = exports.default = undefined;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _extend2 = __webpack_require__(3);
-
-var _extend3 = _interopRequireDefault(_extend2);
-
-var _quillDelta = __webpack_require__(2);
-
-var _quillDelta2 = _interopRequireDefault(_quillDelta);
-
-var _parchment = __webpack_require__(0);
-
-var _parchment2 = _interopRequireDefault(_parchment);
-
-var _quill = __webpack_require__(6);
-
-var _quill2 = _interopRequireDefault(_quill);
-
-var _logger = __webpack_require__(10);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-var _module = __webpack_require__(9);
-
-var _module2 = _interopRequireDefault(_module);
-
-var _align = __webpack_require__(36);
-
-var _background = __webpack_require__(37);
-
-var _color = __webpack_require__(26);
-
-var _direction = __webpack_require__(38);
-
-var _font = __webpack_require__(39);
-
-var _size = __webpack_require__(40);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var debug = (0, _logger2.default)('quill:clipboard');
-
-var DOM_KEY = '__ql-matcher';
-
-var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline], [Node.ELEMENT_NODE, matchBlot], [Node.ELEMENT_NODE, matchSpacing], [Node.ELEMENT_NODE, matchAttributor], [Node.ELEMENT_NODE, matchStyles], ['li', matchIndent], ['b', matchAlias.bind(matchAlias, 'bold')], ['i', matchAlias.bind(matchAlias, 'italic')], ['style', matchIgnore]];
-
-var ATTRIBUTE_ATTRIBUTORS = [_align.AlignAttribute, _direction.DirectionAttribute].reduce(function (memo, attr) {
-  memo[attr.keyName] = attr;
-  return memo;
-}, {});
-
-var STYLE_ATTRIBUTORS = [_align.AlignStyle, _background.BackgroundStyle, _color.ColorStyle, _direction.DirectionStyle, _font.FontStyle, _size.SizeStyle].reduce(function (memo, attr) {
-  memo[attr.keyName] = attr;
-  return memo;
-}, {});
-
-var Clipboard = function (_Module) {
-  _inherits(Clipboard, _Module);
-
-  function Clipboard(quill, options) {
-    _classCallCheck(this, Clipboard);
-
-    var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this, quill, options));
-
-    _this.quill.root.addEventListener('paste', _this.onPaste.bind(_this));
-    _this.container = _this.quill.addContainer('ql-clipboard');
-    _this.container.setAttribute('contenteditable', true);
-    _this.container.setAttribute('tabindex', -1);
-    _this.matchers = [];
-    CLIPBOARD_CONFIG.concat(_this.options.matchers).forEach(function (pair) {
-      _this.addMatcher.apply(_this, _toConsumableArray(pair));
-    });
-    return _this;
-  }
-
-  _createClass(Clipboard, [{
-    key: 'addMatcher',
-    value: function addMatcher(selector, matcher) {
-      this.matchers.push([selector, matcher]);
-    }
-  }, {
-    key: 'convert',
-    value: function convert(html) {
-      if (typeof html === 'string') {
-        this.container.innerHTML = html.replace(/\>\r?\n +\</g, '><'); // Remove spaces between tags
-      }
-
-      var _prepareMatching = this.prepareMatching(),
-          _prepareMatching2 = _slicedToArray(_prepareMatching, 2),
-          elementMatchers = _prepareMatching2[0],
-          textMatchers = _prepareMatching2[1];
-
-      var delta = traverse(this.container, elementMatchers, textMatchers);
-      // Remove trailing newline
-      if (deltaEndsWith(delta, '\n') && delta.ops[delta.ops.length - 1].attributes == null) {
-        delta = delta.compose(new _quillDelta2.default().retain(delta.length() - 1).delete(1));
-      }
-      debug.log('convert', this.container.innerHTML, delta);
-      this.container.innerHTML = '';
-      return delta;
-    }
-  }, {
-    key: 'dangerouslyPasteHTML',
-    value: function dangerouslyPasteHTML(index, html) {
-      var source = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _quill2.default.sources.API;
-
-      if (typeof index === 'string') {
-        return this.quill.setContents(this.convert(index), html);
-      } else {
-        var paste = this.convert(html);
-        return this.quill.updateContents(new _quillDelta2.default().retain(index).concat(paste), source);
-      }
-    }
-  }, {
-    key: 'onPaste',
-    value: function onPaste(e) {
-      var _this2 = this;
-
-      if (e.defaultPrevented || !this.quill.isEnabled()) return;
-      var range = this.quill.getSelection();
-      var delta = new _quillDelta2.default().retain(range.index);
-      var scrollTop = this.quill.scrollingContainer.scrollTop;
-      this.container.focus();
-      setTimeout(function () {
-        _this2.quill.selection.update(_quill2.default.sources.SILENT);
-        delta = delta.concat(_this2.convert()).delete(range.length);
-        _this2.quill.updateContents(delta, _quill2.default.sources.USER);
-        // range.length contributes to delta.length()
-        _this2.quill.setSelection(delta.length() - range.length, _quill2.default.sources.SILENT);
-        _this2.quill.scrollingContainer.scrollTop = scrollTop;
-        _this2.quill.selection.scrollIntoView();
-      }, 1);
-    }
-  }, {
-    key: 'prepareMatching',
-    value: function prepareMatching() {
-      var _this3 = this;
-
-      var elementMatchers = [],
-          textMatchers = [];
-      this.matchers.forEach(function (pair) {
-        var _pair = _slicedToArray(pair, 2),
-            selector = _pair[0],
-            matcher = _pair[1];
-
-        switch (selector) {
-          case Node.TEXT_NODE:
-            textMatchers.push(matcher);
-            break;
-          case Node.ELEMENT_NODE:
-            elementMatchers.push(matcher);
-            break;
-          default:
-            [].forEach.call(_this3.container.querySelectorAll(selector), function (node) {
-              // TODO use weakmap
-              node[DOM_KEY] = node[DOM_KEY] || [];
-              node[DOM_KEY].push(matcher);
-            });
-            break;
-        }
-      });
-      return [elementMatchers, textMatchers];
-    }
-  }]);
-
-  return Clipboard;
-}(_module2.default);
-
-Clipboard.DEFAULTS = {
-  matchers: []
-};
-
-function applyFormat(delta, format, value) {
-  if ((typeof format === 'undefined' ? 'undefined' : _typeof(format)) === 'object') {
-    return Object.keys(format).reduce(function (delta, key) {
-      return applyFormat(delta, key, format[key]);
-    }, delta);
-  } else {
-    return delta.reduce(function (delta, op) {
-      if (op.attributes && op.attributes[format]) {
-        return delta.push(op);
-      } else {
-        return delta.insert(op.insert, (0, _extend3.default)({}, _defineProperty({}, format, value), op.attributes));
-      }
-    }, new _quillDelta2.default());
-  }
-}
-
-function computeStyle(node) {
-  if (node.nodeType !== Node.ELEMENT_NODE) return {};
-  var DOM_KEY = '__ql-computed-style';
-  return node[DOM_KEY] || (node[DOM_KEY] = window.getComputedStyle(node));
-}
-
-function deltaEndsWith(delta, text) {
-  var endText = "";
-  for (var i = delta.ops.length - 1; i >= 0 && endText.length < text.length; --i) {
-    var op = delta.ops[i];
-    if (typeof op.insert !== 'string') break;
-    endText = op.insert + endText;
-  }
-  return endText.slice(-1 * text.length) === text;
-}
-
-function isLine(node) {
-  if (node.childNodes.length === 0) return false; // Exclude embed blocks
-  var style = computeStyle(node);
-  return ['block', 'list-item'].indexOf(style.display) > -1;
-}
-
-function traverse(node, elementMatchers, textMatchers) {
-  // Post-order
-  if (node.nodeType === node.TEXT_NODE) {
-    return textMatchers.reduce(function (delta, matcher) {
-      return matcher(node, delta);
-    }, new _quillDelta2.default());
-  } else if (node.nodeType === node.ELEMENT_NODE) {
-    return [].reduce.call(node.childNodes || [], function (delta, childNode) {
-      var childrenDelta = traverse(childNode, elementMatchers, textMatchers);
-      if (childNode.nodeType === node.ELEMENT_NODE) {
-        childrenDelta = elementMatchers.reduce(function (childrenDelta, matcher) {
-          return matcher(childNode, childrenDelta);
-        }, childrenDelta);
-        childrenDelta = (childNode[DOM_KEY] || []).reduce(function (childrenDelta, matcher) {
-          return matcher(childNode, childrenDelta);
-        }, childrenDelta);
-      }
-      return delta.concat(childrenDelta);
-    }, new _quillDelta2.default());
-  } else {
-    return new _quillDelta2.default();
-  }
-}
-
-function matchAlias(format, node, delta) {
-  return applyFormat(delta, format, true);
-}
-
-function matchAttributor(node, delta) {
-  var attributes = _parchment2.default.Attributor.Attribute.keys(node);
-  var classes = _parchment2.default.Attributor.Class.keys(node);
-  var styles = _parchment2.default.Attributor.Style.keys(node);
-  var formats = {};
-  attributes.concat(classes).concat(styles).forEach(function (name) {
-    var attr = _parchment2.default.query(name, _parchment2.default.Scope.ATTRIBUTE);
-    if (attr != null) {
-      formats[attr.attrName] = attr.value(node);
-      if (formats[attr.attrName]) return;
-    }
-    if (ATTRIBUTE_ATTRIBUTORS[name] != null) {
-      attr = ATTRIBUTE_ATTRIBUTORS[name];
-      formats[attr.attrName] = attr.value(node) || undefined;
-    }
-    if (STYLE_ATTRIBUTORS[name] != null) {
-      attr = STYLE_ATTRIBUTORS[name];
-      formats[attr.attrName] = attr.value(node) || undefined;
-    }
-  });
-  if (Object.keys(formats).length > 0) {
-    delta = applyFormat(delta, formats);
-  }
-  return delta;
-}
-
-function matchBlot(node, delta) {
-  var match = _parchment2.default.query(node);
-  if (match == null) return delta;
-  if (match.prototype instanceof _parchment2.default.Embed) {
-    var embed = {};
-    var value = match.value(node);
-    if (value != null) {
-      embed[match.blotName] = value;
-      delta = new _quillDelta2.default().insert(embed, match.formats(node));
-    }
-  } else if (typeof match.formats === 'function') {
-    delta = applyFormat(delta, match.blotName, match.formats(node));
-  }
-  return delta;
-}
-
-function matchBreak(node, delta) {
-  if (!deltaEndsWith(delta, '\n')) {
-    delta.insert('\n');
-  }
-  return delta;
-}
-
-function matchIgnore() {
-  return new _quillDelta2.default();
-}
-
-function matchIndent(node, delta) {
-  var match = _parchment2.default.query(node);
-  if (match == null || match.blotName !== 'list-item' || !deltaEndsWith(delta, '\n')) {
-    return delta;
-  }
-  var indent = -1,
-      parent = node.parentNode;
-  while (!parent.classList.contains('ql-clipboard')) {
-    if ((_parchment2.default.query(parent) || {}).blotName === 'list') {
-      indent += 1;
-    }
-    parent = parent.parentNode;
-  }
-  if (indent <= 0) return delta;
-  return delta.compose(new _quillDelta2.default().retain(delta.length() - 1).retain(1, { indent: indent }));
-}
-
-function matchNewline(node, delta) {
-  if (!deltaEndsWith(delta, '\n')) {
-    if (isLine(node) || delta.length() > 0 && node.nextSibling && isLine(node.nextSibling)) {
-      delta.insert('\n');
-    }
-  }
-  return delta;
-}
-
-function matchSpacing(node, delta) {
-  if (isLine(node) && node.nextElementSibling != null && !deltaEndsWith(delta, '\n\n')) {
-    var nodeHeight = node.offsetHeight + parseFloat(computeStyle(node).marginTop) + parseFloat(computeStyle(node).marginBottom);
-    if (node.nextElementSibling.offsetTop > node.offsetTop + nodeHeight * 1.5) {
-      delta.insert('\n');
-    }
-  }
-  return delta;
-}
-
-function matchStyles(node, delta) {
-  var formats = {};
-  var style = node.style || {};
-  if (style.fontStyle && computeStyle(node).fontStyle === 'italic') {
-    formats.italic = true;
-  }
-  if (style.fontWeight && (computeStyle(node).fontWeight.startsWith('bold') || parseInt(computeStyle(node).fontWeight) >= 700)) {
-    formats.bold = true;
-  }
-  if (Object.keys(formats).length > 0) {
-    delta = applyFormat(delta, formats);
-  }
-  if (parseFloat(style.textIndent || 0) > 0) {
-    // Could be 0.5in
-    delta = new _quillDelta2.default().insert('\t').concat(delta);
-  }
-  return delta;
-}
-
-function matchText(node, delta) {
-  var text = node.data;
-  // Word represents empty line with <o:p>&nbsp;</o:p>
-  if (node.parentNode.tagName === 'O:P') {
-    return delta.insert(text.trim());
-  }
-  if (text.trim().length === 0 && node.parentNode.classList.contains('ql-clipboard')) {
-    return delta;
-  }
-  if (!computeStyle(node.parentNode).whiteSpace.startsWith('pre')) {
-    // eslint-disable-next-line func-style
-    var replacer = function replacer(collapse, match) {
-      match = match.replace(/[^\u00a0]/g, ''); // \u00a0 is nbsp;
-      return match.length < 1 && collapse ? ' ' : match;
-    };
-    text = text.replace(/\r\n/g, ' ').replace(/\n/g, ' ');
-    text = text.replace(/\s\s+/g, replacer.bind(replacer, true)); // collapse whitespace
-    if (node.previousSibling == null && isLine(node.parentNode) || node.previousSibling != null && isLine(node.previousSibling)) {
-      text = text.replace(/^\s+/, replacer.bind(replacer, false));
-    }
-    if (node.nextSibling == null && isLine(node.parentNode) || node.nextSibling != null && isLine(node.nextSibling)) {
-      text = text.replace(/\s+$/, replacer.bind(replacer, false));
-    }
-  }
-  return delta.insert(text);
-}
-
-exports.default = Clipboard;
-exports.matchAttributor = matchAttributor;
-exports.matchBlot = matchBlot;
-exports.matchNewline = matchNewline;
-exports.matchSpacing = matchSpacing;
-exports.matchText = matchText;
-
-/***/ }),
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
 /* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.byteLength = byteLength
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
-
-var lookup = []
-var revLookup = []
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
-
-var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-for (var i = 0, len = code.length; i < len; ++i) {
-  lookup[i] = code[i]
-  revLookup[code.charCodeAt(i)] = i
-}
-
-revLookup['-'.charCodeAt(0)] = 62
-revLookup['_'.charCodeAt(0)] = 63
-
-function placeHoldersCount (b64) {
-  var len = b64.length
-  if (len % 4 > 0) {
-    throw new Error('Invalid string. Length must be a multiple of 4')
-  }
-
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-}
-
-function byteLength (b64) {
-  // base64 is 4/3 + up to two characters of the original data
-  return b64.length * 3 / 4 - placeHoldersCount(b64)
-}
-
-function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
-  var len = b64.length
-  placeHolders = placeHoldersCount(b64)
-
-  arr = new Arr(len * 3 / 4 - placeHolders)
-
-  // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
-
-  var L = 0
-
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  return arr
-}
-
-function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
-}
-
-function encodeChunk (uint8, start, end) {
-  var tmp
-  var output = []
-  for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-    output.push(tripletToBase64(tmp))
-  }
-  return output.join('')
-}
-
-function fromByteArray (uint8) {
-  var tmp
-  var len = uint8.length
-  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
-  var parts = []
-  var maxChunkLength = 16383 // must be multiple of 3
-
-  // go through the array every three bytes, we'll deal with trailing stuff later
-  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
-  }
-
-  // pad the end with zeros, but make sure to not forget the extra bytes
-  if (extraBytes === 1) {
-    tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
-  }
-
-  parts.push(output)
-
-  return parts.join('')
-}
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
-/* eslint-disable no-proto */
-
-
-
-var base64 = __webpack_require__(51)
-var ieee754 = __webpack_require__(58)
-var isArray = __webpack_require__(59)
-
-exports.Buffer = Buffer
-exports.SlowBuffer = SlowBuffer
-exports.INSPECT_MAX_BYTES = 50
-
-/**
- * If `Buffer.TYPED_ARRAY_SUPPORT`:
- *   === true    Use Uint8Array implementation (fastest)
- *   === false   Use Object implementation (most compatible, even IE6)
- *
- * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
- * Opera 11.6+, iOS 4.2+.
- *
- * Due to various browser bugs, sometimes the Object implementation will be used even
- * when the browser supports typed arrays.
- *
- * Note:
- *
- *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
- *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
- *
- *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
- *
- *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
- *     incorrect length in some situations.
-
- * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
- * get the Object implementation, which is slower but behaves correctly.
- */
-Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
-  ? global.TYPED_ARRAY_SUPPORT
-  : typedArraySupport()
-
-/*
- * Export kMaxLength after typed array support is determined.
- */
-exports.kMaxLength = kMaxLength()
-
-function typedArraySupport () {
-  try {
-    var arr = new Uint8Array(1)
-    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
-    return arr.foo() === 42 && // typed array instances can be augmented
-        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
-        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
-  } catch (e) {
-    return false
-  }
-}
-
-function kMaxLength () {
-  return Buffer.TYPED_ARRAY_SUPPORT
-    ? 0x7fffffff
-    : 0x3fffffff
-}
-
-function createBuffer (that, length) {
-  if (kMaxLength() < length) {
-    throw new RangeError('Invalid typed array length')
-  }
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Return an augmented `Uint8Array` instance, for best performance
-    that = new Uint8Array(length)
-    that.__proto__ = Buffer.prototype
-  } else {
-    // Fallback: Return an object instance of the Buffer class
-    if (that === null) {
-      that = new Buffer(length)
-    }
-    that.length = length
-  }
-
-  return that
-}
-
-/**
- * The Buffer constructor returns instances of `Uint8Array` that have their
- * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
- * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
- * and the `Uint8Array` methods. Square bracket notation works as expected -- it
- * returns a single octet.
- *
- * The `Uint8Array` prototype remains unmodified.
- */
-
-function Buffer (arg, encodingOrOffset, length) {
-  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
-    return new Buffer(arg, encodingOrOffset, length)
-  }
-
-  // Common case.
-  if (typeof arg === 'number') {
-    if (typeof encodingOrOffset === 'string') {
-      throw new Error(
-        'If encoding is specified then the first argument must be a string'
-      )
-    }
-    return allocUnsafe(this, arg)
-  }
-  return from(this, arg, encodingOrOffset, length)
-}
-
-Buffer.poolSize = 8192 // not used by this implementation
-
-// TODO: Legacy, not needed anymore. Remove in next major version.
-Buffer._augment = function (arr) {
-  arr.__proto__ = Buffer.prototype
-  return arr
-}
-
-function from (that, value, encodingOrOffset, length) {
-  if (typeof value === 'number') {
-    throw new TypeError('"value" argument must not be a number')
-  }
-
-  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
-    return fromArrayBuffer(that, value, encodingOrOffset, length)
-  }
-
-  if (typeof value === 'string') {
-    return fromString(that, value, encodingOrOffset)
-  }
-
-  return fromObject(that, value)
-}
-
-/**
- * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
- * if value is a number.
- * Buffer.from(str[, encoding])
- * Buffer.from(array)
- * Buffer.from(buffer)
- * Buffer.from(arrayBuffer[, byteOffset[, length]])
- **/
-Buffer.from = function (value, encodingOrOffset, length) {
-  return from(null, value, encodingOrOffset, length)
-}
-
-if (Buffer.TYPED_ARRAY_SUPPORT) {
-  Buffer.prototype.__proto__ = Uint8Array.prototype
-  Buffer.__proto__ = Uint8Array
-  if (typeof Symbol !== 'undefined' && Symbol.species &&
-      Buffer[Symbol.species] === Buffer) {
-    // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
-    Object.defineProperty(Buffer, Symbol.species, {
-      value: null,
-      configurable: true
-    })
-  }
-}
-
-function assertSize (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('"size" argument must be a number')
-  } else if (size < 0) {
-    throw new RangeError('"size" argument must not be negative')
-  }
-}
-
-function alloc (that, size, fill, encoding) {
-  assertSize(size)
-  if (size <= 0) {
-    return createBuffer(that, size)
-  }
-  if (fill !== undefined) {
-    // Only pay attention to encoding if it's a string. This
-    // prevents accidentally sending in a number that would
-    // be interpretted as a start offset.
-    return typeof encoding === 'string'
-      ? createBuffer(that, size).fill(fill, encoding)
-      : createBuffer(that, size).fill(fill)
-  }
-  return createBuffer(that, size)
-}
-
-/**
- * Creates a new filled Buffer instance.
- * alloc(size[, fill[, encoding]])
- **/
-Buffer.alloc = function (size, fill, encoding) {
-  return alloc(null, size, fill, encoding)
-}
-
-function allocUnsafe (that, size) {
-  assertSize(size)
-  that = createBuffer(that, size < 0 ? 0 : checked(size) | 0)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) {
-    for (var i = 0; i < size; ++i) {
-      that[i] = 0
-    }
-  }
-  return that
-}
-
-/**
- * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
- * */
-Buffer.allocUnsafe = function (size) {
-  return allocUnsafe(null, size)
-}
-/**
- * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
- */
-Buffer.allocUnsafeSlow = function (size) {
-  return allocUnsafe(null, size)
-}
-
-function fromString (that, string, encoding) {
-  if (typeof encoding !== 'string' || encoding === '') {
-    encoding = 'utf8'
-  }
-
-  if (!Buffer.isEncoding(encoding)) {
-    throw new TypeError('"encoding" must be a valid string encoding')
-  }
-
-  var length = byteLength(string, encoding) | 0
-  that = createBuffer(that, length)
-
-  var actual = that.write(string, encoding)
-
-  if (actual !== length) {
-    // Writing a hex string, for example, that contains invalid characters will
-    // cause everything after the first invalid character to be ignored. (e.g.
-    // 'abxxcd' will be treated as 'ab')
-    that = that.slice(0, actual)
-  }
-
-  return that
-}
-
-function fromArrayLike (that, array) {
-  var length = array.length < 0 ? 0 : checked(array.length) | 0
-  that = createBuffer(that, length)
-  for (var i = 0; i < length; i += 1) {
-    that[i] = array[i] & 255
-  }
-  return that
-}
-
-function fromArrayBuffer (that, array, byteOffset, length) {
-  array.byteLength // this throws if `array` is not a valid ArrayBuffer
-
-  if (byteOffset < 0 || array.byteLength < byteOffset) {
-    throw new RangeError('\'offset\' is out of bounds')
-  }
-
-  if (array.byteLength < byteOffset + (length || 0)) {
-    throw new RangeError('\'length\' is out of bounds')
-  }
-
-  if (byteOffset === undefined && length === undefined) {
-    array = new Uint8Array(array)
-  } else if (length === undefined) {
-    array = new Uint8Array(array, byteOffset)
-  } else {
-    array = new Uint8Array(array, byteOffset, length)
-  }
-
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Return an augmented `Uint8Array` instance, for best performance
-    that = array
-    that.__proto__ = Buffer.prototype
-  } else {
-    // Fallback: Return an object instance of the Buffer class
-    that = fromArrayLike(that, array)
-  }
-  return that
-}
-
-function fromObject (that, obj) {
-  if (Buffer.isBuffer(obj)) {
-    var len = checked(obj.length) | 0
-    that = createBuffer(that, len)
-
-    if (that.length === 0) {
-      return that
-    }
-
-    obj.copy(that, 0, 0, len)
-    return that
-  }
-
-  if (obj) {
-    if ((typeof ArrayBuffer !== 'undefined' &&
-        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
-      if (typeof obj.length !== 'number' || isnan(obj.length)) {
-        return createBuffer(that, 0)
-      }
-      return fromArrayLike(that, obj)
-    }
-
-    if (obj.type === 'Buffer' && isArray(obj.data)) {
-      return fromArrayLike(that, obj.data)
-    }
-  }
-
-  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
-}
-
-function checked (length) {
-  // Note: cannot use `length < kMaxLength()` here because that fails when
-  // length is NaN (which is otherwise coerced to zero.)
-  if (length >= kMaxLength()) {
-    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
-                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
-  }
-  return length | 0
-}
-
-function SlowBuffer (length) {
-  if (+length != length) { // eslint-disable-line eqeqeq
-    length = 0
-  }
-  return Buffer.alloc(+length)
-}
-
-Buffer.isBuffer = function isBuffer (b) {
-  return !!(b != null && b._isBuffer)
-}
-
-Buffer.compare = function compare (a, b) {
-  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
-    throw new TypeError('Arguments must be Buffers')
-  }
-
-  if (a === b) return 0
-
-  var x = a.length
-  var y = b.length
-
-  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
-    if (a[i] !== b[i]) {
-      x = a[i]
-      y = b[i]
-      break
-    }
-  }
-
-  if (x < y) return -1
-  if (y < x) return 1
-  return 0
-}
-
-Buffer.isEncoding = function isEncoding (encoding) {
-  switch (String(encoding).toLowerCase()) {
-    case 'hex':
-    case 'utf8':
-    case 'utf-8':
-    case 'ascii':
-    case 'latin1':
-    case 'binary':
-    case 'base64':
-    case 'ucs2':
-    case 'ucs-2':
-    case 'utf16le':
-    case 'utf-16le':
-      return true
-    default:
-      return false
-  }
-}
-
-Buffer.concat = function concat (list, length) {
-  if (!isArray(list)) {
-    throw new TypeError('"list" argument must be an Array of Buffers')
-  }
-
-  if (list.length === 0) {
-    return Buffer.alloc(0)
-  }
-
-  var i
-  if (length === undefined) {
-    length = 0
-    for (i = 0; i < list.length; ++i) {
-      length += list[i].length
-    }
-  }
-
-  var buffer = Buffer.allocUnsafe(length)
-  var pos = 0
-  for (i = 0; i < list.length; ++i) {
-    var buf = list[i]
-    if (!Buffer.isBuffer(buf)) {
-      throw new TypeError('"list" argument must be an Array of Buffers')
-    }
-    buf.copy(buffer, pos)
-    pos += buf.length
-  }
-  return buffer
-}
-
-function byteLength (string, encoding) {
-  if (Buffer.isBuffer(string)) {
-    return string.length
-  }
-  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
-      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
-    return string.byteLength
-  }
-  if (typeof string !== 'string') {
-    string = '' + string
-  }
-
-  var len = string.length
-  if (len === 0) return 0
-
-  // Use a for loop to avoid recursion
-  var loweredCase = false
-  for (;;) {
-    switch (encoding) {
-      case 'ascii':
-      case 'latin1':
-      case 'binary':
-        return len
-      case 'utf8':
-      case 'utf-8':
-      case undefined:
-        return utf8ToBytes(string).length
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return len * 2
-      case 'hex':
-        return len >>> 1
-      case 'base64':
-        return base64ToBytes(string).length
-      default:
-        if (loweredCase) return utf8ToBytes(string).length // assume utf8
-        encoding = ('' + encoding).toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-Buffer.byteLength = byteLength
-
-function slowToString (encoding, start, end) {
-  var loweredCase = false
-
-  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
-  // property of a typed array.
-
-  // This behaves neither like String nor Uint8Array in that we set start/end
-  // to their upper/lower bounds if the value passed is out of range.
-  // undefined is handled specially as per ECMA-262 6th Edition,
-  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
-  if (start === undefined || start < 0) {
-    start = 0
-  }
-  // Return early if start > this.length. Done here to prevent potential uint32
-  // coercion fail below.
-  if (start > this.length) {
-    return ''
-  }
-
-  if (end === undefined || end > this.length) {
-    end = this.length
-  }
-
-  if (end <= 0) {
-    return ''
-  }
-
-  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
-  end >>>= 0
-  start >>>= 0
-
-  if (end <= start) {
-    return ''
-  }
-
-  if (!encoding) encoding = 'utf8'
-
-  while (true) {
-    switch (encoding) {
-      case 'hex':
-        return hexSlice(this, start, end)
-
-      case 'utf8':
-      case 'utf-8':
-        return utf8Slice(this, start, end)
-
-      case 'ascii':
-        return asciiSlice(this, start, end)
-
-      case 'latin1':
-      case 'binary':
-        return latin1Slice(this, start, end)
-
-      case 'base64':
-        return base64Slice(this, start, end)
-
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return utf16leSlice(this, start, end)
-
-      default:
-        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
-        encoding = (encoding + '').toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-
-// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
-// Buffer instances.
-Buffer.prototype._isBuffer = true
-
-function swap (b, n, m) {
-  var i = b[n]
-  b[n] = b[m]
-  b[m] = i
-}
-
-Buffer.prototype.swap16 = function swap16 () {
-  var len = this.length
-  if (len % 2 !== 0) {
-    throw new RangeError('Buffer size must be a multiple of 16-bits')
-  }
-  for (var i = 0; i < len; i += 2) {
-    swap(this, i, i + 1)
-  }
-  return this
-}
-
-Buffer.prototype.swap32 = function swap32 () {
-  var len = this.length
-  if (len % 4 !== 0) {
-    throw new RangeError('Buffer size must be a multiple of 32-bits')
-  }
-  for (var i = 0; i < len; i += 4) {
-    swap(this, i, i + 3)
-    swap(this, i + 1, i + 2)
-  }
-  return this
-}
-
-Buffer.prototype.swap64 = function swap64 () {
-  var len = this.length
-  if (len % 8 !== 0) {
-    throw new RangeError('Buffer size must be a multiple of 64-bits')
-  }
-  for (var i = 0; i < len; i += 8) {
-    swap(this, i, i + 7)
-    swap(this, i + 1, i + 6)
-    swap(this, i + 2, i + 5)
-    swap(this, i + 3, i + 4)
-  }
-  return this
-}
-
-Buffer.prototype.toString = function toString () {
-  var length = this.length | 0
-  if (length === 0) return ''
-  if (arguments.length === 0) return utf8Slice(this, 0, length)
-  return slowToString.apply(this, arguments)
-}
-
-Buffer.prototype.equals = function equals (b) {
-  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
-  if (this === b) return true
-  return Buffer.compare(this, b) === 0
-}
-
-Buffer.prototype.inspect = function inspect () {
-  var str = ''
-  var max = exports.INSPECT_MAX_BYTES
-  if (this.length > 0) {
-    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
-    if (this.length > max) str += ' ... '
-  }
-  return '<Buffer ' + str + '>'
-}
-
-Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
-  if (!Buffer.isBuffer(target)) {
-    throw new TypeError('Argument must be a Buffer')
-  }
-
-  if (start === undefined) {
-    start = 0
-  }
-  if (end === undefined) {
-    end = target ? target.length : 0
-  }
-  if (thisStart === undefined) {
-    thisStart = 0
-  }
-  if (thisEnd === undefined) {
-    thisEnd = this.length
-  }
-
-  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
-    throw new RangeError('out of range index')
-  }
-
-  if (thisStart >= thisEnd && start >= end) {
-    return 0
-  }
-  if (thisStart >= thisEnd) {
-    return -1
-  }
-  if (start >= end) {
-    return 1
-  }
-
-  start >>>= 0
-  end >>>= 0
-  thisStart >>>= 0
-  thisEnd >>>= 0
-
-  if (this === target) return 0
-
-  var x = thisEnd - thisStart
-  var y = end - start
-  var len = Math.min(x, y)
-
-  var thisCopy = this.slice(thisStart, thisEnd)
-  var targetCopy = target.slice(start, end)
-
-  for (var i = 0; i < len; ++i) {
-    if (thisCopy[i] !== targetCopy[i]) {
-      x = thisCopy[i]
-      y = targetCopy[i]
-      break
-    }
-  }
-
-  if (x < y) return -1
-  if (y < x) return 1
-  return 0
-}
-
-// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
-// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
-//
-// Arguments:
-// - buffer - a Buffer to search
-// - val - a string, Buffer, or number
-// - byteOffset - an index into `buffer`; will be clamped to an int32
-// - encoding - an optional encoding, relevant is val is a string
-// - dir - true for indexOf, false for lastIndexOf
-function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
-  // Empty buffer means no match
-  if (buffer.length === 0) return -1
-
-  // Normalize byteOffset
-  if (typeof byteOffset === 'string') {
-    encoding = byteOffset
-    byteOffset = 0
-  } else if (byteOffset > 0x7fffffff) {
-    byteOffset = 0x7fffffff
-  } else if (byteOffset < -0x80000000) {
-    byteOffset = -0x80000000
-  }
-  byteOffset = +byteOffset  // Coerce to Number.
-  if (isNaN(byteOffset)) {
-    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
-    byteOffset = dir ? 0 : (buffer.length - 1)
-  }
-
-  // Normalize byteOffset: negative offsets start from the end of the buffer
-  if (byteOffset < 0) byteOffset = buffer.length + byteOffset
-  if (byteOffset >= buffer.length) {
-    if (dir) return -1
-    else byteOffset = buffer.length - 1
-  } else if (byteOffset < 0) {
-    if (dir) byteOffset = 0
-    else return -1
-  }
-
-  // Normalize val
-  if (typeof val === 'string') {
-    val = Buffer.from(val, encoding)
-  }
-
-  // Finally, search either indexOf (if dir is true) or lastIndexOf
-  if (Buffer.isBuffer(val)) {
-    // Special case: looking for empty string/buffer always fails
-    if (val.length === 0) {
-      return -1
-    }
-    return arrayIndexOf(buffer, val, byteOffset, encoding, dir)
-  } else if (typeof val === 'number') {
-    val = val & 0xFF // Search for a byte value [0-255]
-    if (Buffer.TYPED_ARRAY_SUPPORT &&
-        typeof Uint8Array.prototype.indexOf === 'function') {
-      if (dir) {
-        return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset)
-      } else {
-        return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
-      }
-    }
-    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
-  }
-
-  throw new TypeError('val must be string, number or Buffer')
-}
-
-function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
-  var indexSize = 1
-  var arrLength = arr.length
-  var valLength = val.length
-
-  if (encoding !== undefined) {
-    encoding = String(encoding).toLowerCase()
-    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
-        encoding === 'utf16le' || encoding === 'utf-16le') {
-      if (arr.length < 2 || val.length < 2) {
-        return -1
-      }
-      indexSize = 2
-      arrLength /= 2
-      valLength /= 2
-      byteOffset /= 2
-    }
-  }
-
-  function read (buf, i) {
-    if (indexSize === 1) {
-      return buf[i]
-    } else {
-      return buf.readUInt16BE(i * indexSize)
-    }
-  }
-
-  var i
-  if (dir) {
-    var foundIndex = -1
-    for (i = byteOffset; i < arrLength; i++) {
-      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
-        if (foundIndex === -1) foundIndex = i
-        if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
-      } else {
-        if (foundIndex !== -1) i -= i - foundIndex
-        foundIndex = -1
-      }
-    }
-  } else {
-    if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength
-    for (i = byteOffset; i >= 0; i--) {
-      var found = true
-      for (var j = 0; j < valLength; j++) {
-        if (read(arr, i + j) !== read(val, j)) {
-          found = false
-          break
-        }
-      }
-      if (found) return i
-    }
-  }
-
-  return -1
-}
-
-Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
-  return this.indexOf(val, byteOffset, encoding) !== -1
-}
-
-Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
-  return bidirectionalIndexOf(this, val, byteOffset, encoding, true)
-}
-
-Buffer.prototype.lastIndexOf = function lastIndexOf (val, byteOffset, encoding) {
-  return bidirectionalIndexOf(this, val, byteOffset, encoding, false)
-}
-
-function hexWrite (buf, string, offset, length) {
-  offset = Number(offset) || 0
-  var remaining = buf.length - offset
-  if (!length) {
-    length = remaining
-  } else {
-    length = Number(length)
-    if (length > remaining) {
-      length = remaining
-    }
-  }
-
-  // must be an even number of digits
-  var strLen = string.length
-  if (strLen % 2 !== 0) throw new TypeError('Invalid hex string')
-
-  if (length > strLen / 2) {
-    length = strLen / 2
-  }
-  for (var i = 0; i < length; ++i) {
-    var parsed = parseInt(string.substr(i * 2, 2), 16)
-    if (isNaN(parsed)) return i
-    buf[offset + i] = parsed
-  }
-  return i
-}
-
-function utf8Write (buf, string, offset, length) {
-  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
-}
-
-function asciiWrite (buf, string, offset, length) {
-  return blitBuffer(asciiToBytes(string), buf, offset, length)
-}
-
-function latin1Write (buf, string, offset, length) {
-  return asciiWrite(buf, string, offset, length)
-}
-
-function base64Write (buf, string, offset, length) {
-  return blitBuffer(base64ToBytes(string), buf, offset, length)
-}
-
-function ucs2Write (buf, string, offset, length) {
-  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
-}
-
-Buffer.prototype.write = function write (string, offset, length, encoding) {
-  // Buffer#write(string)
-  if (offset === undefined) {
-    encoding = 'utf8'
-    length = this.length
-    offset = 0
-  // Buffer#write(string, encoding)
-  } else if (length === undefined && typeof offset === 'string') {
-    encoding = offset
-    length = this.length
-    offset = 0
-  // Buffer#write(string, offset[, length][, encoding])
-  } else if (isFinite(offset)) {
-    offset = offset | 0
-    if (isFinite(length)) {
-      length = length | 0
-      if (encoding === undefined) encoding = 'utf8'
-    } else {
-      encoding = length
-      length = undefined
-    }
-  // legacy write(string, encoding, offset, length) - remove in v0.13
-  } else {
-    throw new Error(
-      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
-    )
-  }
-
-  var remaining = this.length - offset
-  if (length === undefined || length > remaining) length = remaining
-
-  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
-    throw new RangeError('Attempt to write outside buffer bounds')
-  }
-
-  if (!encoding) encoding = 'utf8'
-
-  var loweredCase = false
-  for (;;) {
-    switch (encoding) {
-      case 'hex':
-        return hexWrite(this, string, offset, length)
-
-      case 'utf8':
-      case 'utf-8':
-        return utf8Write(this, string, offset, length)
-
-      case 'ascii':
-        return asciiWrite(this, string, offset, length)
-
-      case 'latin1':
-      case 'binary':
-        return latin1Write(this, string, offset, length)
-
-      case 'base64':
-        // Warning: maxLength not taken into account in base64Write
-        return base64Write(this, string, offset, length)
-
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return ucs2Write(this, string, offset, length)
-
-      default:
-        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
-        encoding = ('' + encoding).toLowerCase()
-        loweredCase = true
-    }
-  }
-}
-
-Buffer.prototype.toJSON = function toJSON () {
-  return {
-    type: 'Buffer',
-    data: Array.prototype.slice.call(this._arr || this, 0)
-  }
-}
-
-function base64Slice (buf, start, end) {
-  if (start === 0 && end === buf.length) {
-    return base64.fromByteArray(buf)
-  } else {
-    return base64.fromByteArray(buf.slice(start, end))
-  }
-}
-
-function utf8Slice (buf, start, end) {
-  end = Math.min(buf.length, end)
-  var res = []
-
-  var i = start
-  while (i < end) {
-    var firstByte = buf[i]
-    var codePoint = null
-    var bytesPerSequence = (firstByte > 0xEF) ? 4
-      : (firstByte > 0xDF) ? 3
-      : (firstByte > 0xBF) ? 2
-      : 1
-
-    if (i + bytesPerSequence <= end) {
-      var secondByte, thirdByte, fourthByte, tempCodePoint
-
-      switch (bytesPerSequence) {
-        case 1:
-          if (firstByte < 0x80) {
-            codePoint = firstByte
-          }
-          break
-        case 2:
-          secondByte = buf[i + 1]
-          if ((secondByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
-            if (tempCodePoint > 0x7F) {
-              codePoint = tempCodePoint
-            }
-          }
-          break
-        case 3:
-          secondByte = buf[i + 1]
-          thirdByte = buf[i + 2]
-          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
-            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
-              codePoint = tempCodePoint
-            }
-          }
-          break
-        case 4:
-          secondByte = buf[i + 1]
-          thirdByte = buf[i + 2]
-          fourthByte = buf[i + 3]
-          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
-            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
-            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
-              codePoint = tempCodePoint
-            }
-          }
-      }
-    }
-
-    if (codePoint === null) {
-      // we did not generate a valid codePoint so insert a
-      // replacement char (U+FFFD) and advance only 1 byte
-      codePoint = 0xFFFD
-      bytesPerSequence = 1
-    } else if (codePoint > 0xFFFF) {
-      // encode to utf16 (surrogate pair dance)
-      codePoint -= 0x10000
-      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
-      codePoint = 0xDC00 | codePoint & 0x3FF
-    }
-
-    res.push(codePoint)
-    i += bytesPerSequence
-  }
-
-  return decodeCodePointsArray(res)
-}
-
-// Based on http://stackoverflow.com/a/22747272/680742, the browser with
-// the lowest limit is Chrome, with 0x10000 args.
-// We go 1 magnitude less, for safety
-var MAX_ARGUMENTS_LENGTH = 0x1000
-
-function decodeCodePointsArray (codePoints) {
-  var len = codePoints.length
-  if (len <= MAX_ARGUMENTS_LENGTH) {
-    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
-  }
-
-  // Decode in chunks to avoid "call stack size exceeded".
-  var res = ''
-  var i = 0
-  while (i < len) {
-    res += String.fromCharCode.apply(
-      String,
-      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
-    )
-  }
-  return res
-}
-
-function asciiSlice (buf, start, end) {
-  var ret = ''
-  end = Math.min(buf.length, end)
-
-  for (var i = start; i < end; ++i) {
-    ret += String.fromCharCode(buf[i] & 0x7F)
-  }
-  return ret
-}
-
-function latin1Slice (buf, start, end) {
-  var ret = ''
-  end = Math.min(buf.length, end)
-
-  for (var i = start; i < end; ++i) {
-    ret += String.fromCharCode(buf[i])
-  }
-  return ret
-}
-
-function hexSlice (buf, start, end) {
-  var len = buf.length
-
-  if (!start || start < 0) start = 0
-  if (!end || end < 0 || end > len) end = len
-
-  var out = ''
-  for (var i = start; i < end; ++i) {
-    out += toHex(buf[i])
-  }
-  return out
-}
-
-function utf16leSlice (buf, start, end) {
-  var bytes = buf.slice(start, end)
-  var res = ''
-  for (var i = 0; i < bytes.length; i += 2) {
-    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
-  }
-  return res
-}
-
-Buffer.prototype.slice = function slice (start, end) {
-  var len = this.length
-  start = ~~start
-  end = end === undefined ? len : ~~end
-
-  if (start < 0) {
-    start += len
-    if (start < 0) start = 0
-  } else if (start > len) {
-    start = len
-  }
-
-  if (end < 0) {
-    end += len
-    if (end < 0) end = 0
-  } else if (end > len) {
-    end = len
-  }
-
-  if (end < start) end = start
-
-  var newBuf
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    newBuf = this.subarray(start, end)
-    newBuf.__proto__ = Buffer.prototype
-  } else {
-    var sliceLen = end - start
-    newBuf = new Buffer(sliceLen, undefined)
-    for (var i = 0; i < sliceLen; ++i) {
-      newBuf[i] = this[i + start]
-    }
-  }
-
-  return newBuf
-}
-
-/*
- * Need to make sure that buffer isn't trying to write out of bounds.
- */
-function checkOffset (offset, ext, length) {
-  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
-  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
-}
-
-Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var val = this[offset]
-  var mul = 1
-  var i = 0
-  while (++i < byteLength && (mul *= 0x100)) {
-    val += this[offset + i] * mul
-  }
-
-  return val
-}
-
-Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) {
-    checkOffset(offset, byteLength, this.length)
-  }
-
-  var val = this[offset + --byteLength]
-  var mul = 1
-  while (byteLength > 0 && (mul *= 0x100)) {
-    val += this[offset + --byteLength] * mul
-  }
-
-  return val
-}
-
-Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 1, this.length)
-  return this[offset]
-}
-
-Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  return this[offset] | (this[offset + 1] << 8)
-}
-
-Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  return (this[offset] << 8) | this[offset + 1]
-}
-
-Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return ((this[offset]) |
-      (this[offset + 1] << 8) |
-      (this[offset + 2] << 16)) +
-      (this[offset + 3] * 0x1000000)
-}
-
-Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset] * 0x1000000) +
-    ((this[offset + 1] << 16) |
-    (this[offset + 2] << 8) |
-    this[offset + 3])
-}
-
-Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var val = this[offset]
-  var mul = 1
-  var i = 0
-  while (++i < byteLength && (mul *= 0x100)) {
-    val += this[offset + i] * mul
-  }
-  mul *= 0x80
-
-  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
-
-  return val
-}
-
-Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) checkOffset(offset, byteLength, this.length)
-
-  var i = byteLength
-  var mul = 1
-  var val = this[offset + --i]
-  while (i > 0 && (mul *= 0x100)) {
-    val += this[offset + --i] * mul
-  }
-  mul *= 0x80
-
-  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
-
-  return val
-}
-
-Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 1, this.length)
-  if (!(this[offset] & 0x80)) return (this[offset])
-  return ((0xff - this[offset] + 1) * -1)
-}
-
-Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  var val = this[offset] | (this[offset + 1] << 8)
-  return (val & 0x8000) ? val | 0xFFFF0000 : val
-}
-
-Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 2, this.length)
-  var val = this[offset + 1] | (this[offset] << 8)
-  return (val & 0x8000) ? val | 0xFFFF0000 : val
-}
-
-Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset]) |
-    (this[offset + 1] << 8) |
-    (this[offset + 2] << 16) |
-    (this[offset + 3] << 24)
-}
-
-Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-
-  return (this[offset] << 24) |
-    (this[offset + 1] << 16) |
-    (this[offset + 2] << 8) |
-    (this[offset + 3])
-}
-
-Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-  return ieee754.read(this, offset, true, 23, 4)
-}
-
-Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 4, this.length)
-  return ieee754.read(this, offset, false, 23, 4)
-}
-
-Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 8, this.length)
-  return ieee754.read(this, offset, true, 52, 8)
-}
-
-Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
-  if (!noAssert) checkOffset(offset, 8, this.length)
-  return ieee754.read(this, offset, false, 52, 8)
-}
-
-function checkInt (buf, value, offset, ext, max, min) {
-  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
-  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
-  if (offset + ext > buf.length) throw new RangeError('Index out of range')
-}
-
-Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) {
-    var maxBytes = Math.pow(2, 8 * byteLength) - 1
-    checkInt(this, value, offset, byteLength, maxBytes, 0)
-  }
-
-  var mul = 1
-  var i = 0
-  this[offset] = value & 0xFF
-  while (++i < byteLength && (mul *= 0x100)) {
-    this[offset + i] = (value / mul) & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  byteLength = byteLength | 0
-  if (!noAssert) {
-    var maxBytes = Math.pow(2, 8 * byteLength) - 1
-    checkInt(this, value, offset, byteLength, maxBytes, 0)
-  }
-
-  var i = byteLength - 1
-  var mul = 1
-  this[offset + i] = value & 0xFF
-  while (--i >= 0 && (mul *= 0x100)) {
-    this[offset + i] = (value / mul) & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-  this[offset] = (value & 0xff)
-  return offset + 1
-}
-
-function objectWriteUInt16 (buf, value, offset, littleEndian) {
-  if (value < 0) value = 0xffff + value + 1
-  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; ++i) {
-    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
-      (littleEndian ? i : 1 - i) * 8
-  }
-}
-
-Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-  } else {
-    objectWriteUInt16(this, value, offset, true)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 8)
-    this[offset + 1] = (value & 0xff)
-  } else {
-    objectWriteUInt16(this, value, offset, false)
-  }
-  return offset + 2
-}
-
-function objectWriteUInt32 (buf, value, offset, littleEndian) {
-  if (value < 0) value = 0xffffffff + value + 1
-  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; ++i) {
-    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
-  }
-}
-
-Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset + 3] = (value >>> 24)
-    this[offset + 2] = (value >>> 16)
-    this[offset + 1] = (value >>> 8)
-    this[offset] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, true)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 24)
-    this[offset + 1] = (value >>> 16)
-    this[offset + 2] = (value >>> 8)
-    this[offset + 3] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, false)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength - 1)
-
-    checkInt(this, value, offset, byteLength, limit - 1, -limit)
-  }
-
-  var i = 0
-  var mul = 1
-  var sub = 0
-  this[offset] = value & 0xFF
-  while (++i < byteLength && (mul *= 0x100)) {
-    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
-      sub = 1
-    }
-    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength - 1)
-
-    checkInt(this, value, offset, byteLength, limit - 1, -limit)
-  }
-
-  var i = byteLength - 1
-  var mul = 1
-  var sub = 0
-  this[offset + i] = value & 0xFF
-  while (--i >= 0 && (mul *= 0x100)) {
-    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
-      sub = 1
-    }
-    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
-  }
-
-  return offset + byteLength
-}
-
-Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
-  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
-  if (value < 0) value = 0xff + value + 1
-  this[offset] = (value & 0xff)
-  return offset + 1
-}
-
-Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-  } else {
-    objectWriteUInt16(this, value, offset, true)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 8)
-    this[offset + 1] = (value & 0xff)
-  } else {
-    objectWriteUInt16(this, value, offset, false)
-  }
-  return offset + 2
-}
-
-Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value & 0xff)
-    this[offset + 1] = (value >>> 8)
-    this[offset + 2] = (value >>> 16)
-    this[offset + 3] = (value >>> 24)
-  } else {
-    objectWriteUInt32(this, value, offset, true)
-  }
-  return offset + 4
-}
-
-Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
-  value = +value
-  offset = offset | 0
-  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
-  if (value < 0) value = 0xffffffff + value + 1
-  if (Buffer.TYPED_ARRAY_SUPPORT) {
-    this[offset] = (value >>> 24)
-    this[offset + 1] = (value >>> 16)
-    this[offset + 2] = (value >>> 8)
-    this[offset + 3] = (value & 0xff)
-  } else {
-    objectWriteUInt32(this, value, offset, false)
-  }
-  return offset + 4
-}
-
-function checkIEEE754 (buf, value, offset, ext, max, min) {
-  if (offset + ext > buf.length) throw new RangeError('Index out of range')
-  if (offset < 0) throw new RangeError('Index out of range')
-}
-
-function writeFloat (buf, value, offset, littleEndian, noAssert) {
-  if (!noAssert) {
-    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
-  }
-  ieee754.write(buf, value, offset, littleEndian, 23, 4)
-  return offset + 4
-}
-
-Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
-  return writeFloat(this, value, offset, true, noAssert)
-}
-
-Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
-  return writeFloat(this, value, offset, false, noAssert)
-}
-
-function writeDouble (buf, value, offset, littleEndian, noAssert) {
-  if (!noAssert) {
-    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
-  }
-  ieee754.write(buf, value, offset, littleEndian, 52, 8)
-  return offset + 8
-}
-
-Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
-  return writeDouble(this, value, offset, true, noAssert)
-}
-
-Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
-  return writeDouble(this, value, offset, false, noAssert)
-}
-
-// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
-Buffer.prototype.copy = function copy (target, targetStart, start, end) {
-  if (!start) start = 0
-  if (!end && end !== 0) end = this.length
-  if (targetStart >= target.length) targetStart = target.length
-  if (!targetStart) targetStart = 0
-  if (end > 0 && end < start) end = start
-
-  // Copy 0 bytes; we're done
-  if (end === start) return 0
-  if (target.length === 0 || this.length === 0) return 0
-
-  // Fatal error conditions
-  if (targetStart < 0) {
-    throw new RangeError('targetStart out of bounds')
-  }
-  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
-  if (end < 0) throw new RangeError('sourceEnd out of bounds')
-
-  // Are we oob?
-  if (end > this.length) end = this.length
-  if (target.length - targetStart < end - start) {
-    end = target.length - targetStart + start
-  }
-
-  var len = end - start
-  var i
-
-  if (this === target && start < targetStart && targetStart < end) {
-    // descending copy from end
-    for (i = len - 1; i >= 0; --i) {
-      target[i + targetStart] = this[i + start]
-    }
-  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
-    // ascending copy from start
-    for (i = 0; i < len; ++i) {
-      target[i + targetStart] = this[i + start]
-    }
-  } else {
-    Uint8Array.prototype.set.call(
-      target,
-      this.subarray(start, start + len),
-      targetStart
-    )
-  }
-
-  return len
-}
-
-// Usage:
-//    buffer.fill(number[, offset[, end]])
-//    buffer.fill(buffer[, offset[, end]])
-//    buffer.fill(string[, offset[, end]][, encoding])
-Buffer.prototype.fill = function fill (val, start, end, encoding) {
-  // Handle string cases:
-  if (typeof val === 'string') {
-    if (typeof start === 'string') {
-      encoding = start
-      start = 0
-      end = this.length
-    } else if (typeof end === 'string') {
-      encoding = end
-      end = this.length
-    }
-    if (val.length === 1) {
-      var code = val.charCodeAt(0)
-      if (code < 256) {
-        val = code
-      }
-    }
-    if (encoding !== undefined && typeof encoding !== 'string') {
-      throw new TypeError('encoding must be a string')
-    }
-    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
-      throw new TypeError('Unknown encoding: ' + encoding)
-    }
-  } else if (typeof val === 'number') {
-    val = val & 255
-  }
-
-  // Invalid ranges are not set to a default, so can range check early.
-  if (start < 0 || this.length < start || this.length < end) {
-    throw new RangeError('Out of range index')
-  }
-
-  if (end <= start) {
-    return this
-  }
-
-  start = start >>> 0
-  end = end === undefined ? this.length : end >>> 0
-
-  if (!val) val = 0
-
-  var i
-  if (typeof val === 'number') {
-    for (i = start; i < end; ++i) {
-      this[i] = val
-    }
-  } else {
-    var bytes = Buffer.isBuffer(val)
-      ? val
-      : utf8ToBytes(new Buffer(val, encoding).toString())
-    var len = bytes.length
-    for (i = 0; i < end - start; ++i) {
-      this[i + start] = bytes[i % len]
-    }
-  }
-
-  return this
-}
-
-// HELPER FUNCTIONS
-// ================
-
-var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
-
-function base64clean (str) {
-  // Node strips out invalid characters like \n and \t from the string, base64-js does not
-  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
-  // Node converts strings with length < 2 to ''
-  if (str.length < 2) return ''
-  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
-  while (str.length % 4 !== 0) {
-    str = str + '='
-  }
-  return str
-}
-
-function stringtrim (str) {
-  if (str.trim) return str.trim()
-  return str.replace(/^\s+|\s+$/g, '')
-}
-
-function toHex (n) {
-  if (n < 16) return '0' + n.toString(16)
-  return n.toString(16)
-}
-
-function utf8ToBytes (string, units) {
-  units = units || Infinity
-  var codePoint
-  var length = string.length
-  var leadSurrogate = null
-  var bytes = []
-
-  for (var i = 0; i < length; ++i) {
-    codePoint = string.charCodeAt(i)
-
-    // is surrogate component
-    if (codePoint > 0xD7FF && codePoint < 0xE000) {
-      // last char was a lead
-      if (!leadSurrogate) {
-        // no lead yet
-        if (codePoint > 0xDBFF) {
-          // unexpected trail
-          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-          continue
-        } else if (i + 1 === length) {
-          // unpaired lead
-          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-          continue
-        }
-
-        // valid lead
-        leadSurrogate = codePoint
-
-        continue
-      }
-
-      // 2 leads in a row
-      if (codePoint < 0xDC00) {
-        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-        leadSurrogate = codePoint
-        continue
-      }
-
-      // valid surrogate pair
-      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
-    } else if (leadSurrogate) {
-      // valid bmp char, but last char was a lead
-      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
-    }
-
-    leadSurrogate = null
-
-    // encode utf8
-    if (codePoint < 0x80) {
-      if ((units -= 1) < 0) break
-      bytes.push(codePoint)
-    } else if (codePoint < 0x800) {
-      if ((units -= 2) < 0) break
-      bytes.push(
-        codePoint >> 0x6 | 0xC0,
-        codePoint & 0x3F | 0x80
-      )
-    } else if (codePoint < 0x10000) {
-      if ((units -= 3) < 0) break
-      bytes.push(
-        codePoint >> 0xC | 0xE0,
-        codePoint >> 0x6 & 0x3F | 0x80,
-        codePoint & 0x3F | 0x80
-      )
-    } else if (codePoint < 0x110000) {
-      if ((units -= 4) < 0) break
-      bytes.push(
-        codePoint >> 0x12 | 0xF0,
-        codePoint >> 0xC & 0x3F | 0x80,
-        codePoint >> 0x6 & 0x3F | 0x80,
-        codePoint & 0x3F | 0x80
-      )
-    } else {
-      throw new Error('Invalid code point')
-    }
-  }
-
-  return bytes
-}
-
-function asciiToBytes (str) {
-  var byteArray = []
-  for (var i = 0; i < str.length; ++i) {
-    // Node's code seems to be doing this and not & 0x7F..
-    byteArray.push(str.charCodeAt(i) & 0xFF)
-  }
-  return byteArray
-}
-
-function utf16leToBytes (str, units) {
-  var c, hi, lo
-  var byteArray = []
-  for (var i = 0; i < str.length; ++i) {
-    if ((units -= 2) < 0) break
-
-    c = str.charCodeAt(i)
-    hi = c >> 8
-    lo = c % 256
-    byteArray.push(lo)
-    byteArray.push(hi)
-  }
-
-  return byteArray
-}
-
-function base64ToBytes (str) {
-  return base64.toByteArray(base64clean(str))
-}
-
-function blitBuffer (src, dst, offset, length) {
-  for (var i = 0; i < length; ++i) {
-    if ((i + offset >= dst.length) || (i >= src.length)) break
-    dst[i + offset] = src[i]
-  }
-  return i
-}
-
-function isnan (val) {
-  return val !== val // eslint-disable-line no-self-compare
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(66)))
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports) {
-
-var supportsArgumentsClass = (function(){
-  return Object.prototype.toString.call(arguments)
-})() == '[object Arguments]';
-
-exports = module.exports = supportsArgumentsClass ? supported : unsupported;
-
-exports.supported = supported;
-function supported(object) {
-  return Object.prototype.toString.call(object) == '[object Arguments]';
-};
-
-exports.unsupported = unsupported;
-function unsupported(object){
-  return object &&
-    typeof object == 'object' &&
-    typeof object.length == 'number' &&
-    Object.prototype.hasOwnProperty.call(object, 'callee') &&
-    !Object.prototype.propertyIsEnumerable.call(object, 'callee') ||
-    false;
-};
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports) {
-
-exports = module.exports = typeof Object.keys === 'function'
-  ? Object.keys : shim;
-
-exports.shim = shim;
-function shim (obj) {
-  var keys = [];
-  for (var key in obj) keys.push(key);
-  return keys;
-}
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var has = Object.prototype.hasOwnProperty
-  , prefix = '~';
-
-/**
- * Constructor to create a storage for our `EE` objects.
- * An `Events` instance is a plain object whose properties are event names.
- *
- * @constructor
- * @api private
- */
-function Events() {}
-
-//
-// We try to not inherit from `Object.prototype`. In some engines creating an
-// instance in this way is faster than calling `Object.create(null)` directly.
-// If `Object.create(null)` is not supported we prefix the event names with a
-// character to make sure that the built-in object properties are not
-// overridden or used as an attack vector.
-//
-if (Object.create) {
-  Events.prototype = Object.create(null);
-
-  //
-  // This hack is needed because the `__proto__` property is still inherited in
-  // some old browsers like Android 4, iPhone 5.1, Opera 11 and Safari 5.
-  //
-  if (!new Events().__proto__) prefix = false;
-}
-
-/**
- * Representation of a single event listener.
- *
- * @param {Function} fn The listener function.
- * @param {Mixed} context The context to invoke the listener with.
- * @param {Boolean} [once=false] Specify if the listener is a one-time listener.
- * @constructor
- * @api private
- */
-function EE(fn, context, once) {
-  this.fn = fn;
-  this.context = context;
-  this.once = once || false;
-}
-
-/**
- * Minimal `EventEmitter` interface that is molded against the Node.js
- * `EventEmitter` interface.
- *
- * @constructor
- * @api public
- */
-function EventEmitter() {
-  this._events = new Events();
-  this._eventsCount = 0;
-}
-
-/**
- * Return an array listing the events for which the emitter has registered
- * listeners.
- *
- * @returns {Array}
- * @api public
- */
-EventEmitter.prototype.eventNames = function eventNames() {
-  var names = []
-    , events
-    , name;
-
-  if (this._eventsCount === 0) return names;
-
-  for (name in (events = this._events)) {
-    if (has.call(events, name)) names.push(prefix ? name.slice(1) : name);
-  }
-
-  if (Object.getOwnPropertySymbols) {
-    return names.concat(Object.getOwnPropertySymbols(events));
-  }
-
-  return names;
-};
-
-/**
- * Return the listeners registered for a given event.
- *
- * @param {String|Symbol} event The event name.
- * @param {Boolean} exists Only check if there are listeners.
- * @returns {Array|Boolean}
- * @api public
- */
-EventEmitter.prototype.listeners = function listeners(event, exists) {
-  var evt = prefix ? prefix + event : event
-    , available = this._events[evt];
-
-  if (exists) return !!available;
-  if (!available) return [];
-  if (available.fn) return [available.fn];
-
-  for (var i = 0, l = available.length, ee = new Array(l); i < l; i++) {
-    ee[i] = available[i].fn;
-  }
-
-  return ee;
-};
-
-/**
- * Calls each of the listeners registered for a given event.
- *
- * @param {String|Symbol} event The event name.
- * @returns {Boolean} `true` if the event had listeners, else `false`.
- * @api public
- */
-EventEmitter.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {
-  var evt = prefix ? prefix + event : event;
-
-  if (!this._events[evt]) return false;
-
-  var listeners = this._events[evt]
-    , len = arguments.length
-    , args
-    , i;
-
-  if (listeners.fn) {
-    if (listeners.once) this.removeListener(event, listeners.fn, undefined, true);
-
-    switch (len) {
-      case 1: return listeners.fn.call(listeners.context), true;
-      case 2: return listeners.fn.call(listeners.context, a1), true;
-      case 3: return listeners.fn.call(listeners.context, a1, a2), true;
-      case 4: return listeners.fn.call(listeners.context, a1, a2, a3), true;
-      case 5: return listeners.fn.call(listeners.context, a1, a2, a3, a4), true;
-      case 6: return listeners.fn.call(listeners.context, a1, a2, a3, a4, a5), true;
-    }
-
-    for (i = 1, args = new Array(len -1); i < len; i++) {
-      args[i - 1] = arguments[i];
-    }
-
-    listeners.fn.apply(listeners.context, args);
-  } else {
-    var length = listeners.length
-      , j;
-
-    for (i = 0; i < length; i++) {
-      if (listeners[i].once) this.removeListener(event, listeners[i].fn, undefined, true);
-
-      switch (len) {
-        case 1: listeners[i].fn.call(listeners[i].context); break;
-        case 2: listeners[i].fn.call(listeners[i].context, a1); break;
-        case 3: listeners[i].fn.call(listeners[i].context, a1, a2); break;
-        case 4: listeners[i].fn.call(listeners[i].context, a1, a2, a3); break;
-        default:
-          if (!args) for (j = 1, args = new Array(len -1); j < len; j++) {
-            args[j - 1] = arguments[j];
-          }
-
-          listeners[i].fn.apply(listeners[i].context, args);
-      }
-    }
-  }
-
-  return true;
-};
-
-/**
- * Add a listener for a given event.
- *
- * @param {String|Symbol} event The event name.
- * @param {Function} fn The listener function.
- * @param {Mixed} [context=this] The context to invoke the listener with.
- * @returns {EventEmitter} `this`.
- * @api public
- */
-EventEmitter.prototype.on = function on(event, fn, context) {
-  var listener = new EE(fn, context || this)
-    , evt = prefix ? prefix + event : event;
-
-  if (!this._events[evt]) this._events[evt] = listener, this._eventsCount++;
-  else if (!this._events[evt].fn) this._events[evt].push(listener);
-  else this._events[evt] = [this._events[evt], listener];
-
-  return this;
-};
-
-/**
- * Add a one-time listener for a given event.
- *
- * @param {String|Symbol} event The event name.
- * @param {Function} fn The listener function.
- * @param {Mixed} [context=this] The context to invoke the listener with.
- * @returns {EventEmitter} `this`.
- * @api public
- */
-EventEmitter.prototype.once = function once(event, fn, context) {
-  var listener = new EE(fn, context || this, true)
-    , evt = prefix ? prefix + event : event;
-
-  if (!this._events[evt]) this._events[evt] = listener, this._eventsCount++;
-  else if (!this._events[evt].fn) this._events[evt].push(listener);
-  else this._events[evt] = [this._events[evt], listener];
-
-  return this;
-};
-
-/**
- * Remove the listeners of a given event.
- *
- * @param {String|Symbol} event The event name.
- * @param {Function} fn Only remove the listeners that match this function.
- * @param {Mixed} context Only remove the listeners that have this context.
- * @param {Boolean} once Only remove one-time listeners.
- * @returns {EventEmitter} `this`.
- * @api public
- */
-EventEmitter.prototype.removeListener = function removeListener(event, fn, context, once) {
-  var evt = prefix ? prefix + event : event;
-
-  if (!this._events[evt]) return this;
-  if (!fn) {
-    if (--this._eventsCount === 0) this._events = new Events();
-    else delete this._events[evt];
-    return this;
-  }
-
-  var listeners = this._events[evt];
-
-  if (listeners.fn) {
-    if (
-         listeners.fn === fn
-      && (!once || listeners.once)
-      && (!context || listeners.context === context)
-    ) {
-      if (--this._eventsCount === 0) this._events = new Events();
-      else delete this._events[evt];
-    }
-  } else {
-    for (var i = 0, events = [], length = listeners.length; i < length; i++) {
-      if (
-           listeners[i].fn !== fn
-        || (once && !listeners[i].once)
-        || (context && listeners[i].context !== context)
-      ) {
-        events.push(listeners[i]);
-      }
-    }
-
-    //
-    // Reset the array, or remove it completely if we have no more listeners.
-    //
-    if (events.length) this._events[evt] = events.length === 1 ? events[0] : events;
-    else if (--this._eventsCount === 0) this._events = new Events();
-    else delete this._events[evt];
-  }
-
-  return this;
-};
-
-/**
- * Remove all listeners, or those of the specified event.
- *
- * @param {String|Symbol} [event] The event name.
- * @returns {EventEmitter} `this`.
- * @api public
- */
-EventEmitter.prototype.removeAllListeners = function removeAllListeners(event) {
-  var evt;
-
-  if (event) {
-    evt = prefix ? prefix + event : event;
-    if (this._events[evt]) {
-      if (--this._eventsCount === 0) this._events = new Events();
-      else delete this._events[evt];
-    }
-  } else {
-    this._events = new Events();
-    this._eventsCount = 0;
-  }
-
-  return this;
-};
-
-//
-// Alias methods names because people roll like that.
-//
-EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
-EventEmitter.prototype.addListener = EventEmitter.prototype.on;
-
-//
-// This function doesn't apply anymore.
-//
-EventEmitter.prototype.setMaxListeners = function setMaxListeners() {
-  return this;
-};
-
-//
-// Expose the prefix.
-//
-EventEmitter.prefixed = prefix;
-
-//
-// Allow `EventEmitter` to be imported as module namespace.
-//
-EventEmitter.EventEmitter = EventEmitter;
-
-//
-// Expose the module.
-//
-if (true) {
-  module.exports = EventEmitter;
-}
-
-
-/***/ }),
-/* 56 */
 /***/ (function(module, exports) {
 
 /**
@@ -9377,745 +7524,786 @@ function merge_tuples (diffs, start, length) {
 
 
 /***/ }),
+/* 52 */
+/***/ (function(module, exports) {
+
+exports = module.exports = typeof Object.keys === 'function'
+  ? Object.keys : shim;
+
+exports.shim = shim;
+function shim (obj) {
+  var keys = [];
+  for (var key in obj) keys.push(key);
+  return keys;
+}
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports) {
+
+var supportsArgumentsClass = (function(){
+  return Object.prototype.toString.call(arguments)
+})() == '[object Arguments]';
+
+exports = module.exports = supportsArgumentsClass ? supported : unsupported;
+
+exports.supported = supported;
+function supported(object) {
+  return Object.prototype.toString.call(object) == '[object Arguments]';
+};
+
+exports.unsupported = unsupported;
+function unsupported(object){
+  return object &&
+    typeof object == 'object' &&
+    typeof object.length == 'number' &&
+    Object.prototype.hasOwnProperty.call(object, 'callee') &&
+    !Object.prototype.propertyIsEnumerable.call(object, 'callee') ||
+    false;
+};
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports) {
+
+'use strict';
+
+var has = Object.prototype.hasOwnProperty
+  , prefix = '~';
+
+/**
+ * Constructor to create a storage for our `EE` objects.
+ * An `Events` instance is a plain object whose properties are event names.
+ *
+ * @constructor
+ * @api private
+ */
+function Events() {}
+
+//
+// We try to not inherit from `Object.prototype`. In some engines creating an
+// instance in this way is faster than calling `Object.create(null)` directly.
+// If `Object.create(null)` is not supported we prefix the event names with a
+// character to make sure that the built-in object properties are not
+// overridden or used as an attack vector.
+//
+if (Object.create) {
+  Events.prototype = Object.create(null);
+
+  //
+  // This hack is needed because the `__proto__` property is still inherited in
+  // some old browsers like Android 4, iPhone 5.1, Opera 11 and Safari 5.
+  //
+  if (!new Events().__proto__) prefix = false;
+}
+
+/**
+ * Representation of a single event listener.
+ *
+ * @param {Function} fn The listener function.
+ * @param {Mixed} context The context to invoke the listener with.
+ * @param {Boolean} [once=false] Specify if the listener is a one-time listener.
+ * @constructor
+ * @api private
+ */
+function EE(fn, context, once) {
+  this.fn = fn;
+  this.context = context;
+  this.once = once || false;
+}
+
+/**
+ * Minimal `EventEmitter` interface that is molded against the Node.js
+ * `EventEmitter` interface.
+ *
+ * @constructor
+ * @api public
+ */
+function EventEmitter() {
+  this._events = new Events();
+  this._eventsCount = 0;
+}
+
+/**
+ * Return an array listing the events for which the emitter has registered
+ * listeners.
+ *
+ * @returns {Array}
+ * @api public
+ */
+EventEmitter.prototype.eventNames = function eventNames() {
+  var names = []
+    , events
+    , name;
+
+  if (this._eventsCount === 0) return names;
+
+  for (name in (events = this._events)) {
+    if (has.call(events, name)) names.push(prefix ? name.slice(1) : name);
+  }
+
+  if (Object.getOwnPropertySymbols) {
+    return names.concat(Object.getOwnPropertySymbols(events));
+  }
+
+  return names;
+};
+
+/**
+ * Return the listeners registered for a given event.
+ *
+ * @param {String|Symbol} event The event name.
+ * @param {Boolean} exists Only check if there are listeners.
+ * @returns {Array|Boolean}
+ * @api public
+ */
+EventEmitter.prototype.listeners = function listeners(event, exists) {
+  var evt = prefix ? prefix + event : event
+    , available = this._events[evt];
+
+  if (exists) return !!available;
+  if (!available) return [];
+  if (available.fn) return [available.fn];
+
+  for (var i = 0, l = available.length, ee = new Array(l); i < l; i++) {
+    ee[i] = available[i].fn;
+  }
+
+  return ee;
+};
+
+/**
+ * Calls each of the listeners registered for a given event.
+ *
+ * @param {String|Symbol} event The event name.
+ * @returns {Boolean} `true` if the event had listeners, else `false`.
+ * @api public
+ */
+EventEmitter.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {
+  var evt = prefix ? prefix + event : event;
+
+  if (!this._events[evt]) return false;
+
+  var listeners = this._events[evt]
+    , len = arguments.length
+    , args
+    , i;
+
+  if (listeners.fn) {
+    if (listeners.once) this.removeListener(event, listeners.fn, undefined, true);
+
+    switch (len) {
+      case 1: return listeners.fn.call(listeners.context), true;
+      case 2: return listeners.fn.call(listeners.context, a1), true;
+      case 3: return listeners.fn.call(listeners.context, a1, a2), true;
+      case 4: return listeners.fn.call(listeners.context, a1, a2, a3), true;
+      case 5: return listeners.fn.call(listeners.context, a1, a2, a3, a4), true;
+      case 6: return listeners.fn.call(listeners.context, a1, a2, a3, a4, a5), true;
+    }
+
+    for (i = 1, args = new Array(len -1); i < len; i++) {
+      args[i - 1] = arguments[i];
+    }
+
+    listeners.fn.apply(listeners.context, args);
+  } else {
+    var length = listeners.length
+      , j;
+
+    for (i = 0; i < length; i++) {
+      if (listeners[i].once) this.removeListener(event, listeners[i].fn, undefined, true);
+
+      switch (len) {
+        case 1: listeners[i].fn.call(listeners[i].context); break;
+        case 2: listeners[i].fn.call(listeners[i].context, a1); break;
+        case 3: listeners[i].fn.call(listeners[i].context, a1, a2); break;
+        case 4: listeners[i].fn.call(listeners[i].context, a1, a2, a3); break;
+        default:
+          if (!args) for (j = 1, args = new Array(len -1); j < len; j++) {
+            args[j - 1] = arguments[j];
+          }
+
+          listeners[i].fn.apply(listeners[i].context, args);
+      }
+    }
+  }
+
+  return true;
+};
+
+/**
+ * Add a listener for a given event.
+ *
+ * @param {String|Symbol} event The event name.
+ * @param {Function} fn The listener function.
+ * @param {Mixed} [context=this] The context to invoke the listener with.
+ * @returns {EventEmitter} `this`.
+ * @api public
+ */
+EventEmitter.prototype.on = function on(event, fn, context) {
+  var listener = new EE(fn, context || this)
+    , evt = prefix ? prefix + event : event;
+
+  if (!this._events[evt]) this._events[evt] = listener, this._eventsCount++;
+  else if (!this._events[evt].fn) this._events[evt].push(listener);
+  else this._events[evt] = [this._events[evt], listener];
+
+  return this;
+};
+
+/**
+ * Add a one-time listener for a given event.
+ *
+ * @param {String|Symbol} event The event name.
+ * @param {Function} fn The listener function.
+ * @param {Mixed} [context=this] The context to invoke the listener with.
+ * @returns {EventEmitter} `this`.
+ * @api public
+ */
+EventEmitter.prototype.once = function once(event, fn, context) {
+  var listener = new EE(fn, context || this, true)
+    , evt = prefix ? prefix + event : event;
+
+  if (!this._events[evt]) this._events[evt] = listener, this._eventsCount++;
+  else if (!this._events[evt].fn) this._events[evt].push(listener);
+  else this._events[evt] = [this._events[evt], listener];
+
+  return this;
+};
+
+/**
+ * Remove the listeners of a given event.
+ *
+ * @param {String|Symbol} event The event name.
+ * @param {Function} fn Only remove the listeners that match this function.
+ * @param {Mixed} context Only remove the listeners that have this context.
+ * @param {Boolean} once Only remove one-time listeners.
+ * @returns {EventEmitter} `this`.
+ * @api public
+ */
+EventEmitter.prototype.removeListener = function removeListener(event, fn, context, once) {
+  var evt = prefix ? prefix + event : event;
+
+  if (!this._events[evt]) return this;
+  if (!fn) {
+    if (--this._eventsCount === 0) this._events = new Events();
+    else delete this._events[evt];
+    return this;
+  }
+
+  var listeners = this._events[evt];
+
+  if (listeners.fn) {
+    if (
+         listeners.fn === fn
+      && (!once || listeners.once)
+      && (!context || listeners.context === context)
+    ) {
+      if (--this._eventsCount === 0) this._events = new Events();
+      else delete this._events[evt];
+    }
+  } else {
+    for (var i = 0, events = [], length = listeners.length; i < length; i++) {
+      if (
+           listeners[i].fn !== fn
+        || (once && !listeners[i].once)
+        || (context && listeners[i].context !== context)
+      ) {
+        events.push(listeners[i]);
+      }
+    }
+
+    //
+    // Reset the array, or remove it completely if we have no more listeners.
+    //
+    if (events.length) this._events[evt] = events.length === 1 ? events[0] : events;
+    else if (--this._eventsCount === 0) this._events = new Events();
+    else delete this._events[evt];
+  }
+
+  return this;
+};
+
+/**
+ * Remove all listeners, or those of the specified event.
+ *
+ * @param {String|Symbol} [event] The event name.
+ * @returns {EventEmitter} `this`.
+ * @api public
+ */
+EventEmitter.prototype.removeAllListeners = function removeAllListeners(event) {
+  var evt;
+
+  if (event) {
+    evt = prefix ? prefix + event : event;
+    if (this._events[evt]) {
+      if (--this._eventsCount === 0) this._events = new Events();
+      else delete this._events[evt];
+    }
+  } else {
+    this._events = new Events();
+    this._eventsCount = 0;
+  }
+
+  return this;
+};
+
+//
+// Alias methods names because people roll like that.
+//
+EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
+EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
+//
+// This function doesn't apply anymore.
+//
+EventEmitter.prototype.setMaxListeners = function setMaxListeners() {
+  return this;
+};
+
+//
+// Expose the prefix.
+//
+EventEmitter.prefixed = prefix;
+
+//
+// Allow `EventEmitter` to be imported as module namespace.
+//
+EventEmitter.EventEmitter = EventEmitter;
+
+//
+// Expose the module.
+//
+if ('undefined' !== typeof module) {
+  module.exports = EventEmitter;
+}
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.matchText = exports.matchSpacing = exports.matchNewline = exports.matchBlot = exports.matchAttributor = exports.default = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _extend2 = __webpack_require__(3);
+
+var _extend3 = _interopRequireDefault(_extend2);
+
+var _quillDelta = __webpack_require__(2);
+
+var _quillDelta2 = _interopRequireDefault(_quillDelta);
+
+var _parchment = __webpack_require__(0);
+
+var _parchment2 = _interopRequireDefault(_parchment);
+
+var _quill = __webpack_require__(5);
+
+var _quill2 = _interopRequireDefault(_quill);
+
+var _logger = __webpack_require__(10);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+var _module = __webpack_require__(9);
+
+var _module2 = _interopRequireDefault(_module);
+
+var _align = __webpack_require__(36);
+
+var _background = __webpack_require__(37);
+
+var _color = __webpack_require__(26);
+
+var _direction = __webpack_require__(38);
+
+var _font = __webpack_require__(39);
+
+var _size = __webpack_require__(40);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var debug = (0, _logger2.default)('quill:clipboard');
+
+var DOM_KEY = '__ql-matcher';
+
+var CLIPBOARD_CONFIG = [[Node.TEXT_NODE, matchText], [Node.TEXT_NODE, matchNewline], ['br', matchBreak], [Node.ELEMENT_NODE, matchNewline], [Node.ELEMENT_NODE, matchBlot], [Node.ELEMENT_NODE, matchSpacing], [Node.ELEMENT_NODE, matchAttributor], [Node.ELEMENT_NODE, matchStyles], ['li', matchIndent], ['b', matchAlias.bind(matchAlias, 'bold')], ['i', matchAlias.bind(matchAlias, 'italic')], ['style', matchIgnore]];
+
+var ATTRIBUTE_ATTRIBUTORS = [_align.AlignAttribute, _direction.DirectionAttribute].reduce(function (memo, attr) {
+  memo[attr.keyName] = attr;
+  return memo;
+}, {});
+
+var STYLE_ATTRIBUTORS = [_align.AlignStyle, _background.BackgroundStyle, _color.ColorStyle, _direction.DirectionStyle, _font.FontStyle, _size.SizeStyle].reduce(function (memo, attr) {
+  memo[attr.keyName] = attr;
+  return memo;
+}, {});
+
+var Clipboard = function (_Module) {
+  _inherits(Clipboard, _Module);
+
+  function Clipboard(quill, options) {
+    _classCallCheck(this, Clipboard);
+
+    var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this, quill, options));
+
+    _this.quill.root.addEventListener('paste', _this.onPaste.bind(_this));
+    _this.container = _this.quill.addContainer('ql-clipboard');
+    _this.container.setAttribute('contenteditable', true);
+    _this.container.setAttribute('tabindex', -1);
+    _this.matchers = [];
+    CLIPBOARD_CONFIG.concat(_this.options.matchers).forEach(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          selector = _ref2[0],
+          matcher = _ref2[1];
+
+      if (!options.matchVisual && matcher === matchSpacing) return;
+      _this.addMatcher(selector, matcher);
+    });
+    return _this;
+  }
+
+  _createClass(Clipboard, [{
+    key: 'addMatcher',
+    value: function addMatcher(selector, matcher) {
+      this.matchers.push([selector, matcher]);
+    }
+  }, {
+    key: 'convert',
+    value: function convert(html) {
+      if (typeof html === 'string') {
+        this.container.innerHTML = html.replace(/\>\r?\n +\</g, '><'); // Remove spaces between tags
+      }
+
+      var _prepareMatching = this.prepareMatching(),
+          _prepareMatching2 = _slicedToArray(_prepareMatching, 2),
+          elementMatchers = _prepareMatching2[0],
+          textMatchers = _prepareMatching2[1];
+
+      var delta = traverse(this.container, elementMatchers, textMatchers);
+      // Remove trailing newline
+      if (deltaEndsWith(delta, '\n') && delta.ops[delta.ops.length - 1].attributes == null) {
+        delta = delta.compose(new _quillDelta2.default().retain(delta.length() - 1).delete(1));
+      }
+      debug.log('convert', this.container.innerHTML, delta);
+      this.container.innerHTML = '';
+      return delta;
+    }
+  }, {
+    key: 'dangerouslyPasteHTML',
+    value: function dangerouslyPasteHTML(index, html) {
+      var source = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : _quill2.default.sources.API;
+
+      if (typeof index === 'string') {
+        return this.quill.setContents(this.convert(index), html);
+      } else {
+        var paste = this.convert(html);
+        return this.quill.updateContents(new _quillDelta2.default().retain(index).concat(paste), source);
+      }
+    }
+  }, {
+    key: 'onPaste',
+    value: function onPaste(e) {
+      var _this2 = this;
+
+      if (e.defaultPrevented || !this.quill.isEnabled()) return;
+      var range = this.quill.getSelection();
+      var delta = new _quillDelta2.default().retain(range.index);
+      var scrollTop = this.quill.scrollingContainer.scrollTop;
+      this.container.focus();
+      this.quill.selection.update(_quill2.default.sources.SILENT);
+      setTimeout(function () {
+        delta = delta.concat(_this2.convert()).delete(range.length);
+        _this2.quill.updateContents(delta, _quill2.default.sources.USER);
+        // range.length contributes to delta.length()
+        _this2.quill.setSelection(delta.length() - range.length, _quill2.default.sources.SILENT);
+        _this2.quill.scrollingContainer.scrollTop = scrollTop;
+        _this2.quill.focus();
+      }, 1);
+    }
+  }, {
+    key: 'prepareMatching',
+    value: function prepareMatching() {
+      var _this3 = this;
+
+      var elementMatchers = [],
+          textMatchers = [];
+      this.matchers.forEach(function (pair) {
+        var _pair = _slicedToArray(pair, 2),
+            selector = _pair[0],
+            matcher = _pair[1];
+
+        switch (selector) {
+          case Node.TEXT_NODE:
+            textMatchers.push(matcher);
+            break;
+          case Node.ELEMENT_NODE:
+            elementMatchers.push(matcher);
+            break;
+          default:
+            [].forEach.call(_this3.container.querySelectorAll(selector), function (node) {
+              // TODO use weakmap
+              node[DOM_KEY] = node[DOM_KEY] || [];
+              node[DOM_KEY].push(matcher);
+            });
+            break;
+        }
+      });
+      return [elementMatchers, textMatchers];
+    }
+  }]);
+
+  return Clipboard;
+}(_module2.default);
+
+Clipboard.DEFAULTS = {
+  matchers: [],
+  matchVisual: true
+};
+
+function applyFormat(delta, format, value) {
+  if ((typeof format === 'undefined' ? 'undefined' : _typeof(format)) === 'object') {
+    return Object.keys(format).reduce(function (delta, key) {
+      return applyFormat(delta, key, format[key]);
+    }, delta);
+  } else {
+    return delta.reduce(function (delta, op) {
+      if (op.attributes && op.attributes[format]) {
+        return delta.push(op);
+      } else {
+        return delta.insert(op.insert, (0, _extend3.default)({}, _defineProperty({}, format, value), op.attributes));
+      }
+    }, new _quillDelta2.default());
+  }
+}
+
+function computeStyle(node) {
+  if (node.nodeType !== Node.ELEMENT_NODE) return {};
+  var DOM_KEY = '__ql-computed-style';
+  return node[DOM_KEY] || (node[DOM_KEY] = window.getComputedStyle(node));
+}
+
+function deltaEndsWith(delta, text) {
+  var endText = "";
+  for (var i = delta.ops.length - 1; i >= 0 && endText.length < text.length; --i) {
+    var op = delta.ops[i];
+    if (typeof op.insert !== 'string') break;
+    endText = op.insert + endText;
+  }
+  return endText.slice(-1 * text.length) === text;
+}
+
+function isLine(node) {
+  if (node.childNodes.length === 0) return false; // Exclude embed blocks
+  var style = computeStyle(node);
+  return ['block', 'list-item'].indexOf(style.display) > -1;
+}
+
+function traverse(node, elementMatchers, textMatchers) {
+  // Post-order
+  if (node.nodeType === node.TEXT_NODE) {
+    return textMatchers.reduce(function (delta, matcher) {
+      return matcher(node, delta);
+    }, new _quillDelta2.default());
+  } else if (node.nodeType === node.ELEMENT_NODE) {
+    return [].reduce.call(node.childNodes || [], function (delta, childNode) {
+      var childrenDelta = traverse(childNode, elementMatchers, textMatchers);
+      if (childNode.nodeType === node.ELEMENT_NODE) {
+        childrenDelta = elementMatchers.reduce(function (childrenDelta, matcher) {
+          return matcher(childNode, childrenDelta);
+        }, childrenDelta);
+        childrenDelta = (childNode[DOM_KEY] || []).reduce(function (childrenDelta, matcher) {
+          return matcher(childNode, childrenDelta);
+        }, childrenDelta);
+      }
+      return delta.concat(childrenDelta);
+    }, new _quillDelta2.default());
+  } else {
+    return new _quillDelta2.default();
+  }
+}
+
+function matchAlias(format, node, delta) {
+  return applyFormat(delta, format, true);
+}
+
+function matchAttributor(node, delta) {
+  var attributes = _parchment2.default.Attributor.Attribute.keys(node);
+  var classes = _parchment2.default.Attributor.Class.keys(node);
+  var styles = _parchment2.default.Attributor.Style.keys(node);
+  var formats = {};
+  attributes.concat(classes).concat(styles).forEach(function (name) {
+    var attr = _parchment2.default.query(name, _parchment2.default.Scope.ATTRIBUTE);
+    if (attr != null) {
+      formats[attr.attrName] = attr.value(node);
+      if (formats[attr.attrName]) return;
+    }
+    attr = ATTRIBUTE_ATTRIBUTORS[name];
+    if (attr != null && attr.attrName === name) {
+      formats[attr.attrName] = attr.value(node) || undefined;
+    }
+    attr = STYLE_ATTRIBUTORS[name];
+    if (attr != null && attr.attrName === name) {
+      attr = STYLE_ATTRIBUTORS[name];
+      formats[attr.attrName] = attr.value(node) || undefined;
+    }
+  });
+  if (Object.keys(formats).length > 0) {
+    delta = applyFormat(delta, formats);
+  }
+  return delta;
+}
+
+function matchBlot(node, delta) {
+  var match = _parchment2.default.query(node);
+  if (match == null) return delta;
+  if (match.prototype instanceof _parchment2.default.Embed) {
+    var embed = {};
+    var value = match.value(node);
+    if (value != null) {
+      embed[match.blotName] = value;
+      delta = new _quillDelta2.default().insert(embed, match.formats(node));
+    }
+  } else if (typeof match.formats === 'function') {
+    delta = applyFormat(delta, match.blotName, match.formats(node));
+  }
+  return delta;
+}
+
+function matchBreak(node, delta) {
+  if (!deltaEndsWith(delta, '\n')) {
+    delta.insert('\n');
+  }
+  return delta;
+}
+
+function matchIgnore() {
+  return new _quillDelta2.default();
+}
+
+function matchIndent(node, delta) {
+  var match = _parchment2.default.query(node);
+  if (match == null || match.blotName !== 'list-item' || !deltaEndsWith(delta, '\n')) {
+    return delta;
+  }
+  var indent = -1,
+      parent = node.parentNode;
+  while (!parent.classList.contains('ql-clipboard')) {
+    if ((_parchment2.default.query(parent) || {}).blotName === 'list') {
+      indent += 1;
+    }
+    parent = parent.parentNode;
+  }
+  if (indent <= 0) return delta;
+  return delta.compose(new _quillDelta2.default().retain(delta.length() - 1).retain(1, { indent: indent }));
+}
+
+function matchNewline(node, delta) {
+  if (!deltaEndsWith(delta, '\n')) {
+    if (isLine(node) || delta.length() > 0 && node.nextSibling && isLine(node.nextSibling)) {
+      delta.insert('\n');
+    }
+  }
+  return delta;
+}
+
+function matchSpacing(node, delta) {
+  if (isLine(node) && node.nextElementSibling != null && !deltaEndsWith(delta, '\n\n')) {
+    var nodeHeight = node.offsetHeight + parseFloat(computeStyle(node).marginTop) + parseFloat(computeStyle(node).marginBottom);
+    if (node.nextElementSibling.offsetTop > node.offsetTop + nodeHeight * 1.5) {
+      delta.insert('\n');
+    }
+  }
+  return delta;
+}
+
+function matchStyles(node, delta) {
+  var formats = {};
+  var style = node.style || {};
+  if (style.fontStyle && computeStyle(node).fontStyle === 'italic') {
+    formats.italic = true;
+  }
+  if (style.fontWeight && (computeStyle(node).fontWeight.startsWith('bold') || parseInt(computeStyle(node).fontWeight) >= 700)) {
+    formats.bold = true;
+  }
+  if (Object.keys(formats).length > 0) {
+    delta = applyFormat(delta, formats);
+  }
+  if (parseFloat(style.textIndent || 0) > 0) {
+    // Could be 0.5in
+    delta = new _quillDelta2.default().insert('\t').concat(delta);
+  }
+  return delta;
+}
+
+function matchText(node, delta) {
+  var text = node.data;
+  // Word represents empty line with <o:p>&nbsp;</o:p>
+  if (node.parentNode.tagName === 'O:P') {
+    return delta.insert(text.trim());
+  }
+  if (text.trim().length === 0 && node.parentNode.classList.contains('ql-clipboard')) {
+    return delta;
+  }
+  if (!computeStyle(node.parentNode).whiteSpace.startsWith('pre')) {
+    // eslint-disable-next-line func-style
+    var replacer = function replacer(collapse, match) {
+      match = match.replace(/[^\u00a0]/g, ''); // \u00a0 is nbsp;
+      return match.length < 1 && collapse ? ' ' : match;
+    };
+    text = text.replace(/\r\n/g, ' ').replace(/\n/g, ' ');
+    text = text.replace(/\s\s+/g, replacer.bind(replacer, true)); // collapse whitespace
+    if (node.previousSibling == null && isLine(node.parentNode) || node.previousSibling != null && isLine(node.previousSibling)) {
+      text = text.replace(/^\s+/, replacer.bind(replacer, false));
+    }
+    if (node.nextSibling == null && isLine(node.parentNode) || node.nextSibling != null && isLine(node.nextSibling)) {
+      text = text.replace(/\s+$/, replacer.bind(replacer, false));
+    }
+  }
+  return delta.insert(text);
+}
+
+exports.default = Clipboard;
+exports.matchAttributor = matchAttributor;
+exports.matchBlot = matchBlot;
+exports.matchNewline = matchNewline;
+exports.matchSpacing = matchSpacing;
+exports.matchText = matchText;
+
+/***/ }),
+/* 56 */,
 /* 57 */,
-/* 58 */
-/***/ (function(module, exports) {
-
-exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-  var e, m
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var nBits = -7
-  var i = isLE ? (nBytes - 1) : 0
-  var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
-
-  i += d
-
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
-  nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  m = e & ((1 << (-nBits)) - 1)
-  e >>= (-nBits)
-  nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  if (e === 0) {
-    e = 1 - eBias
-  } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
-  } else {
-    m = m + Math.pow(2, mLen)
-    e = e - eBias
-  }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
-}
-
-exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-  var i = isLE ? 0 : (nBytes - 1)
-  var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
-
-  value = Math.abs(value)
-
-  if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0
-    e = eMax
-  } else {
-    e = Math.floor(Math.log(value) / Math.LN2)
-    if (value * (c = Math.pow(2, -e)) < 1) {
-      e--
-      c *= 2
-    }
-    if (e + eBias >= 1) {
-      value += rt / c
-    } else {
-      value += rt * Math.pow(2, 1 - eBias)
-    }
-    if (value * c >= 2) {
-      e++
-      c /= 2
-    }
-
-    if (e + eBias >= eMax) {
-      m = 0
-      e = eMax
-    } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
-      e = e + eBias
-    } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-      e = 0
-    }
-  }
-
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
-
-  e = (e << mLen) | m
-  eLen += mLen
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
-
-  buffer[offset + i - d] |= s * 128
-}
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var format_1 = __webpack_require__(22);
-var Registry = __webpack_require__(1);
-var BlockBlot = (function (_super) {
-    __extends(BlockBlot, _super);
-    function BlockBlot() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    BlockBlot.formats = function (domNode) {
-        var tagName = Registry.query(BlockBlot.blotName).tagName;
-        if (domNode.tagName === tagName)
-            return undefined;
-        return _super.formats.call(this, domNode);
-    };
-    BlockBlot.prototype.format = function (name, value) {
-        if (Registry.query(name, Registry.Scope.BLOCK) == null) {
-            return;
-        }
-        else if (name === this.statics.blotName && !value) {
-            this.replaceWith(BlockBlot.blotName);
-        }
-        else {
-            _super.prototype.format.call(this, name, value);
-        }
-    };
-    BlockBlot.prototype.formatAt = function (index, length, name, value) {
-        if (Registry.query(name, Registry.Scope.BLOCK) != null) {
-            this.format(name, value);
-        }
-        else {
-            _super.prototype.formatAt.call(this, index, length, name, value);
-        }
-    };
-    BlockBlot.prototype.insertAt = function (index, value, def) {
-        if (def == null || Registry.query(value, Registry.Scope.INLINE) != null) {
-            // Insert text or inline
-            _super.prototype.insertAt.call(this, index, value, def);
-        }
-        else {
-            var after = this.split(index);
-            var blot = Registry.create(value, def);
-            after.parent.insertBefore(blot, after);
-        }
-    };
-    BlockBlot.prototype.update = function (mutations) {
-        if (navigator.userAgent.match(/Trident/)) {
-            this.attach();
-        }
-        else {
-            _super.prototype.update.call(this, mutations);
-        }
-    };
-    return BlockBlot;
-}(format_1.default));
-BlockBlot.blotName = 'block';
-BlockBlot.scope = Registry.Scope.BLOCK_BLOT;
-BlockBlot.tagName = 'P';
-exports.default = BlockBlot;
-
-
-/***/ }),
-/* 61 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var leaf_1 = __webpack_require__(23);
-var EmbedBlot = (function (_super) {
-    __extends(EmbedBlot, _super);
-    function EmbedBlot() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    EmbedBlot.formats = function (domNode) {
-        return undefined;
-    };
-    EmbedBlot.prototype.format = function (name, value) {
-        // super.formatAt wraps, which is what we want in general,
-        // but this allows subclasses to overwrite for formats
-        // that just apply to particular embeds
-        _super.prototype.formatAt.call(this, 0, this.length(), name, value);
-    };
-    EmbedBlot.prototype.formatAt = function (index, length, name, value) {
-        if (index === 0 && length === this.length()) {
-            this.format(name, value);
-        }
-        else {
-            _super.prototype.formatAt.call(this, index, length, name, value);
-        }
-    };
-    EmbedBlot.prototype.formats = function () {
-        return this.statics.formats(this.domNode);
-    };
-    return EmbedBlot;
-}(leaf_1.default));
-exports.default = EmbedBlot;
-
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var format_1 = __webpack_require__(22);
-var Registry = __webpack_require__(1);
-// Shallow object comparison
-function isEqual(obj1, obj2) {
-    if (Object.keys(obj1).length !== Object.keys(obj2).length)
-        return false;
-    for (var prop in obj1) {
-        if (obj1[prop] !== obj2[prop])
-            return false;
-    }
-    return true;
-}
-var InlineBlot = (function (_super) {
-    __extends(InlineBlot, _super);
-    function InlineBlot() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    InlineBlot.formats = function (domNode) {
-        if (domNode.tagName === InlineBlot.tagName)
-            return undefined;
-        return _super.formats.call(this, domNode);
-    };
-    InlineBlot.prototype.format = function (name, value) {
-        var _this = this;
-        if (name === this.statics.blotName && !value) {
-            this.children.forEach(function (child) {
-                if (!(child instanceof format_1.default)) {
-                    child = child.wrap(InlineBlot.blotName, true);
-                }
-                _this.attributes.copy(child);
-            });
-            this.unwrap();
-        }
-        else {
-            _super.prototype.format.call(this, name, value);
-        }
-    };
-    InlineBlot.prototype.formatAt = function (index, length, name, value) {
-        if (this.formats()[name] != null || Registry.query(name, Registry.Scope.ATTRIBUTE)) {
-            var blot = this.isolate(index, length);
-            blot.format(name, value);
-        }
-        else {
-            _super.prototype.formatAt.call(this, index, length, name, value);
-        }
-    };
-    InlineBlot.prototype.optimize = function () {
-        _super.prototype.optimize.call(this);
-        var formats = this.formats();
-        if (Object.keys(formats).length === 0) {
-            return this.unwrap(); // unformatted span
-        }
-        var next = this.next;
-        if (next instanceof InlineBlot && next.prev === this && isEqual(formats, next.formats())) {
-            next.moveChildren(this);
-            next.remove();
-        }
-    };
-    return InlineBlot;
-}(format_1.default));
-InlineBlot.blotName = 'inline';
-InlineBlot.scope = Registry.Scope.INLINE_BLOT;
-InlineBlot.tagName = 'SPAN';
-exports.default = InlineBlot;
-
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var container_1 = __webpack_require__(21);
-var Registry = __webpack_require__(1);
-var OBSERVER_CONFIG = {
-    attributes: true,
-    characterData: true,
-    characterDataOldValue: true,
-    childList: true,
-    subtree: true
-};
-var MAX_OPTIMIZE_ITERATIONS = 100;
-var ScrollBlot = (function (_super) {
-    __extends(ScrollBlot, _super);
-    function ScrollBlot(node) {
-        var _this = _super.call(this, node) || this;
-        _this.parent = null;
-        _this.observer = new MutationObserver(function (mutations) {
-            _this.update(mutations);
-        });
-        _this.observer.observe(_this.domNode, OBSERVER_CONFIG);
-        return _this;
-    }
-    ScrollBlot.prototype.detach = function () {
-        _super.prototype.detach.call(this);
-        this.observer.disconnect();
-    };
-    ScrollBlot.prototype.deleteAt = function (index, length) {
-        this.update();
-        if (index === 0 && length === this.length()) {
-            this.children.forEach(function (child) {
-                child.remove();
-            });
-        }
-        else {
-            _super.prototype.deleteAt.call(this, index, length);
-        }
-    };
-    ScrollBlot.prototype.formatAt = function (index, length, name, value) {
-        this.update();
-        _super.prototype.formatAt.call(this, index, length, name, value);
-    };
-    ScrollBlot.prototype.insertAt = function (index, value, def) {
-        this.update();
-        _super.prototype.insertAt.call(this, index, value, def);
-    };
-    ScrollBlot.prototype.optimize = function (mutations) {
-        var _this = this;
-        if (mutations === void 0) { mutations = []; }
-        _super.prototype.optimize.call(this);
-        // We must modify mutations directly, cannot make copy and then modify
-        var records = [].slice.call(this.observer.takeRecords());
-        // Array.push currently seems to be implemented by a non-tail recursive function
-        // so we cannot just mutations.push.apply(mutations, this.observer.takeRecords());
-        while (records.length > 0)
-            mutations.push(records.pop());
-        // TODO use WeakMap
-        var mark = function (blot, markParent) {
-            if (markParent === void 0) { markParent = true; }
-            if (blot == null || blot === _this)
-                return;
-            if (blot.domNode.parentNode == null)
-                return;
-            if (blot.domNode[Registry.DATA_KEY].mutations == null) {
-                blot.domNode[Registry.DATA_KEY].mutations = [];
-            }
-            if (markParent)
-                mark(blot.parent);
-        };
-        var optimize = function (blot) {
-            if (blot.domNode[Registry.DATA_KEY] == null || blot.domNode[Registry.DATA_KEY].mutations == null) {
-                return;
-            }
-            if (blot instanceof container_1.default) {
-                blot.children.forEach(optimize);
-            }
-            blot.optimize();
-        };
-        var remaining = mutations;
-        for (var i = 0; remaining.length > 0; i += 1) {
-            if (i >= MAX_OPTIMIZE_ITERATIONS) {
-                throw new Error('[Parchment] Maximum optimize iterations reached');
-            }
-            remaining.forEach(function (mutation) {
-                var blot = Registry.find(mutation.target, true);
-                if (blot == null)
-                    return;
-                if (blot.domNode === mutation.target) {
-                    if (mutation.type === 'childList') {
-                        mark(Registry.find(mutation.previousSibling, false));
-                        [].forEach.call(mutation.addedNodes, function (node) {
-                            var child = Registry.find(node, false);
-                            mark(child, false);
-                            if (child instanceof container_1.default) {
-                                child.children.forEach(function (grandChild) {
-                                    mark(grandChild, false);
-                                });
-                            }
-                        });
-                    }
-                    else if (mutation.type === 'attributes') {
-                        mark(blot.prev);
-                    }
-                }
-                mark(blot);
-            });
-            this.children.forEach(optimize);
-            remaining = [].slice.call(this.observer.takeRecords());
-            records = remaining.slice();
-            while (records.length > 0)
-                mutations.push(records.pop());
-        }
-    };
-    ScrollBlot.prototype.update = function (mutations) {
-        var _this = this;
-        mutations = mutations || this.observer.takeRecords();
-        // TODO use WeakMap
-        mutations.map(function (mutation) {
-            var blot = Registry.find(mutation.target, true);
-            if (blot == null)
-                return;
-            if (blot.domNode[Registry.DATA_KEY].mutations == null) {
-                blot.domNode[Registry.DATA_KEY].mutations = [mutation];
-                return blot;
-            }
-            else {
-                blot.domNode[Registry.DATA_KEY].mutations.push(mutation);
-                return null;
-            }
-        }).forEach(function (blot) {
-            if (blot == null || blot === _this || blot.domNode[Registry.DATA_KEY] == null)
-                return;
-            blot.update(blot.domNode[Registry.DATA_KEY].mutations || []);
-        });
-        if (this.domNode[Registry.DATA_KEY].mutations != null) {
-            _super.prototype.update.call(this, this.domNode[Registry.DATA_KEY].mutations);
-        }
-        this.optimize(mutations);
-    };
-    return ScrollBlot;
-}(container_1.default));
-ScrollBlot.blotName = 'scroll';
-ScrollBlot.defaultChild = 'block';
-ScrollBlot.scope = Registry.Scope.BLOCK_BLOT;
-ScrollBlot.tagName = 'DIV';
-exports.default = ScrollBlot;
-
-
-/***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var leaf_1 = __webpack_require__(23);
-var Registry = __webpack_require__(1);
-var TextBlot = (function (_super) {
-    __extends(TextBlot, _super);
-    function TextBlot(node) {
-        var _this = _super.call(this, node) || this;
-        _this.text = _this.statics.value(_this.domNode);
-        return _this;
-    }
-    TextBlot.create = function (value) {
-        return document.createTextNode(value);
-    };
-    TextBlot.value = function (domNode) {
-        var text = domNode.data;
-        if (text["normalize"])
-            text = text["normalize"]();
-        return text;
-    };
-    TextBlot.prototype.deleteAt = function (index, length) {
-        this.domNode.data = this.text = this.text.slice(0, index) + this.text.slice(index + length);
-    };
-    TextBlot.prototype.index = function (node, offset) {
-        if (this.domNode === node) {
-            return offset;
-        }
-        return -1;
-    };
-    TextBlot.prototype.insertAt = function (index, value, def) {
-        if (def == null) {
-            this.text = this.text.slice(0, index) + value + this.text.slice(index);
-            this.domNode.data = this.text;
-        }
-        else {
-            _super.prototype.insertAt.call(this, index, value, def);
-        }
-    };
-    TextBlot.prototype.length = function () {
-        return this.text.length;
-    };
-    TextBlot.prototype.optimize = function () {
-        _super.prototype.optimize.call(this);
-        this.text = this.statics.value(this.domNode);
-        if (this.text.length === 0) {
-            this.remove();
-        }
-        else if (this.next instanceof TextBlot && this.next.prev === this) {
-            this.insertAt(this.length(), this.next.value());
-            this.next.remove();
-        }
-    };
-    TextBlot.prototype.position = function (index, inclusive) {
-        if (inclusive === void 0) { inclusive = false; }
-        return [this.domNode, index];
-    };
-    TextBlot.prototype.split = function (index, force) {
-        if (force === void 0) { force = false; }
-        if (!force) {
-            if (index === 0)
-                return this;
-            if (index === this.length())
-                return this.next;
-        }
-        var after = Registry.create(this.domNode.splitText(index));
-        this.parent.insertBefore(after, this.next);
-        this.text = this.statics.value(this.domNode);
-        return after;
-    };
-    TextBlot.prototype.update = function (mutations) {
-        var _this = this;
-        if (mutations.some(function (mutation) {
-            return mutation.type === 'characterData' && mutation.target === _this.domNode;
-        })) {
-            this.text = this.statics.value(this.domNode);
-        }
-    };
-    TextBlot.prototype.value = function () {
-        return this.text;
-    };
-    return TextBlot;
-}(leaf_1.default));
-TextBlot.blotName = 'text';
-TextBlot.scope = Registry.Scope.INLINE_BLOT;
-exports.default = TextBlot;
-
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var LinkedList = (function () {
-    function LinkedList() {
-        this.head = this.tail = undefined;
-        this.length = 0;
-    }
-    LinkedList.prototype.append = function () {
-        var nodes = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            nodes[_i] = arguments[_i];
-        }
-        this.insertBefore(nodes[0], undefined);
-        if (nodes.length > 1) {
-            this.append.apply(this, nodes.slice(1));
-        }
-    };
-    LinkedList.prototype.contains = function (node) {
-        var cur, next = this.iterator();
-        while (cur = next()) {
-            if (cur === node)
-                return true;
-        }
-        return false;
-    };
-    LinkedList.prototype.insertBefore = function (node, refNode) {
-        node.next = refNode;
-        if (refNode != null) {
-            node.prev = refNode.prev;
-            if (refNode.prev != null) {
-                refNode.prev.next = node;
-            }
-            refNode.prev = node;
-            if (refNode === this.head) {
-                this.head = node;
-            }
-        }
-        else if (this.tail != null) {
-            this.tail.next = node;
-            node.prev = this.tail;
-            this.tail = node;
-        }
-        else {
-            node.prev = undefined;
-            this.head = this.tail = node;
-        }
-        this.length += 1;
-    };
-    LinkedList.prototype.offset = function (target) {
-        var index = 0, cur = this.head;
-        while (cur != null) {
-            if (cur === target)
-                return index;
-            index += cur.length();
-            cur = cur.next;
-        }
-        return -1;
-    };
-    LinkedList.prototype.remove = function (node) {
-        if (!this.contains(node))
-            return;
-        if (node.prev != null)
-            node.prev.next = node.next;
-        if (node.next != null)
-            node.next.prev = node.prev;
-        if (node === this.head)
-            this.head = node.next;
-        if (node === this.tail)
-            this.tail = node.prev;
-        this.length -= 1;
-    };
-    LinkedList.prototype.iterator = function (curNode) {
-        if (curNode === void 0) { curNode = this.head; }
-        // TODO use yield when we can
-        return function () {
-            var ret = curNode;
-            if (curNode != null)
-                curNode = curNode.next;
-            return ret;
-        };
-    };
-    LinkedList.prototype.find = function (index, inclusive) {
-        if (inclusive === void 0) { inclusive = false; }
-        var cur, next = this.iterator();
-        while (cur = next()) {
-            var length = cur.length();
-            if (index < length || (inclusive && index === length && (cur.next == null || cur.next.length() !== 0))) {
-                return [cur, index];
-            }
-            index -= length;
-        }
-        return [null, 0];
-    };
-    LinkedList.prototype.forEach = function (callback) {
-        var cur, next = this.iterator();
-        while (cur = next()) {
-            callback(cur);
-        }
-    };
-    LinkedList.prototype.forEachAt = function (index, length, callback) {
-        if (length <= 0)
-            return;
-        var _a = this.find(index), startNode = _a[0], offset = _a[1];
-        var cur, curIndex = index - offset, next = this.iterator(startNode);
-        while ((cur = next()) && curIndex < index + length) {
-            var curLength = cur.length();
-            if (index > curIndex) {
-                callback(cur, index - curIndex, Math.min(length, curIndex + curLength - index));
-            }
-            else {
-                callback(cur, 0, Math.min(curLength, index + length - curIndex));
-            }
-            curIndex += curLength;
-        }
-    };
-    LinkedList.prototype.map = function (callback) {
-        return this.reduce(function (memo, cur) {
-            memo.push(callback(cur));
-            return memo;
-        }, []);
-    };
-    LinkedList.prototype.reduce = function (callback, memo) {
-        var cur, next = this.iterator();
-        while (cur = next()) {
-            memo = callback(memo, cur);
-        }
-        return memo;
-    };
-    return LinkedList;
-}());
-exports.default = LinkedList;
-
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
 /* 67 */,
 /* 68 */,
 /* 69 */,
@@ -10159,40 +8347,10 @@ module.exports = g;
 /* 107 */,
 /* 108 */,
 /* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(35);
+module.exports = __webpack_require__(29);
 
 
 /***/ })
